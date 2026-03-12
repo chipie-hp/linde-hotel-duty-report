@@ -1,0 +1,2178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duty Manager Daily Report | Linde Hotel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        :root {
+            --primary: #1a5f7a;
+            --accent: #2c3e50;
+            --light-bg: #f4f7f9;
+            --card-bg: #ffffff;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --danger: #c0392b;
+            --info: #3498db;
+            --text-dark: #333333;
+            --text-gray: #666666;
+            --border: #dddddd;
+            --shadow: rgba(0, 0, 0, 0.08);
+        }
+       
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+        }
+        
+        /* Modern Animations */
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+       
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            line-height: 1.5;
+            padding: 20px;
+            max-width: 850px;
+            margin: 0 auto;
+        }
+       
+        /* Header & Logo */
+        .header {
+            display: flex;
+            align-items: flex-start;
+            gap: 30px;
+            margin-bottom: 30px;
+            padding: 20px 0;
+            animation: slideInDown 0.6s ease-out;
+        }
+       
+        .logo {
+            max-width: 160px;
+            min-width: 160px;
+            height: auto;
+            display: block;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px var(--shadow);
+            flex-shrink: 0;
+            animation: fadeInScale 0.8s ease-out;
+            transition: transform 0.3s ease;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .header > div:not(.logo) {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+       
+        .hotel-name {
+            font-size: 2rem;
+            color: var(--primary);
+            font-weight: 700;
+            letter-spacing: 2px;
+            line-height: 1.2;
+            animation: slideInUp 0.6s ease-out 0.1s both;
+        }
+       
+        .report-title {
+            color: var(--accent);
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: 8px;
+            letter-spacing: 1px;
+            animation: slideInUp 0.6s ease-out 0.2s both;
+        }
+       
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px var(--shadow);
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 5px solid var(--primary);
+            animation: slideInUp 0.6s ease-out;
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+        
+        .card:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+            transform: translateY(-2px);
+        }
+       
+        .card-title {
+            font-size: 1.3rem;
+            color: var(--accent);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+       
+        .card-title i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+       
+        /* Form elements */
+        label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-gray);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+       
+        input, select, textarea {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 13px;
+            transition: border-color 0.3s;
+            background-color: white;
+        }
+       
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(26, 95, 122, 0.1);
+        }
+       
+        input[readonly] {
+            background-color: #f8f9fa;
+            color: var(--text-gray);
+            cursor: not-allowed;
+        }
+        
+        #guest-in-house {
+            background-color: white;
+            border-color: var(--border);
+            cursor: text;
+        }
+        
+        #guest-in-house:focus {
+            border-color: var(--primary);
+            background-color: white;
+        }
+       
+        /* Grid layouts */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+       
+        .form-group {
+            margin-bottom: 18px;
+        }
+       
+        /* Sales table */
+        .sales-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+       
+        .sales-table th {
+            background-color: #f8f9fa;
+            padding: 12px 10px;
+            text-align: left;
+            font-size: 0.8rem;
+            color: var(--text-gray);
+            font-weight: 700;
+            text-transform: uppercase;
+            border-bottom: 2px solid var(--border);
+        }
+       
+        .sales-table td {
+            padding: 12px 10px;
+            border-bottom: 1px solid var(--border);
+        }
+       
+        .sales-table tr:last-child td {
+            border-bottom: none;
+        }
+       
+        .sales-table select, .sales-table input {
+            margin: 0;
+        }
+       
+        .remove-btn {
+            background-color: var(--danger);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s;
+        }
+       
+        .remove-btn:hover {
+            background-color: #a93226;
+        }
+       
+        /* Buttons */
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 180px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 5px;
+        }
+       
+        .btn i {
+            margin-right: 8px;
+        }
+       
+        .btn-primary {
+            background-color: var(--info);
+            color: white;
+        }
+       
+        .btn-primary:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+       
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+       
+        .btn-success:hover {
+            background-color: #229954;
+            transform: translateY(-2px);
+        }
+       
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+       
+        .btn-danger:hover {
+            background-color: #a93226;
+            transform: translateY(-2px);
+        }
+       
+        .btn-small {
+            padding: 8px 16px;
+            min-width: auto;
+            font-size: 0.8rem;
+        }
+       
+        .button-panel {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 30px 0 20px;
+            gap: 15px;
+        }
+       
+        /* Total sales */
+        .total-sales {
+            text-align: right;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px solid var(--border);
+        }
+       
+        .total-amount {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-top: 5px;
+            padding-left: 15px;
+            border-left: 5px solid var(--primary);
+            display: inline-block;
+            padding-right: 10px;
+        }
+       
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+            display: none;
+        }
+       
+        .modal-content {
+            background-color: white;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 230mm;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+       
+        .modal-close {
+            position: fixed;
+            top: 30px;
+            right: 40px;
+            background: var(--danger);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1001;
+            transition: background-color 0.2s;
+        }
+       
+        .modal-close:hover {
+            background-color: #a93226;
+        }
+       
+        .modal-body {
+            padding: 30px;
+        }
+       
+        .modal-actions {
+            position: sticky;
+            bottom: 0;
+            background: white;
+            padding: 20px 30px;
+            border-top: 1px solid var(--border);
+            text-align: right;
+        }
+
+
+       
+        /* PDF render area (hidden) */
+        #pdf-render {
+            position: fixed;
+            left: -10000px;
+            width: 210mm;
+            padding: 15mm;
+            background: white;
+            color: black;
+            font-size: 12pt;
+            line-height: 1.5;
+        }
+       
+        .pdf-section {
+            margin-bottom: 20px;
+            border-left: 5px solid var(--primary);
+            padding-left: 15px;
+            page-break-inside: avoid;
+        }
+       
+        .pdf-section-title {
+            font-size: 16pt;
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+       
+        .pdf-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+       
+        .pdf-grid-item {
+            margin-bottom: 8px;
+        }
+       
+        .pdf-label {
+            font-weight: bold;
+            font-size: 10pt;
+            color: var(--text-gray);
+            text-transform: uppercase;
+        }
+       
+        .pdf-value {
+            font-size: 11pt;
+            padding-top: 3px;
+        }
+       
+        .pdf-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+       
+        .pdf-table th {
+            background-color: #f1f1f1;
+            padding: 10px;
+            text-align: left;
+            font-weight: bold;
+            border-bottom: 2px solid var(--border);
+        }
+       
+        .pdf-table td {
+            padding: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+       
+        .pdf-total {
+            text-align: right;
+            font-weight: bold;
+            font-size: 12pt;
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 2px solid var(--border);
+        }
+       
+        .pdf-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--primary);
+            page-break-after: avoid;
+            gap: 20px;
+        }
+
+        .pdf-header-left {
+            flex: 1;
+            text-align: left;
+        }
+
+        .pdf-header-right {
+            flex: 0 0 auto;
+        }
+       
+        .pdf-logo {
+            max-width: 160px;
+            width: 160px;
+            height: auto;
+            display: block;
+            border-radius: 4px;
+        }
+       
+        .pdf-hotel-name {
+            font-size: 22pt;
+            color: var(--primary);
+            font-weight: bold;
+            margin: 0;
+        }
+       
+        .pdf-report-title {
+            font-size: 16pt;
+            color: var(--accent);
+            margin-top: 5px;
+        }
+
+        /* Smart page break management */
+        .pdf-page-break {
+            page-break-after: always;
+            margin: 0;
+            padding: 0;
+        }
+
+        .pdf-section-container {
+            page-break-inside: avoid;
+            margin-bottom: 25px;
+            background: white;
+            padding: 0;
+        }
+        
+        .pdf-section {
+            page-break-inside: avoid;
+            margin: 0;
+        }
+       
+        /* Responsive */
+        @media (max-width: 768px) {
+            .grid-3 {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+           
+            .button-panel {
+                flex-direction: column;
+                align-items: center;
+            }
+           
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+           
+            .sales-table th, .sales-table td {
+                padding: 8px 5px;
+            }
+           
+            .modal-content {
+                max-height: 95vh;
+            }
+        }
+       
+        /* Status indicators */
+        .status-option {
+            position: relative;
+        }
+       
+        .status-option select option[value="Closed"] {
+            color: var(--success);
+        }
+       
+        .status-option select option[value="Issues"] {
+            color: var(--danger);
+        }
+        
+        .pdf-value-issues {
+            color: var(--danger);
+            font-weight: 600;
+        }
+       
+        /* Auto-save indicator */
+        .save-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--success);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 100;
+            pointer-events: none;
+        }
+       
+        /* Utility classes */
+        .text-center {
+            text-align: center;
+        }
+       
+        .mt-20 {
+            margin-top: 20px;
+        }
+       
+        .mb-20 {
+            margin-bottom: 20px;
+        }
+       
+        .d-none {
+            display: none;
+        }
+
+        /* ── Welcome Screen ── */
+        #welcome-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(160deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            padding: 20px;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        #welcome-screen.fade-out {
+            opacity: 0;
+            transform: scale(1.03);
+            pointer-events: none;
+        }
+        .welcome-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+            width: 100%;
+            max-width: 440px;
+            overflow: hidden;
+            animation: fadeInScale 0.6s ease-out;
+        }
+        .welcome-top {
+            background: linear-gradient(160deg, #0f2027, #2c5364);
+            padding: 36px 36px 28px;
+            text-align: center;
+            position: relative;
+        }
+        .welcome-logo {
+            width: 100%;
+            max-width: 220px;
+            height: auto;
+            border-radius: 8px;
+            display: block;
+            margin: 0 auto 20px;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.4);
+            object-fit: contain;
+        }
+        .welcome-hotel-name {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: 3px;
+            margin-bottom: 4px;
+        }
+        .welcome-subtitle {
+            font-size: 0.78rem;
+            color: rgba(255,255,255,0.6);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        .welcome-bottom {
+            padding: 28px 32px 32px;
+        }
+        .welcome-greeting {
+            font-size: 1.1rem;
+            color: var(--accent);
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .welcome-date-display {
+            font-size: 0.82rem;
+            color: var(--text-gray);
+            margin-bottom: 24px;
+        }
+        .welcome-name-wrap {
+            margin-bottom: 20px;
+        }
+        .welcome-name-wrap label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .welcome-name-wrap input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1.5px solid #dde3e8;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            transition: border-color 0.25s, box-shadow 0.25s;
+            background: #f9fafb;
+        }
+        .welcome-name-wrap input:focus {
+            border-color: #2c5364;
+            outline: none;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(44,83,100,0.1);
+        }
+        .welcome-btn {
+            width: 100%;
+            padding: 13px;
+            background: linear-gradient(135deg, #1a5f7a, #2c5364);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            letter-spacing: 1px;
+            transition: all 0.25s;
+            box-shadow: 0 4px 14px rgba(26,95,122,0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .welcome-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(26,95,122,0.45);
+            background: linear-gradient(135deg, #1e6d8a, #34607a);
+        }
+        .welcome-footer {
+            margin-top: 16px;
+            text-align: center;
+            font-size: 0.72rem;
+            color: #b0b8c1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        /* ── Reports Vault ── */
+        #vault-fab {
+            position: fixed;
+            bottom: 30px;
+            right: 24px;
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 13px 22px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(243,156,18,0.4);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 500;
+            transition: all 0.3s;
+        }
+        #vault-fab:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(243,156,18,0.5);
+        }
+        #vault-fab .vault-badge {
+            background: white;
+            color: #e67e22;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Vault Modal */
+        #vault-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.65);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        #vault-modal.open { display: flex; }
+        .vault-modal-content {
+            background: white;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 560px;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            overflow: hidden;
+            animation: fadeInScale 0.3s ease-out;
+        }
+        .vault-header {
+            padding: 22px 28px 18px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(135deg, #fffbf2, #fff8ec);
+        }
+        .vault-header h2 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .vault-header h2 i { color: #e67e22; }
+        .vault-close {
+            background: none;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            color: var(--text-gray);
+            line-height: 1;
+            padding: 4px 8px;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+        .vault-close:hover { background: #f0f0f0; }
+        .vault-actions {
+            padding: 16px 28px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            gap: 10px;
+        }
+        .vault-save-btn {
+            background: linear-gradient(135deg, var(--success), #229954);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 10px 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            transition: all 0.2s;
+            box-shadow: 0 3px 10px rgba(39,174,96,0.3);
+        }
+        .vault-save-btn:hover { transform: translateY(-1px); }
+        .vault-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px 28px;
+        }
+        .vault-empty {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+        .vault-empty i {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 12px;
+            opacity: 0.3;
+        }
+        .vault-item {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: box-shadow 0.2s, border-color 0.2s;
+            cursor: default;
+        }
+        .vault-item:hover {
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            border-color: #f39c12;
+        }
+        .vault-item-info { flex: 1; }
+        .vault-item-title {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--accent);
+        }
+        .vault-item-meta {
+            font-size: 0.75rem;
+            color: var(--text-gray);
+            margin-top: 3px;
+        }
+        .vault-item-btns {
+            display: flex;
+            gap: 6px;
+        }
+        .vault-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .vault-btn-load {
+            background: #e8f4f8;
+            color: var(--primary);
+        }
+        .vault-btn-load:hover { background: #d0eaf3; }
+        .vault-btn-pdf {
+            background: #e8f5e9;
+            color: var(--success);
+        }
+        .vault-btn-pdf:hover { background: #c8e6c9; }
+        .vault-btn-preview {
+            background: #eef2ff;
+            color: #4361ee;
+        }
+        .vault-btn-preview:hover { background: #dce4ff; }
+        .vault-btn-del {
+            background: #fdecea;
+            color: var(--danger);
+        }
+        .vault-btn-del:hover { background: #f9c8c5; }
+        /* ── Admin Dashboard ── */
+        #admin-dashboard {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            animation: fadeInScale 0.4s ease-out;
+        }
+        .admin-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 28px;
+            padding: 22px 28px;
+            background: linear-gradient(135deg, #0f2027, #2c5364);
+            border-radius: 14px;
+            color: white;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        }
+        .admin-header-left h2 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+        .admin-header-left p {
+            font-size: 0.8rem;
+            opacity: 0.65;
+            margin-top: 3px;
+        }
+        .admin-logout {
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .admin-logout:hover { background: rgba(255,255,255,0.25); }
+        .admin-filters {
+            background: white;
+            border-radius: 12px;
+            padding: 18px 22px;
+            margin-bottom: 22px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            align-items: flex-end;
+        }
+        .admin-filter-group { display: flex; flex-direction: column; gap: 5px; min-width: 150px; }
+        .admin-filter-group label { font-size: 0.7rem; font-weight: 700; color: var(--text-gray); text-transform: uppercase; letter-spacing: 0.4px; }
+        .admin-filter-group select, .admin-filter-group input { padding: 8px 12px; border: 1.5px solid var(--border); border-radius: 7px; font-size: 0.85rem; }
+        #admin-custom-dates { display: none; gap: 14px; flex-wrap: wrap; }
+        .admin-combined-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #1a5f7a, #2c5364);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 3px 10px rgba(26,95,122,0.3);
+            transition: all 0.2s;
+            margin-left: auto;
+        }
+        .admin-combined-btn:hover { transform: translateY(-1px); box-shadow: 0 5px 14px rgba(26,95,122,0.4); }
+        .admin-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 22px;
+        }
+        .admin-stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+            border-left: 4px solid var(--primary);
+            transition: transform 0.2s;
+        }
+        .admin-stat-card:hover { transform: translateY(-2px); }
+        .admin-stat-label { font-size: 0.72rem; font-weight: 700; color: var(--text-gray); text-transform: uppercase; letter-spacing: 0.5px; }
+        .admin-stat-value { font-size: 1.4rem; font-weight: 800; color: var(--accent); margin-top: 6px; }
+        .admin-stat-card.highlight { border-left-color: var(--success); }
+        .admin-stat-card.highlight .admin-stat-value { color: var(--success); }
+        .admin-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 22px; }
+        .admin-panel {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+        }
+        .admin-panel-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .admin-panel-title i { color: var(--primary); }
+        .admin-breakdown-row {
+            display: grid;
+            grid-template-columns: 1fr auto 120px;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.82rem;
+        }
+        .admin-breakdown-row:last-child { border-bottom: none; }
+        .admin-breakdown-val { font-weight: 700; color: var(--primary); white-space: nowrap; }
+        .admin-bar-wrap { background: #f0f4f8; border-radius: 4px; height: 6px; overflow: hidden; }
+        .admin-bar { height: 100%; background: linear-gradient(90deg, var(--primary), #3498db); border-radius: 4px; transition: width 0.5s ease; }
+        .admin-bar-user { background: linear-gradient(90deg, var(--success), #2ecc71); }
+        #admin-reports-list { max-height: 420px; overflow-y: auto; }
+        @media (max-width: 768px) {
+            .admin-stats-grid { grid-template-columns: 1fr 1fr; }
+            .admin-two-col { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Admin Dashboard -->
+    <div id="admin-dashboard" style="display:none;">
+        <div class="admin-header">
+            <div class="admin-header-left">
+                <h2><i class="fas fa-shield-alt"></i> &nbsp;Admin Dashboard</h2>
+                <p>Full visibility across all duty manager reports</p>
+            </div>
+            <button class="admin-logout" id="admin-logout-btn"><i class="fas fa-sign-out-alt"></i> Switch User</button>
+        </div>
+
+        <!-- Filters -->
+        <div class="admin-filters">
+            <div class="admin-filter-group">
+                <label>Period</label>
+                <select id="admin-range">
+                    <option value="all">All Time</option>
+                    <option value="today">Today</option>
+                    <option value="week" selected>Last 7 Days</option>
+                    <option value="month">This Month</option>
+                    <option value="custom">Custom Range</option>
+                </select>
+            </div>
+            <div id="admin-custom-dates">
+                <div class="admin-filter-group">
+                    <label>From</label>
+                    <input type="date" id="admin-date-from">
+                </div>
+                <div class="admin-filter-group">
+                    <label>To</label>
+                    <input type="date" id="admin-date-to">
+                </div>
+            </div>
+            <div class="admin-filter-group">
+                <label>Manager</label>
+                <select id="admin-user-filter"><option value="">All Users</option></select>
+            </div>
+            <button class="admin-combined-btn" id="admin-combined-pdf-btn">
+                <i class="fas fa-file-pdf"></i> Export Period PDF
+            </button>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="admin-stats-grid">
+            <div class="admin-stat-card highlight">
+                <div class="admin-stat-label"><i class="fas fa-coins"></i> Total Revenue</div>
+                <div class="admin-stat-value" id="admin-stat-sales">MWK 0</div>
+            </div>
+            <div class="admin-stat-card">
+                <div class="admin-stat-label"><i class="fas fa-door-open"></i> Rooms Sold</div>
+                <div class="admin-stat-value" id="admin-stat-rooms">0</div>
+            </div>
+            <div class="admin-stat-card">
+                <div class="admin-stat-label"><i class="fas fa-users"></i> Total Guests</div>
+                <div class="admin-stat-value" id="admin-stat-guests">0</div>
+            </div>
+            <div class="admin-stat-card">
+                <div class="admin-stat-label"><i class="fas fa-file-alt"></i> Reports Filed</div>
+                <div class="admin-stat-value" id="admin-stat-reports">0</div>
+            </div>
+            <div class="admin-stat-card">
+                <div class="admin-stat-label"><i class="fas fa-gift"></i> Complimentary</div>
+                <div class="admin-stat-value" id="admin-stat-comp">0</div>
+            </div>
+            <div class="admin-stat-card">
+                <div class="admin-stat-label"><i class="fas fa-chart-line"></i> Avg Revenue/Report</div>
+                <div class="admin-stat-value" id="admin-stat-avg">MWK 0</div>
+            </div>
+        </div>
+
+        <!-- Breakdown panels -->
+        <div class="admin-two-col">
+            <div class="admin-panel">
+                <div class="admin-panel-title"><i class="fas fa-store"></i> Revenue by Department</div>
+                <div id="admin-dept-breakdown"></div>
+            </div>
+            <div class="admin-panel">
+                <div class="admin-panel-title"><i class="fas fa-user-tie"></i> Revenue by Manager</div>
+                <div id="admin-user-breakdown"></div>
+            </div>
+        </div>
+
+        <!-- Individual Reports -->
+        <div class="admin-panel">
+            <div class="admin-panel-title"><i class="fas fa-list"></i> Individual Reports</div>
+            <div id="admin-reports-list"></div>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="main-app" style="display:none;">
+    <!-- Header with logo -->
+    <div class="header">
+        <img id="logo-display" src="https://cdn.pixabay.com/photo/2016/12/30/16/26/hotel-1940893_1280.png" alt="Linde Hotel Logo" class="logo">
+        <h1 class="hotel-name">LINDE HOTEL</h1>
+        <p class="report-title">DUTY MANAGER DAILY REPORT</p>
+    </div>
+   
+    <!-- General & Occupancy Card -->
+    <div class="card">
+        <h2 class="card-title"><i class="fas fa-calendar-alt"></i> General & Occupancy</h2>
+        <div class="grid-3">
+            <div class="form-group">
+                <label for="report-date">Report Date</label>
+                <input type="date" id="report-date">
+            </div>
+            <div class="form-group">
+                <label for="manager-name">Duty Manager Name</label>
+                <input type="text" id="manager-name" placeholder="Enter manager name">
+            </div>
+            <div class="form-group">
+                <!-- Empty column for spacing -->
+            </div>
+            <div class="form-group">
+                <label for="rooms-sold">Rooms Sold</label>
+                <input type="number" id="rooms-sold" min="0" value="">
+            </div>
+            <div class="form-group">
+                <label for="complimentary-rooms">Complimentary Rooms</label>
+                <input type="number" id="complimentary-rooms" min="0" value="">
+            </div>
+            <div class="form-group">
+                <label for="guest-in-house">Guest In-House</label>
+                <input type="number" id="guest-in-house" min="0" value="0">
+            </div>
+        </div>
+    </div>
+   
+    <!-- Sales Summary Card -->
+    <div class="card">
+        <h2 class="card-title"><i class="fas fa-chart-line"></i> Sales Summary</h2>
+        <table class="sales-table">
+            <thead>
+                <tr>
+                    <th width="35%">Department</th>
+                    <th width="30%">Amount (MWK)</th>
+                    <th width="25%">Payment Type</th>
+                    <th width="10%"></th>
+                </tr>
+            </thead>
+            <tbody id="sales-entries">
+                <tr class="sales-row">
+                    <td>
+                        <select class="sales-dept">
+                            <option value="Reception Morning">Reception Morning</option>
+                            <option value="Reception Afternoon">Reception Afternoon</option>
+                            <option value="Restaurant Morning">Restaurant Morning</option>
+                            <option value="Restaurant Afternoon">Restaurant Afternoon</option>
+                            <option value="Bar">Bar</option>
+                            <option value="Laundry">Laundry</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text" class="sales-amount" placeholder="0">
+                    </td>
+                    <td>
+                        <select class="sales-payment">
+                            <option value="Cash">Cash</option>
+                            <option value="Visa">Visa</option>
+                            <option value="Credit">Credit</option>
+                        </select>
+                    </td>
+                    <td class="text-center">
+                        <button class="remove-btn" type="button"><i class="fas fa-times"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+       
+        <div class="text-center">
+            <button class="btn btn-success btn-small" id="add-sales-entry">
+                <i class="fas fa-plus-circle"></i> Add Sales Entry
+            </button>
+        </div>
+       
+        <div class="total-sales">
+            <div>Total Sales:</div>
+            <div class="total-amount" id="total-sales">MWK 0</div>
+        </div>
+    </div>
+   
+    <!-- Departmental Status Card -->
+    <div class="card">
+        <h2 class="card-title"><i class="fas fa-clipboard-check"></i> Departmental Status</h2>
+        <div class="grid-3">
+            <div class="form-group status-option">
+                <label for="restaurant-status">Restaurant</label>
+                <select id="restaurant-status">
+                    <option value="Closed">Closed</option>
+                    <option value="Issues">Issues</option>
+                </select>
+            </div>
+            <div class="form-group status-option">
+                <label for="bar-status">Bar</label>
+                <select id="bar-status">
+                    <option value="Closed">Closed</option>
+                    <option value="Issues">Issues</option>
+                </select>
+            </div>
+            <div class="form-group status-option">
+                <label for="kitchen-status">Kitchen</label>
+                <select id="kitchen-status">
+                    <option value="Closed">Closed</option>
+                    <option value="Issues">Issues</option>
+                </select>
+            </div>
+            <div class="form-group status-option">
+                <label for="laundry-status">Laundry</label>
+                <select id="laundry-status">
+                    <option value="Closed">Closed</option>
+                    <option value="Issues">Issues</option>
+                </select>
+            </div>
+            <div class="form-group status-option">
+                <label for="stores-status">Stores & Coldroom</label>
+                <select id="stores-status">
+                    <option value="Closed">Closed</option>
+                    <option value="Issues">Issues</option>
+                </select>
+            </div>
+            <div class="form-group status-option">
+                <label for="conference-status">Conference Rooms</label>
+                <select id="conference-status">
+                    <option value="Closed">Closed</option>
+                    <option value="Issues">Issues</option>
+                </select>
+            </div>
+        </div>
+    </div>
+   
+    <!-- Remarks / Incident Log Card -->
+    <div class="card">
+        <h2 class="card-title"><i class="fas fa-sticky-note"></i> Remarks / Incident Log</h2>
+        <div class="form-group">
+            <label for="remarks">Enter remarks, incidents, or notes for the shift</label>
+            <textarea id="remarks" rows="6" placeholder="Start typing your remarks here..."></textarea>
+        </div>
+    </div>
+   
+    <!-- Button Panel -->
+    <div class="button-panel">
+        <button class="btn btn-primary" id="preview-report">
+            <i class="fas fa-eye"></i> Preview Report
+        </button>
+        <button class="btn btn-success" id="generate-pdf">
+            <i class="fas fa-file-pdf"></i> Generate Official PDF
+        </button>
+        <button class="btn btn-danger" id="new-shift">
+            <i class="fas fa-redo"></i> New Shift
+        </button>
+        <button class="btn" id="switch-user-btn" style="background:#6c757d;color:white;">
+            <i class="fas fa-sign-out-alt"></i> Switch User
+        </button>
+    </div>
+   
+    <!-- Save Indicator -->
+    <div class="save-indicator" id="save-indicator">Data Saved</div>
+   
+    <!-- Preview Modal -->
+    <div class="modal-overlay" id="preview-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="close-preview">&times;</button>
+            <div class="modal-body" id="preview-content">
+                <!-- Preview content will be inserted here -->
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-success" id="download-pdf">
+                    <i class="fas fa-download"></i> Download PDF
+                </button>
+            </div>
+        </div>
+    </div>
+   
+    </div><!-- end #main-app -->
+
+    <!-- Hidden PDF Render Area -->
+    <div id="pdf-render"></div>
+
+    <!-- ── Welcome Screen ── -->
+    <div id="welcome-screen">
+        <div class="welcome-card">
+            <div class="welcome-top">
+                <img id="welcome-logo" src="https://cdn.pixabay.com/photo/2016/12/30/16/26/hotel-1940893_1280.png" alt="Linde Hotel" class="welcome-logo">
+                <div class="welcome-hotel-name">LINDE HOTEL</div>
+                <div class="welcome-subtitle">Duty Manager Portal</div>
+            </div>
+            <div class="welcome-bottom">
+                <div class="welcome-greeting" id="welcome-greeting">Good morning!</div>
+                <div class="welcome-date-display" id="welcome-date"></div>
+                <div class="welcome-name-wrap">
+                    <label for="welcome-manager-input">Your Name</label>
+                    <input type="text" id="welcome-manager-input" placeholder="e.g. Sarah Banda" autocomplete="off">
+                </div>
+                <button class="welcome-btn" id="welcome-start-btn">
+                    <i class="fas fa-sign-in-alt"></i> Start Shift
+                </button>
+                <div class="welcome-footer"><i class="fas fa-shield-alt"></i> Your data is auto-saved as you work</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Reports Vault FAB ── -->
+    <button id="vault-fab" style="display:none;">
+        <i class="fas fa-folder-open"></i> Reports Vault
+        <span class="vault-badge" id="vault-count">0</span>
+    </button>
+
+    <!-- ── Reports Vault Modal ── -->
+    <div id="vault-modal">
+        <div class="vault-modal-content">
+            <div class="vault-header">
+                <h2><i class="fas fa-folder-open"></i> Saved Reports</h2>
+                <button class="vault-close" id="vault-close-btn">&times;</button>
+            </div>
+            <div class="vault-actions">
+                <button class="vault-save-btn" id="vault-save-current-btn">
+                    <i class="fas fa-save"></i> Save Current Report
+                </button>
+            </div>
+            <div class="vault-list" id="vault-list">
+                <div class="vault-empty">
+                    <i class="fas fa-inbox"></i>
+                    No saved reports yet.<br>Fill in your report and click <strong>Save Current Report</strong>.
+                </div>
+            </div>
+        </div>
+    </div>
+   
+    <script>
+        const EMBEDDED_LOGO = 'images/linde_logo.png';
+        const CURRENCY = 'MWK';
+        const ADMIN_NAME = 'admin';
+        const ALL_REPORTS_KEY = 'linde_all_reports_v1'; // shared vault across all users
+
+        // ── Current logged-in user ────────────────────────────────────
+        let currentUser = null; // set on welcome login
+
+        // ── DOM refs ─────────────────────────────────────────────────
+        const reportDateInput        = document.getElementById('report-date');
+        const managerNameInput       = document.getElementById('manager-name');
+        const roomsSoldInput         = document.getElementById('rooms-sold');
+        const complimentaryRoomsInput= document.getElementById('complimentary-rooms');
+        const guestInHouseInput      = document.getElementById('guest-in-house');
+        const salesEntriesContainer  = document.getElementById('sales-entries');
+        const addSalesEntryBtn       = document.getElementById('add-sales-entry');
+        const totalSalesElement      = document.getElementById('total-sales');
+        const remarksInput           = document.getElementById('remarks');
+        const previewModal           = document.getElementById('preview-modal');
+        const closePreviewBtn        = document.getElementById('close-preview');
+        const previewContent         = document.getElementById('preview-content');
+        const previewReportBtn       = document.getElementById('preview-report');
+        const generatePdfBtn         = document.getElementById('generate-pdf');
+        const newShiftBtn            = document.getElementById('new-shift');
+        const downloadPdfBtn         = document.getElementById('download-pdf');
+        const saveIndicator          = document.getElementById('save-indicator');
+        const pdfRender              = document.getElementById('pdf-render');
+        const logoDisplay            = document.getElementById('logo-display');
+
+        logoDisplay.src = EMBEDDED_LOGO;
+
+        const today = new Date().toISOString().split('T')[0];
+        reportDateInput.value = today;
+
+        // ── Storage helpers (per-user) ────────────────────────────────
+        function userStorageKey()   { return `linde_draft_${(currentUser||'').toLowerCase()}`; }
+        function userVaultKey()     { return `linde_vault_${(currentUser||'').toLowerCase()}`; }
+
+        function getAllReports() {
+            try { return JSON.parse(localStorage.getItem(ALL_REPORTS_KEY)) || []; }
+            catch(e) { return []; }
+        }
+        function saveAllReports(arr) { localStorage.setItem(ALL_REPORTS_KEY, JSON.stringify(arr)); }
+
+        // ── Guest In-House live calc ──────────────────────────────────
+        let guestInHouseManuallySet = false;
+
+        function updateGuestInHouse() {
+            if (!guestInHouseManuallySet) {
+                const r = parseInt(roomsSoldInput.value) || 0;
+                const c = parseInt(complimentaryRoomsInput.value) || 0;
+                guestInHouseInput.value = r + c;
+            }
+            saveToLocalStorage();
+        }
+        roomsSoldInput.addEventListener('input', updateGuestInHouse);
+        complimentaryRoomsInput.addEventListener('input', updateGuestInHouse);
+        guestInHouseInput.addEventListener('input', function() {
+            guestInHouseManuallySet = true;
+            saveToLocalStorage();
+        });
+
+        // ── Number formatting ─────────────────────────────────────────
+        function formatNumberWithCommas(input) {
+            let value = input.value.replace(/[^\d.]/g, '');
+            let parts = value.split('.');
+            if (parts.length > 2) { value = parts[0] + '.' + parts[1]; parts = value.split('.'); }
+            if (value) {
+                let int = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                value = parts.length === 2 ? int + '.' + parts[1].substring(0,2) : int;
+            }
+            input.value = value;
+            updateTotalSales();
+            saveToLocalStorage();
+        }
+        function formatAmountOnBlur(input) {
+            let value = input.value.replace(/[^\d.]/g, '');
+            if (value) {
+                let parts = value.split('.');
+                let int = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                let dec = parts.length > 1 ? parts[1].substring(0,2).padEnd(2,'0') : '00';
+                input.value = int + '.' + dec;
+            }
+            updateTotalSales();
+            saveToLocalStorage();
+        }
+
+        // ── Total Sales ───────────────────────────────────────────────
+        function updateTotalSales() {
+            let total = 0;
+            document.querySelectorAll('.sales-amount').forEach(i => {
+                total += parseFloat(i.value.replace(/[^\d.]/g, '')) || 0;
+            });
+            totalSalesElement.textContent = `${CURRENCY} ${total.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`;
+        }
+
+        // ── Add Sales Entry ───────────────────────────────────────────
+        function addSalesEntry() {
+            const row = document.createElement('tr');
+            row.className = 'sales-row';
+            row.innerHTML = `
+                <td><select class="sales-dept">
+                    <option>Reception Morning</option><option>Reception Afternoon</option>
+                    <option>Restaurant Morning</option><option>Restaurant Afternoon</option>
+                    <option>Bar</option><option>Laundry</option>
+                </select></td>
+                <td><input type="text" class="sales-amount" placeholder="0"></td>
+                <td><select class="sales-payment">
+                    <option>Cash</option><option>Visa</option><option>Credit</option>
+                </select></td>
+                <td class="text-center"><button class="remove-btn" type="button"><i class="fas fa-times"></i></button></td>`;
+            salesEntriesContainer.appendChild(row);
+            const amt = row.querySelector('.sales-amount');
+            amt.addEventListener('input',  () => formatNumberWithCommas(amt));
+            amt.addEventListener('blur',   () => formatAmountOnBlur(amt));
+            amt.addEventListener('focus',  function() { if(this.value==='0'||this.value==='') this.select(); });
+            row.querySelector('.sales-dept').addEventListener('change', saveToLocalStorage);
+            row.querySelector('.sales-payment').addEventListener('change', saveToLocalStorage);
+            row.querySelector('.remove-btn').addEventListener('click', function() {
+                row.remove(); updateTotalSales(); saveToLocalStorage();
+            });
+            updateTotalSales(); saveToLocalStorage();
+        }
+        addSalesEntryBtn.addEventListener('click', addSalesEntry);
+
+        document.querySelectorAll('.remove-btn').forEach(btn => btn.addEventListener('click', function() {
+            this.closest('tr').remove(); updateTotalSales(); saveToLocalStorage();
+        }));
+        document.querySelectorAll('.sales-amount').forEach(inp => {
+            inp.addEventListener('input', () => formatNumberWithCommas(inp));
+            inp.addEventListener('blur',  () => formatAmountOnBlur(inp));
+            inp.addEventListener('focus', function() { if(this.value==='0'||this.value==='') this.select(); });
+        });
+
+        managerNameInput.addEventListener('input', function() {
+            this.value = this.value.replace(/\b\w/g, c => c.toUpperCase());
+            saveToLocalStorage();
+        });
+        remarksInput.addEventListener('input', function() {
+            if (this.value.length === 1) this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1);
+            saveToLocalStorage();
+        });
+        document.addEventListener('change', function(e) {
+            if (e.target.classList.contains('sales-dept') || e.target.classList.contains('sales-payment')) saveToLocalStorage();
+        });
+
+        // ── Save / Load (per-user draft) ──────────────────────────────
+        function getFormSnapshot() {
+            const salesEntries = [];
+            document.querySelectorAll('.sales-row').forEach(row => salesEntries.push({
+                department: row.querySelector('.sales-dept').value,
+                amount: row.querySelector('.sales-amount').value,
+                paymentType: row.querySelector('.sales-payment').value
+            }));
+            return {
+                id: Date.now(),
+                savedAt: new Date().toISOString(),
+                user: currentUser,
+                reportDate: reportDateInput.value,
+                managerName: managerNameInput.value,
+                roomsSold: roomsSoldInput.value,
+                complimentaryRooms: complimentaryRoomsInput.value,
+                guestInHouse: guestInHouseInput.value,
+                guestInHouseManuallySet,
+                remarks: remarksInput.value,
+                deptStatus: {
+                    restaurant: document.getElementById('restaurant-status').value,
+                    bar: document.getElementById('bar-status').value,
+                    kitchen: document.getElementById('kitchen-status').value,
+                    laundry: document.getElementById('laundry-status').value,
+                    stores: document.getElementById('stores-status').value,
+                    conference: document.getElementById('conference-status').value
+                },
+                salesEntries
+            };
+        }
+
+        function applySnapshot(snap) {
+            reportDateInput.value = snap.reportDate || today;
+            managerNameInput.value = snap.managerName || '';
+            roomsSoldInput.value = snap.roomsSold || '';
+            complimentaryRoomsInput.value = snap.complimentaryRooms || '';
+            remarksInput.value = snap.remarks || '';
+            guestInHouseManuallySet = !!snap.guestInHouseManuallySet;
+            guestInHouseInput.value = snap.guestInHouse || '0';
+            if (!guestInHouseManuallySet) updateGuestInHouse();
+
+            if (snap.deptStatus) {
+                ['restaurant','bar','kitchen','laundry','stores','conference'].forEach(k => {
+                    const el = document.getElementById(k+'-status');
+                    if (el && snap.deptStatus[k]) el.value = snap.deptStatus[k];
+                });
+            }
+
+            // Rebuild sales rows
+            const rows = document.querySelectorAll('.sales-row');
+            for (let i = 1; i < rows.length; i++) rows[i].remove();
+
+            const entries = snap.salesEntries || [];
+            if (entries.length > 0) {
+                const first = document.querySelector('.sales-row');
+                first.querySelector('.sales-dept').value = entries[0].department || 'Reception Morning';
+                first.querySelector('.sales-amount').value = entries[0].amount || '';
+                first.querySelector('.sales-payment').value = entries[0].paymentType || 'Cash';
+                for (let i = 1; i < entries.length; i++) {
+                    addSalesEntry();
+                    const newRow = salesEntriesContainer.lastElementChild;
+                    newRow.querySelector('.sales-dept').value = entries[i].department || 'Reception Morning';
+                    newRow.querySelector('.sales-amount').value = entries[i].amount || '';
+                    newRow.querySelector('.sales-payment').value = entries[i].paymentType || 'Cash';
+                }
+            }
+            updateTotalSales();
+        }
+
+        function saveToLocalStorage() {
+            if (!currentUser) return;
+            const snap = getFormSnapshot();
+            localStorage.setItem(userStorageKey(), JSON.stringify(snap));
+            saveIndicator.style.opacity = '1';
+            setTimeout(() => saveIndicator.style.opacity = '0', 800);
+        }
+
+        function loadFromLocalStorage() {
+            const raw = localStorage.getItem(userStorageKey());
+            if (!raw) return;
+            try { applySnapshot(JSON.parse(raw)); } catch(e) {}
+        }
+
+        const allInputs = document.querySelectorAll('input, select, textarea');
+        allInputs.forEach(inp => {
+            if (!['manager-name','remarks'].includes(inp.id) && !inp.classList.contains('sales-amount')) {
+                inp.addEventListener('input', saveToLocalStorage);
+                inp.addEventListener('change', saveToLocalStorage);
+            }
+        });
+
+        // ── Vault (per-user) ──────────────────────────────────────────
+        function getUserVault() {
+            try {
+                const data = JSON.parse(localStorage.getItem(userVaultKey())) || [];
+                // Migrate old global vault if present
+                const oldKey = 'linde_hotel_reports_vault';
+                const old = JSON.parse(localStorage.getItem(oldKey) || '[]');
+                if (old.length > 0) {
+                    const merged = [...data, ...old.filter(o => !data.find(d => d.id === o.id))];
+                    localStorage.setItem(userVaultKey(), JSON.stringify(merged));
+                    localStorage.removeItem(oldKey);
+                    return merged;
+                }
+                return data;
+            }
+            catch(e) { return []; }
+        }
+        function saveUserVault(vault) {
+            localStorage.setItem(userVaultKey(), JSON.stringify(vault));
+            updateVaultBadge();
+        }
+        function updateVaultBadge() {
+            document.getElementById('vault-count').textContent = getUserVault().length;
+        }
+
+        function formatVaultDate(iso) {
+            const d = new Date(iso);
+            return d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})
+                + ' · ' + d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+        }
+
+        function renderVaultList() {
+            const vault = getUserVault();
+            const list = document.getElementById('vault-list');
+            if (!vault.length) {
+                list.innerHTML = `<div class="vault-empty"><i class="fas fa-inbox"></i>No saved reports yet.<br>Click <strong>Save Current Report</strong> to save one.</div>`;
+                return;
+            }
+            list.innerHTML = vault.slice().reverse().map(snap => {
+                const label = snap.managerName ? `${snap.managerName} — ${snap.reportDate||'No date'}` : (snap.reportDate||'Untitled');
+                const meta = `Saved ${formatVaultDate(snap.savedAt)} · Rooms: ${snap.roomsSold||0} · Guests: ${snap.guestInHouse||0}`;
+                return `<div class="vault-item">
+                    <div class="vault-item-info">
+                        <div class="vault-item-title">${label}</div>
+                        <div class="vault-item-meta">${meta}</div>
+                    </div>
+                    <div class="vault-item-btns">
+                        <button class="vault-btn vault-btn-preview" data-id="${snap.id}"><i class="fas fa-eye"></i> Preview</button>
+                        <button class="vault-btn vault-btn-load"    data-id="${snap.id}"><i class="fas fa-upload"></i> Load</button>
+                        <button class="vault-btn vault-btn-pdf"     data-id="${snap.id}"><i class="fas fa-file-pdf"></i> PDF</button>
+                        <button class="vault-btn vault-btn-del"     data-id="${snap.id}"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>`;
+            }).join('');
+
+            list.querySelectorAll('.vault-btn-preview').forEach(btn => btn.addEventListener('click', function() {
+                const snap = getUserVault().find(r => String(r.id) === String(this.dataset.id));
+                if (!snap) return;
+                const cur = getFormSnapshot();
+                applySnapshot(snap);
+                previewContent.innerHTML = generatePreviewContent();
+                previewModal.style.display = 'flex';
+                applySnapshot(cur);
+                closeVault();
+            }));
+
+            list.querySelectorAll('.vault-btn-load').forEach(btn => btn.addEventListener('click', function() {
+                const snapId = this.dataset.id;
+                const snap = getUserVault().find(r => String(r.id) === String(snapId));
+                if (!snap) { alert('Could not find report. Try reopening the vault.'); return; }
+                applySnapshot(snap);
+                saveToLocalStorage();
+                closeVault();
+            }));
+
+            list.querySelectorAll('.vault-btn-pdf').forEach(btn => btn.addEventListener('click', async function() {
+                const snap = getUserVault().find(r => String(r.id) === String(this.dataset.id));
+                if (!snap) return;
+                const cur = getFormSnapshot();
+                applySnapshot(snap);
+                await generatePDF();
+                applySnapshot(cur);
+            }));
+
+            list.querySelectorAll('.vault-btn-del').forEach(btn => btn.addEventListener('click', function() {
+                const snapId = this.dataset.id;
+                if (confirm('Delete this report? This cannot be undone.')) {
+                    saveUserVault(getUserVault().filter(r => String(r.id) !== String(snapId)));
+                    renderVaultList();
+                }
+            }));
+        }
+
+        function openVault() { renderVaultList(); document.getElementById('vault-modal').classList.add('open'); }
+        function closeVault() { document.getElementById('vault-modal').classList.remove('open'); }
+
+        document.getElementById('vault-fab').addEventListener('click', openVault);
+        document.getElementById('vault-close-btn').addEventListener('click', closeVault);
+        document.getElementById('vault-modal').addEventListener('click', e => { if(e.target===document.getElementById('vault-modal')) closeVault(); });
+
+        document.getElementById('vault-save-current-btn').addEventListener('click', function() {
+            const snap = getFormSnapshot();
+            // Also push to global reports store
+            const allReports = getAllReports();
+            allReports.push(snap);
+            saveAllReports(allReports);
+            // Push to user vault
+            const vault = getUserVault();
+            vault.push(snap);
+            saveUserVault(vault);
+            renderVaultList();
+            this.innerHTML = '<i class="fas fa-check"></i> Saved!';
+            this.style.background = 'linear-gradient(135deg,#2c3e50,#34495e)';
+            const self = this;
+            setTimeout(() => { self.innerHTML='<i class="fas fa-save"></i> Save Current Report'; self.style.background=''; }, 1800);
+        });
+
+        // ── Generate Preview HTML (from current form state) ───────────
+        function getLogoDataUrl() { return logoDisplay.src; }
+
+        function generatePreviewContent() {
+            let totalSales = 0;
+            const salesEntries = [];
+            document.querySelectorAll('.sales-row').forEach(row => {
+                const dept   = row.querySelector('.sales-dept').value;
+                const amount = parseFloat(row.querySelector('.sales-amount').value.replace(/[^0-9.]/g,'')) || 0;
+                const payment= row.querySelector('.sales-payment').value;
+                salesEntries.push({dept, amount, payment});
+                totalSales += amount;
+            });
+            const dateObj = new Date(reportDateInput.value);
+            const formattedDate = isNaN(dateObj) ? reportDateInput.value : dateObj.toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+            const logoUrl = getLogoDataUrl();
+            const fmt = n => n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',');
+            return `
+            <div class="pdf-header">
+                <div class="pdf-header-left"><h1 class="pdf-hotel-name">LINDE HOTEL</h1><div class="pdf-report-title">DUTY MANAGER DAILY REPORT</div></div>
+                <div class="pdf-header-right"><img src="${logoUrl}" alt="Linde Hotel Logo" class="pdf-logo"></div>
+            </div>
+            <div class="pdf-section-container"><div class="pdf-section">
+                <div class="pdf-section-title">General Information</div>
+                <div class="pdf-grid">
+                    <div class="pdf-grid-item"><div class="pdf-label">Report Date</div><div class="pdf-value">${formattedDate}</div></div>
+                    <div class="pdf-grid-item"><div class="pdf-label">Duty Manager</div><div class="pdf-value">${managerNameInput.value||'Not specified'}</div></div>
+                    <div class="pdf-grid-item"></div>
+                </div>
+            </div></div>
+            <div class="pdf-section-container"><div class="pdf-section">
+                <div class="pdf-section-title">Occupancy Summary</div>
+                <div class="pdf-grid">
+                    <div class="pdf-grid-item"><div class="pdf-label">Rooms Sold</div><div class="pdf-value">${roomsSoldInput.value||'0'}</div></div>
+                    <div class="pdf-grid-item"><div class="pdf-label">Complimentary Rooms</div><div class="pdf-value">${complimentaryRoomsInput.value||'0'}</div></div>
+                    <div class="pdf-grid-item"><div class="pdf-label">Guest In-House</div><div class="pdf-value">${guestInHouseInput.value||'0'}</div></div>
+                </div>
+            </div></div>
+            <div class="pdf-section-container"><div class="pdf-section">
+                <div class="pdf-section-title">Sales Summary</div>
+                <table class="pdf-table"><thead><tr><th>Department</th><th>Amount (MWK)</th><th>Payment Type</th></tr></thead>
+                <tbody>${salesEntries.map(e=>`<tr><td><strong>${e.dept}</strong></td><td>${fmt(e.amount)}</td><td>${e.payment}</td></tr>`).join('')}</tbody>
+                </table>
+                <div class="pdf-total">Total Revenue: ${CURRENCY} ${fmt(totalSales)}</div>
+            </div></div>
+            <div class="pdf-section-container"><div class="pdf-section">
+                <div class="pdf-section-title">Departmental Status</div>
+                <div class="pdf-grid">
+                    ${['restaurant','bar','kitchen','laundry','stores','conference'].map(k=>{
+                        const el=document.getElementById(k+'-status');
+                        const val=el?el.value:'—';
+                        return `<div class="pdf-grid-item"><div class="pdf-label">${k.charAt(0).toUpperCase()+k.slice(1)}</div><div class="pdf-value ${val==='Issues'?'pdf-value-issues':''}">${val}</div></div>`;
+                    }).join('')}
+                </div>
+            </div></div>
+            <div class="pdf-section-container"><div class="pdf-section">
+                <div class="pdf-section-title">Remarks / Incident Log</div>
+                <div style="white-space:pre-wrap;min-height:120px;padding:15px;border:1px solid #ddd;border-radius:4px;">${remarksInput.value||'No remarks recorded.'}</div>
+            </div></div>
+            <div style="margin-top:30px;padding-top:20px;border-top:1px solid #ddd;font-size:10pt;color:#666;text-align:center;">
+                Report generated on ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}
+            </div>`;
+        }
+
+        previewReportBtn.addEventListener('click', function() { previewContent.innerHTML = generatePreviewContent(); previewModal.style.display='flex'; });
+        closePreviewBtn.addEventListener('click', () => previewModal.style.display='none');
+        previewModal.addEventListener('click', e => { if(e.target===previewModal) previewModal.style.display='none'; });
+
+        // ── PDF Generation ────────────────────────────────────────────
+        async function generatePDF(customContent, customFilename) {
+            try {
+                pdfRender.innerHTML = customContent || generatePreviewContent();
+                pdfRender.style.cssText = 'position:absolute;left:0;top:0;z-index:-1;visibility:visible;';
+                await new Promise(r => setTimeout(r, 300));
+                const canvas = await html2canvas(pdfRender, {scale:2, useCORS:true, logging:false, backgroundColor:'#ffffff', allowTaint:true});
+                const imgWidth=210, pageHeight=297;
+                const imgHeight = canvas.height * imgWidth / canvas.width;
+                const {jsPDF} = window.jspdf;
+                const pdf = new jsPDF('p','mm','a4');
+                let heightLeft = imgHeight, position = 0;
+                const imgData = canvas.toDataURL('image/jpeg', 0.95);
+                pdf.addImage(imgData,'JPEG',0,position,imgWidth,imgHeight);
+                heightLeft -= pageHeight;
+                while (heightLeft >= 0) { position = heightLeft-imgHeight; pdf.addPage(); pdf.addImage(imgData,'JPEG',0,position,imgWidth,imgHeight); heightLeft -= pageHeight; }
+                pdf.save(customFilename || `Linde_Hotel_Duty_Report_${reportDateInput.value||'report'}.pdf`);
+            } catch(err) { console.error(err); alert('PDF generation failed. Please try again.'); }
+            finally { pdfRender.style.cssText = 'position:fixed;left:-10000px;visibility:hidden;'; }
+        }
+
+        generatePdfBtn.addEventListener('click', () => generatePDF());
+        downloadPdfBtn.addEventListener('click', () => generatePDF());
+
+        // ── New Shift ─────────────────────────────────────────────────
+        newShiftBtn.addEventListener('click', function() {
+            if (!confirm('Start a new shift? All current data will be cleared.')) return;
+            const currentDate = new Date().toISOString().split('T')[0];
+            reportDateInput.value = currentDate;
+            roomsSoldInput.value = '';
+            complimentaryRoomsInput.value = '';
+            remarksInput.value = '';
+            guestInHouseInput.value = '0';
+            guestInHouseManuallySet = false;
+            document.querySelectorAll('.sales-row').forEach((r, i) => {
+                if (i === 0) {
+                    r.querySelector('.sales-dept').value = 'Reception Morning';
+                    r.querySelector('.sales-amount').value = '';
+                    r.querySelector('.sales-payment').value = 'Cash';
+                } else {
+                    r.remove();
+                }
+            });
+            ['restaurant','bar','kitchen','laundry','stores','conference'].forEach(k => {
+                const el = document.getElementById(k + '-status');
+                if (el) el.value = 'Closed';
+            });
+            updateTotalSales();
+            guestInHouseInput.value = '0';
+            localStorage.removeItem(userStorageKey());
+            saveToLocalStorage();
+        });
+
+        updateGuestInHouse();
+        updateTotalSales();
+        window.addEventListener('DOMContentLoaded', () => {});
+
+        // ── Welcome Screen + Account Login ────────────────────────────
+        (function() {
+            const screen   = document.getElementById('welcome-screen');
+            const startBtn = document.getElementById('welcome-start-btn');
+            const nameInput= document.getElementById('welcome-manager-input');
+            const greetEl  = document.getElementById('welcome-greeting');
+            const dateEl   = document.getElementById('welcome-date');
+            const wLogo    = document.getElementById('welcome-logo');
+            wLogo.src = EMBEDDED_LOGO;
+
+            const h = new Date().getHours();
+            greetEl.textContent = h<12 ? '☀️ Good morning!' : h<17 ? '🌤 Good afternoon!' : '🌙 Good evening!';
+            dateEl.textContent  = new Date().toLocaleDateString('en-GB',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+
+            nameInput.addEventListener('input', function() {
+                this.value = this.value.replace(/\b\w/g, c => c.toUpperCase());
+            });
+
+            function loginUser(name) {
+                if (!name) { nameInput.focus(); nameInput.style.borderColor='#c0392b'; return; }
+                currentUser = name.trim().toLowerCase();
+                const isAdmin = currentUser === ADMIN_NAME;
+                managerNameInput.value = name.trim();
+                localStorage.setItem('linde_last_user', name.trim());
+
+                screen.classList.add('fade-out');
+                setTimeout(() => {
+                    screen.style.display = 'none';
+                    if (isAdmin) {
+                        openAdminDashboard();
+                    } else {
+                        document.getElementById('main-app').style.display = 'block';
+                        document.getElementById('vault-fab').style.display = '';
+                        loadFromLocalStorage();
+                        updateVaultBadge();
+                    }
+                }, 500);
+            }
+
+            startBtn.addEventListener('click', () => loginUser(nameInput.value.trim()));
+            nameInput.addEventListener('keydown', e => { if(e.key==='Enter') loginUser(nameInput.value.trim()); });
+
+            // Remember last user
+            const lastUser = localStorage.getItem('linde_last_user');
+            if (lastUser) nameInput.value = lastUser.replace(/\b\w/g, c => c.toUpperCase());
+        })();
+
+        // ── Admin Dashboard ───────────────────────────────────────────
+        function openAdminDashboard() {
+            document.getElementById('admin-dashboard').style.display = 'block';
+            document.getElementById('main-app').style.display = 'none';
+            document.getElementById('vault-fab').style.display = 'none';
+            renderAdminDashboard();
+        }
+
+        function closeAdminDashboard() {
+            document.getElementById('admin-dashboard').style.display = 'none';
+            document.getElementById('main-app').style.display = 'block';
+            document.getElementById('vault-fab').style.display = '';
+        }
+
+        function renderAdminDashboard() {
+            const allReports = getAllReports();
+            const fmt = n => (parseFloat(n)||0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',');
+
+            // Populate user filter
+            const users = [...new Set(allReports.map(r => r.user || r.managerName || 'Unknown').filter(Boolean))];
+            const userFilter = document.getElementById('admin-user-filter');
+            userFilter.innerHTML = '<option value="">All Users</option>' + users.map(u=>`<option value="${u.toLowerCase()}">${u}</option>`).join('');
+
+            refreshAdminStats();
+        }
+
+        function getFilteredReports() {
+            const allReports = getAllReports();
+            const rangeType  = document.getElementById('admin-range').value;
+            const dateFrom   = document.getElementById('admin-date-from').value;
+            const dateTo     = document.getElementById('admin-date-to').value;
+            const userFilter = document.getElementById('admin-user-filter').value;
+
+            const now = new Date();
+            let fromDate, toDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
+
+            if (rangeType === 'custom') {
+                fromDate = dateFrom ? new Date(dateFrom) : new Date(0);
+                toDate   = dateTo   ? new Date(dateTo+'T23:59:59') : toDate;
+            } else if (rangeType === 'week') {
+                fromDate = new Date(now); fromDate.setDate(now.getDate()-6); fromDate.setHours(0,0,0,0);
+            } else if (rangeType === 'month') {
+                fromDate = new Date(now.getFullYear(), now.getMonth(), 1);
+            } else if (rangeType === 'today') {
+                fromDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            } else {
+                fromDate = new Date(0);
+            }
+
+            return allReports.filter(r => {
+                const rd = new Date(r.reportDate || r.savedAt);
+                if (rd < fromDate || rd > toDate) return false;
+                if (userFilter) {
+                    const rUser = (r.user || r.managerName || '').toLowerCase();
+                    if (rUser !== userFilter) return false;
+                }
+                return true;
+            });
+        }
+
+        function refreshAdminStats() {
+            const reports = getFilteredReports();
+            const fmt = n => (parseFloat(n)||0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',');
+
+            // Totals
+            let totalSales=0, totalRooms=0, totalGuests=0, totalComplimentary=0;
+            const salesByDept = {};
+            const salesByUser = {};
+            const salesByDate = {};
+
+            reports.forEach(r => {
+                const rooms = parseInt(r.roomsSold)||0;
+                const guests= parseInt(r.guestInHouse)||0;
+                const comp  = parseInt(r.complimentaryRooms)||0;
+                totalRooms += rooms; totalGuests += guests; totalComplimentary += comp;
+
+                const user = r.managerName || r.user || 'Unknown';
+                if (!salesByUser[user]) salesByUser[user] = 0;
+
+                (r.salesEntries||[]).forEach(e => {
+                    const amt = parseFloat((e.amount||'').replace(/[^\d.]/g,''))||0;
+                    totalSales += amt;
+                    salesByUser[user] += amt;
+                    const dept = e.department || 'Other';
+                    salesByDept[dept] = (salesByDept[dept]||0) + amt;
+                });
+
+                const dateKey = r.reportDate || (r.savedAt||'').split('T')[0];
+                if (dateKey) salesByDate[dateKey] = (salesByDate[dateKey]||0) + (parseFloat(r.totalSales)||0);
+            });
+
+            document.getElementById('admin-stat-sales').textContent    = `MWK ${fmt(totalSales)}`;
+            document.getElementById('admin-stat-rooms').textContent     = totalRooms;
+            document.getElementById('admin-stat-guests').textContent    = totalGuests;
+            document.getElementById('admin-stat-reports').textContent   = reports.length;
+            document.getElementById('admin-stat-comp').textContent      = totalComplimentary;
+            document.getElementById('admin-stat-avg').textContent       = reports.length ? `MWK ${fmt(totalSales/reports.length)}` : 'MWK 0';
+
+            // Dept breakdown
+            const deptHtml = Object.entries(salesByDept).sort((a,b)=>b[1]-a[1]).map(([d,v])=>`
+                <div class="admin-breakdown-row">
+                    <span>${d}</span>
+                    <span class="admin-breakdown-val">MWK ${fmt(v)}</span>
+                    <div class="admin-bar-wrap"><div class="admin-bar" style="width:${totalSales?Math.round(v/totalSales*100):0}%"></div></div>
+                </div>`).join('') || '<div class="vault-empty" style="padding:20px"><i class="fas fa-inbox"></i> No data</div>';
+            document.getElementById('admin-dept-breakdown').innerHTML = deptHtml;
+
+            // User breakdown
+            const userHtml = Object.entries(salesByUser).sort((a,b)=>b[1]-a[1]).map(([u,v])=>`
+                <div class="admin-breakdown-row">
+                    <span><i class="fas fa-user-circle" style="color:var(--primary);margin-right:6px"></i>${u}</span>
+                    <span class="admin-breakdown-val">MWK ${fmt(v)}</span>
+                    <div class="admin-bar-wrap"><div class="admin-bar admin-bar-user" style="width:${totalSales?Math.round(v/totalSales*100):0}%"></div></div>
+                </div>`).join('') || '<div class="vault-empty" style="padding:20px"><i class="fas fa-inbox"></i> No data</div>';
+            document.getElementById('admin-user-breakdown').innerHTML = userHtml;
+
+            // Reports list
+            const listHtml = reports.length === 0
+                ? '<div class="vault-empty"><i class="fas fa-inbox"></i> No reports found for this period.</div>'
+                : reports.slice().sort((a,b)=>new Date(b.reportDate||b.savedAt)-new Date(a.reportDate||a.savedAt)).map(r => {
+                    let rTotal = (r.salesEntries||[]).reduce((s,e)=>s+(parseFloat((e.amount||'').replace(/[^\d.]/g,''))||0),0);
+                    return `<div class="vault-item">
+                        <div class="vault-item-info">
+                            <div class="vault-item-title">${r.managerName||r.user||'Unknown'} — ${r.reportDate||'No date'}</div>
+                            <div class="vault-item-meta">Revenue: MWK ${fmt(rTotal)} · Rooms: ${r.roomsSold||0} · Guests: ${r.guestInHouse||0} · Saved: ${formatVaultDate(r.savedAt)}</div>
+                        </div>
+                        <div class="vault-item-btns">
+                            <button class="vault-btn vault-btn-preview" data-idx="${getAllReports().indexOf(r)}"><i class="fas fa-eye"></i> Preview</button>
+                            <button class="vault-btn vault-btn-pdf admin-pdf-btn" data-idx="${getAllReports().indexOf(r)}"><i class="fas fa-file-pdf"></i> PDF</button>
+                        </div>
+                    </div>`;
+                }).join('');
+            document.getElementById('admin-reports-list').innerHTML = listHtml;
+
+            // Wire admin report preview/pdf
+            document.querySelectorAll('#admin-reports-list .vault-btn-preview').forEach(btn => btn.addEventListener('click', function() {
+                const snap = getAllReports()[parseInt(this.dataset.idx)];
+                if (!snap) return;
+                const cur = getFormSnapshot();
+                applySnapshot(snap);
+                previewContent.innerHTML = generatePreviewContent();
+                previewModal.style.display = 'flex';
+                applySnapshot(cur);
+            }));
+            document.querySelectorAll('#admin-reports-list .admin-pdf-btn').forEach(btn => btn.addEventListener('click', async function() {
+                const snap = getAllReports()[parseInt(this.dataset.idx)];
+                if (!snap) return;
+                const cur = getFormSnapshot();
+                applySnapshot(snap);
+                await generatePDF(null, `Linde_Report_${snap.reportDate||'report'}.pdf`);
+                applySnapshot(cur);
+            }));
+        }
+
+        // Admin combined period PDF
+        document.getElementById('admin-combined-pdf-btn').addEventListener('click', async function() {
+            const reports = getFilteredReports();
+            if (!reports.length) { alert('No reports found for the selected period.'); return; }
+            const fmt = n => (parseFloat(n)||0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',');
+            let totalSales=0, totalRooms=0, totalGuests=0;
+            const salesByDept = {};
+            reports.forEach(r => {
+                totalRooms += parseInt(r.roomsSold)||0;
+                totalGuests += parseInt(r.guestInHouse)||0;
+                (r.salesEntries||[]).forEach(e => {
+                    const amt = parseFloat((e.amount||'').replace(/[^\d.]/g,''))||0;
+                    totalSales += amt;
+                    salesByDept[e.department||'Other'] = (salesByDept[e.department||'Other']||0)+amt;
+                });
+            });
+            const range = document.getElementById('admin-range').value;
+            const rangeLabel = range==='week'?'Last 7 Days':range==='month'?'This Month':range==='today'?'Today':'Selected Period';
+            const combined = `
+            <div class="pdf-header">
+                <div class="pdf-header-left"><h1 class="pdf-hotel-name">LINDE HOTEL</h1><div class="pdf-report-title">ADMIN PERIOD REPORT — ${rangeLabel.toUpperCase()}</div></div>
+                <div class="pdf-header-right"><img src="${getLogoDataUrl()}" class="pdf-logo"></div>
+            </div>
+            <div class="pdf-section-container"><div class="pdf-section">
+                <div class="pdf-section-title">Period Summary</div>
+                <div class="pdf-grid">
+                    <div class="pdf-grid-item"><div class="pdf-label">Total Reports</div><div class="pdf-value">${reports.length}</div></div>
+                    <div class="pdf-grid-item"><div class="pdf-label">Total Revenue</div><div class="pdf-value">MWK ${fmt(totalSales)}</div></div>
+                    <div class="pdf-grid-item"><div class="pdf-label">Total Rooms Sold</div><div class="pdf-value">${totalRooms}</div></div>
+                    <div class="pdf-grid-item"><div class="pdf-label">Total Guests</div><div class="pdf-value">${totalGuests}</div></div>
+                    <div class="pdf-grid-item"><div class="pdf-label">Avg Revenue/Report</div><div class="pdf-value">MWK ${fmt(totalSales/reports.length)}</div></div>
+                </div>
+            </div></div>
+            <div class="pdf-section-container"><div class="pdf-section">
+                <div class="pdf-section-title">Revenue by Department</div>
+                <table class="pdf-table"><thead><tr><th>Department</th><th>Total (MWK)</th><th>% Share</th></tr></thead>
+                <tbody>${Object.entries(salesByDept).sort((a,b)=>b[1]-a[1]).map(([d,v])=>`<tr><td>${d}</td><td>${fmt(v)}</td><td>${totalSales?Math.round(v/totalSales*100):0}%</td></tr>`).join('')}</tbody>
+                </table>
+            </div></div>
+            <div class="pdf-section-container"><div class="pdf-section">
+                <div class="pdf-section-title">Individual Reports</div>
+                <table class="pdf-table"><thead><tr><th>Date</th><th>Manager</th><th>Rooms</th><th>Guests</th><th>Revenue</th></tr></thead>
+                <tbody>${reports.sort((a,b)=>new Date(b.reportDate||b.savedAt)-new Date(a.reportDate||a.savedAt)).map(r=>{
+                    const rev=(r.salesEntries||[]).reduce((s,e)=>s+(parseFloat((e.amount||'').replace(/[^\d.]/g,''))||0),0);
+                    return `<tr><td>${r.reportDate||'—'}</td><td>${r.managerName||r.user||'—'}</td><td>${r.roomsSold||0}</td><td>${r.guestInHouse||0}</td><td>${fmt(rev)}</td></tr>`;
+                }).join('')}</tbody>
+                </table>
+            </div></div>
+            <div style="margin-top:30px;padding-top:20px;border-top:1px solid #ddd;font-size:10pt;color:#666;text-align:center;">
+                Generated by Admin on ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}
+            </div>`;
+            await generatePDF(combined, `Linde_Admin_Report_${rangeLabel.replace(/\s/g,'_')}.pdf`);
+        });
+
+        // Admin filter events
+        ['admin-range','admin-user-filter','admin-date-from','admin-date-to'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.addEventListener('change', function() {
+                const customRow = document.getElementById('admin-custom-dates');
+                if (id==='admin-range') customRow.style.display = this.value==='custom' ? 'flex' : 'none';
+                refreshAdminStats();
+            });
+        });
+
+        document.getElementById('switch-user-btn').addEventListener('click', function() {
+            currentUser = null;
+            document.getElementById('main-app').style.display = 'none';
+            document.getElementById('vault-fab').style.display = 'none';
+            const ws = document.getElementById('welcome-screen');
+            ws.style.display = 'flex';
+            ws.style.opacity = '1';
+            ws.style.transform = '';
+            ws.classList.remove('fade-out');
+        });
+
+        document.getElementById('admin-logout-btn').addEventListener('click', function() {
+            currentUser = null;
+            document.getElementById('admin-dashboard').style.display='none';
+            document.getElementById('main-app').style.display='none';
+            document.getElementById('vault-fab').style.display='none';
+            const ws = document.getElementById('welcome-screen');
+            ws.style.display='flex';
+            ws.classList.remove('fade-out');
+            ws.style.opacity='1';
+            ws.style.transform='';
+        });
+
+        updateVaultBadge();
+    </script>
+</body>
+</html>
