@@ -4,9 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Duty Manager Daily Report | Linde Hotel</title>
+    <meta name="description" content="Linde Hotel Duty Manager Daily Report System">
+    <meta property="og:title" content="Linde Hotel — Duty Manager Portal">
+    <meta property="og:description" content="Daily shift reporting for Linde Hotel duty managers.">
+    <meta property="og:image" content="https://cdn.pixabay.com/photo/2016/12/30/16/26/hotel-1940893_1280.png">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Linde Hotel — Duty Manager Portal">
+    <meta name="twitter:image" content="https://cdn.pixabay.com/photo/2016/12/30/16/26/hotel-1940893_1280.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
             --primary: #1a5f7a;
@@ -757,7 +766,7 @@
             gap: 5px;
         }
 
-        /* ── Reports Vault ── */
+        /* ── My Reports ── */
         #vault-fab {
             position: fixed;
             bottom: 30px;
@@ -1377,17 +1386,17 @@
         </div>
     </div>
 
-    <!-- ── Reports Vault FAB ── -->
+    <!-- ── My Reports FAB ── -->
     <button id="vault-fab" style="display:none;">
-        <i class="fas fa-folder-open"></i> Reports Vault
+        <i class="fas fa-folder-open"></i> My Reports
         <span class="vault-badge" id="vault-count">0</span>
     </button>
 
-    <!-- ── Reports Vault Modal ── -->
+    <!-- ── My Reports Modal ── -->
     <div id="vault-modal">
         <div class="vault-modal-content">
             <div class="vault-header">
-                <h2><i class="fas fa-folder-open"></i> Saved Reports</h2>
+                <h2><i class="fas fa-folder-open"></i> My Reports</h2>
                 <button class="vault-close" id="vault-close-btn">&times;</button>
             </div>
             <div class="vault-actions">
@@ -1405,774 +1414,739 @@
     </div>
    
     <script>
-        const EMBEDDED_LOGO = 'images/linde_logo.png';
-        const CURRENCY = 'MWK';
-        const ADMIN_NAME = 'admin';
-        const ALL_REPORTS_KEY = 'linde_all_reports_v1'; // shared vault across all users
+    // ── Supabase ──────────────────────────────────────────────────────
+    const SUPABASE_URL = 'https://suoeizmtquifsltdowuz.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_Q2z7eCBa5aNVF1ulgNXQrQ_wVQxyK95';
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // ── Current logged-in user ────────────────────────────────────
-        let currentUser = null; // set on welcome login
+    // ── Constants ─────────────────────────────────────────────────────
+    const EMBEDDED_LOGO  = 'images/linde_logo.png';
+    const CURRENCY       = 'MWK';
+    const ADMIN_NAME     = 'admin';
+    const SESSION_KEY    = 'linde_session_v2';
 
-        // ── DOM refs ─────────────────────────────────────────────────
-        const reportDateInput        = document.getElementById('report-date');
-        const managerNameInput       = document.getElementById('manager-name');
-        const roomsSoldInput         = document.getElementById('rooms-sold');
-        const complimentaryRoomsInput= document.getElementById('complimentary-rooms');
-        const guestInHouseInput      = document.getElementById('guest-in-house');
-        const salesEntriesContainer  = document.getElementById('sales-entries');
-        const addSalesEntryBtn       = document.getElementById('add-sales-entry');
-        const totalSalesElement      = document.getElementById('total-sales');
-        const remarksInput           = document.getElementById('remarks');
-        const previewModal           = document.getElementById('preview-modal');
-        const closePreviewBtn        = document.getElementById('close-preview');
-        const previewContent         = document.getElementById('preview-content');
-        const previewReportBtn       = document.getElementById('preview-report');
-        const generatePdfBtn         = document.getElementById('generate-pdf');
-        const newShiftBtn            = document.getElementById('new-shift');
-        const downloadPdfBtn         = document.getElementById('download-pdf');
-        const saveIndicator          = document.getElementById('save-indicator');
-        const pdfRender              = document.getElementById('pdf-render');
-        const logoDisplay            = document.getElementById('logo-display');
+    // ── State ─────────────────────────────────────────────────────────
+    let currentUser = null;
+    let guestInHouseManuallySet = false;
 
-        logoDisplay.src = EMBEDDED_LOGO;
+    // ── DOM refs ──────────────────────────────────────────────────────
+    const reportDateInput         = document.getElementById('report-date');
+    const managerNameInput        = document.getElementById('manager-name');
+    const roomsSoldInput          = document.getElementById('rooms-sold');
+    const complimentaryRoomsInput = document.getElementById('complimentary-rooms');
+    const guestInHouseInput       = document.getElementById('guest-in-house');
+    const salesEntriesContainer   = document.getElementById('sales-entries');
+    const addSalesEntryBtn        = document.getElementById('add-sales-entry');
+    const totalSalesElement       = document.getElementById('total-sales');
+    const remarksInput            = document.getElementById('remarks');
+    const previewModal            = document.getElementById('preview-modal');
+    const closePreviewBtn         = document.getElementById('close-preview');
+    const previewContent          = document.getElementById('preview-content');
+    const previewReportBtn        = document.getElementById('preview-report');
+    const generatePdfBtn          = document.getElementById('generate-pdf');
+    const newShiftBtn             = document.getElementById('new-shift');
+    const downloadPdfBtn          = document.getElementById('download-pdf');
+    const saveIndicator           = document.getElementById('save-indicator');
+    const pdfRender               = document.getElementById('pdf-render');
+    const logoDisplay             = document.getElementById('logo-display');
 
-        const today = new Date().toISOString().split('T')[0];
-        reportDateInput.value = today;
+    logoDisplay.src = EMBEDDED_LOGO;
 
-        // ── Storage helpers (per-user) ────────────────────────────────
-        function userStorageKey()   { return `linde_draft_${(currentUser||'').toLowerCase()}`; }
-        function userVaultKey()     { return `linde_vault_${(currentUser||'').toLowerCase()}`; }
+    // ── Supabase helpers ──────────────────────────────────────────────
+    async function dbSaveReport(snap) {
+        try {
+            await sb.from('reports').upsert({
+                id: String(snap.id),
+                user_name: snap.user || currentUser || 'unknown',
+                report_date: snap.reportDate || null,
+                saved_at: snap.savedAt,
+                data: snap
+            }, { onConflict: 'id' });
+        } catch(e) { console.warn('Supabase save failed, using localStorage fallback:', e); }
+    }
 
-        function getAllReports() {
-            try { return JSON.parse(localStorage.getItem(ALL_REPORTS_KEY)) || []; }
-            catch(e) { return []; }
+    async function dbGetAllReports() {
+        try {
+            const { data, error } = await sb.from('reports').select('data').order('saved_at', { ascending: false });
+            if (error) throw error;
+            return (data || []).map(r => r.data);
+        } catch(e) {
+            console.warn('Supabase fetch failed, falling back to localStorage:', e);
+            return getLocalAllReports();
         }
-        function saveAllReports(arr) { localStorage.setItem(ALL_REPORTS_KEY, JSON.stringify(arr)); }
+    }
 
-        // ── Guest In-House live calc ──────────────────────────────────
-        let guestInHouseManuallySet = false;
+    async function dbGetUserReports(user) {
+        try {
+            const { data, error } = await sb.from('reports').select('data').eq('user_name', user.toLowerCase()).order('saved_at', { ascending: false });
+            if (error) throw error;
+            return (data || []).map(r => r.data);
+        } catch(e) {
+            console.warn('Supabase fetch failed, using localStorage fallback:', e);
+            return getUserVaultLocal();
+        }
+    }
 
-        function updateGuestInHouse() {
-            if (!guestInHouseManuallySet) {
-                const r = parseInt(roomsSoldInput.value) || 0;
-                const c = parseInt(complimentaryRoomsInput.value) || 0;
-                guestInHouseInput.value = r + c;
+    // ── localStorage fallbacks ────────────────────────────────────────
+    function userDraftKey()    { return `linde_draft_${(currentUser||'').toLowerCase()}`; }
+    function userVaultKeyLocal(){ return `linde_vault_${(currentUser||'').toLowerCase()}`; }
+    function getLocalAllReports() {
+        try { return JSON.parse(localStorage.getItem('linde_all_reports_v1')) || []; } catch(e) { return []; }
+    }
+    function getUserVaultLocal() {
+        try {
+            const data = JSON.parse(localStorage.getItem(userVaultKeyLocal())) || [];
+            // Migrate old vault key
+            const old = JSON.parse(localStorage.getItem('linde_hotel_reports_vault') || '[]');
+            if (old.length) {
+                const merged = [...data, ...old.filter(o => !data.find(d => d.id === o.id))];
+                localStorage.setItem(userVaultKeyLocal(), JSON.stringify(merged));
+                localStorage.removeItem('linde_hotel_reports_vault');
+                return merged;
             }
-            saveToLocalStorage();
-        }
-        roomsSoldInput.addEventListener('input', updateGuestInHouse);
-        complimentaryRoomsInput.addEventListener('input', updateGuestInHouse);
-        guestInHouseInput.addEventListener('input', function() {
-            guestInHouseManuallySet = true;
-            saveToLocalStorage();
-        });
+            return data;
+        } catch(e) { return []; }
+    }
+    function saveUserVault(vault) {
+        localStorage.setItem(userVaultKeyLocal(), JSON.stringify(vault));
+        updateVaultBadge();
+    }
+    function updateVaultBadge() {
+        const el = document.getElementById('vault-count');
+        if (el) el.textContent = getUserVaultLocal().length;
+    }
 
-        // ── Number formatting ─────────────────────────────────────────
-        function formatNumberWithCommas(input) {
-            let value = input.value.replace(/[^\d.]/g, '');
-            let parts = value.split('.');
-            if (parts.length > 2) { value = parts[0] + '.' + parts[1]; parts = value.split('.'); }
-            if (value) {
-                let int = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-                value = parts.length === 2 ? int + '.' + parts[1].substring(0,2) : int;
-            }
-            input.value = value;
-            updateTotalSales();
-            saveToLocalStorage();
-        }
-        function formatAmountOnBlur(input) {
-            let value = input.value.replace(/[^\d.]/g, '');
-            if (value) {
-                let parts = value.split('.');
-                let int = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-                let dec = parts.length > 1 ? parts[1].substring(0,2).padEnd(2,'0') : '00';
-                input.value = int + '.' + dec;
-            }
-            updateTotalSales();
-            saveToLocalStorage();
-        }
+    // ── Session persistence ───────────────────────────────────────────
+    function saveSession(name, isAdmin) {
+        localStorage.setItem(SESSION_KEY, JSON.stringify({ name, isAdmin, ts: Date.now() }));
+    }
+    function clearSession() {
+        localStorage.removeItem(SESSION_KEY);
+    }
+    function getSession() {
+        try {
+            const s = JSON.parse(localStorage.getItem(SESSION_KEY));
+            if (!s) return null;
+            // Session valid for 8 hours
+            if (Date.now() - s.ts > 8 * 60 * 60 * 1000) { clearSession(); return null; }
+            return s;
+        } catch(e) { return null; }
+    }
 
-        // ── Total Sales ───────────────────────────────────────────────
-        function updateTotalSales() {
-            let total = 0;
-            document.querySelectorAll('.sales-amount').forEach(i => {
-                total += parseFloat(i.value.replace(/[^\d.]/g, '')) || 0;
-            });
-            totalSalesElement.textContent = `${CURRENCY} ${total.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`;
-        }
-
-        // ── Add Sales Entry ───────────────────────────────────────────
-        function addSalesEntry() {
-            const row = document.createElement('tr');
-            row.className = 'sales-row';
-            row.innerHTML = `
-                <td><select class="sales-dept">
-                    <option>Reception Morning</option><option>Reception Afternoon</option>
-                    <option>Restaurant Morning</option><option>Restaurant Afternoon</option>
-                    <option>Bar</option><option>Laundry</option>
-                </select></td>
-                <td><input type="text" class="sales-amount" placeholder="0"></td>
-                <td><select class="sales-payment">
-                    <option>Cash</option><option>Visa</option><option>Credit</option>
-                </select></td>
-                <td class="text-center"><button class="remove-btn" type="button"><i class="fas fa-times"></i></button></td>`;
-            salesEntriesContainer.appendChild(row);
-            const amt = row.querySelector('.sales-amount');
-            amt.addEventListener('input',  () => formatNumberWithCommas(amt));
-            amt.addEventListener('blur',   () => formatAmountOnBlur(amt));
-            amt.addEventListener('focus',  function() { if(this.value==='0'||this.value==='') this.select(); });
-            row.querySelector('.sales-dept').addEventListener('change', saveToLocalStorage);
-            row.querySelector('.sales-payment').addEventListener('change', saveToLocalStorage);
-            row.querySelector('.remove-btn').addEventListener('click', function() {
-                row.remove(); updateTotalSales(); saveToLocalStorage();
-            });
-            updateTotalSales(); saveToLocalStorage();
-        }
-        addSalesEntryBtn.addEventListener('click', addSalesEntry);
-
-        document.querySelectorAll('.remove-btn').forEach(btn => btn.addEventListener('click', function() {
-            this.closest('tr').remove(); updateTotalSales(); saveToLocalStorage();
+    // ── Form snapshot ─────────────────────────────────────────────────
+    function getFormSnapshot() {
+        const salesEntries = [];
+        document.querySelectorAll('.sales-row').forEach(row => salesEntries.push({
+            department: row.querySelector('.sales-dept').value,
+            amount:     row.querySelector('.sales-amount').value,
+            paymentType:row.querySelector('.sales-payment').value
         }));
-        document.querySelectorAll('.sales-amount').forEach(inp => {
-            inp.addEventListener('input', () => formatNumberWithCommas(inp));
-            inp.addEventListener('blur',  () => formatAmountOnBlur(inp));
-            inp.addEventListener('focus', function() { if(this.value==='0'||this.value==='') this.select(); });
+        return {
+            id:                    Date.now(),
+            savedAt:               new Date().toISOString(),
+            user:                  currentUser,
+            reportDate:            reportDateInput.value,
+            managerName:           managerNameInput.value,
+            roomsSold:             roomsSoldInput.value,
+            complimentaryRooms:    complimentaryRoomsInput.value,
+            guestInHouse:          guestInHouseInput.value,
+            guestInHouseManuallySet,
+            remarks:               remarksInput.value,
+            deptStatus: {
+                restaurant: document.getElementById('restaurant-status').value,
+                bar:        document.getElementById('bar-status').value,
+                kitchen:    document.getElementById('kitchen-status').value,
+                laundry:    document.getElementById('laundry-status').value,
+                stores:     document.getElementById('stores-status').value,
+                conference: document.getElementById('conference-status').value
+            },
+            salesEntries
+        };
+    }
+
+    function applySnapshot(snap) {
+        const savedUser = currentUser; // preserve login
+        reportDateInput.value         = snap.reportDate || new Date().toISOString().split('T')[0];
+        managerNameInput.value        = snap.managerName || '';
+        roomsSoldInput.value          = snap.roomsSold || '';
+        complimentaryRoomsInput.value = snap.complimentaryRooms || '';
+        remarksInput.value            = snap.remarks || '';
+        guestInHouseManuallySet       = !!snap.guestInHouseManuallySet;
+        guestInHouseInput.value       = snap.guestInHouse || '0';
+        if (!guestInHouseManuallySet) {
+            const r = parseInt(roomsSoldInput.value)||0, c = parseInt(complimentaryRoomsInput.value)||0;
+            guestInHouseInput.value = r + c;
+        }
+        if (snap.deptStatus) {
+            ['restaurant','bar','kitchen','laundry','stores','conference'].forEach(k => {
+                const el = document.getElementById(k+'-status');
+                if (el && snap.deptStatus[k]) el.value = snap.deptStatus[k];
+            });
+        }
+        // Rebuild sales rows
+        document.querySelectorAll('.sales-row').forEach((r,i) => { if(i>0) r.remove(); });
+        const entries = snap.salesEntries || [];
+        const first = document.querySelector('.sales-row');
+        if (first && entries.length > 0) {
+            first.querySelector('.sales-dept').value    = entries[0].department || 'Reception Morning';
+            first.querySelector('.sales-amount').value  = entries[0].amount || '';
+            first.querySelector('.sales-payment').value = entries[0].paymentType || 'Cash';
+        }
+        for (let i = 1; i < entries.length; i++) {
+            addSalesEntry();
+            const row = salesEntriesContainer.lastElementChild;
+            row.querySelector('.sales-dept').value    = entries[i].department || 'Reception Morning';
+            row.querySelector('.sales-amount').value  = entries[i].amount || '';
+            row.querySelector('.sales-payment').value = entries[i].paymentType || 'Cash';
+        }
+        updateTotalSales();
+        currentUser = savedUser; // restore — applySnapshot must never change who's logged in
+    }
+
+    // ── Draft auto-save ───────────────────────────────────────────────
+    function saveToLocalStorage() {
+        if (!currentUser) return;
+        localStorage.setItem(userDraftKey(), JSON.stringify(getFormSnapshot()));
+        saveIndicator.style.opacity = '1';
+        setTimeout(() => saveIndicator.style.opacity = '0', 800);
+    }
+    function loadFromLocalStorage() {
+        const raw = localStorage.getItem(userDraftKey());
+        if (!raw) return;
+        try { applySnapshot(JSON.parse(raw)); } catch(e) {}
+    }
+
+    // ── Save report to vault + Supabase ──────────────────────────────
+    async function saveReportToVault(snap) {
+        // Local vault
+        const vault = getUserVaultLocal();
+        if (!vault.find(r => r.id === snap.id)) vault.push(snap);
+        saveUserVault(vault);
+        // Global local
+        const all = getLocalAllReports();
+        if (!all.find(r => r.id === snap.id)) { all.push(snap); localStorage.setItem('linde_all_reports_v1', JSON.stringify(all)); }
+        // Supabase
+        await dbSaveReport(snap);
+        updateVaultBadge();
+    }
+
+    // ── Guest In-House calc ───────────────────────────────────────────
+    function updateGuestInHouse() {
+        if (!guestInHouseManuallySet) {
+            guestInHouseInput.value = (parseInt(roomsSoldInput.value)||0) + (parseInt(complimentaryRoomsInput.value)||0);
+        }
+        saveToLocalStorage();
+    }
+    roomsSoldInput.addEventListener('input', updateGuestInHouse);
+    complimentaryRoomsInput.addEventListener('input', updateGuestInHouse);
+    guestInHouseInput.addEventListener('input', () => { guestInHouseManuallySet = true; saveToLocalStorage(); });
+
+    // ── Number formatting ─────────────────────────────────────────────
+    function formatNumberWithCommas(input) {
+        let v = input.value.replace(/[^\d.]/g,'');
+        let p = v.split('.');
+        if (p.length>2) { v=p[0]+'.'+p[1]; p=v.split('.'); }
+        if (v) { let i=p[0].replace(/\B(?=(\d{3})+(?!\d))/g,','); v=p.length===2?i+'.'+p[1].substring(0,2):i; }
+        input.value=v; updateTotalSales(); saveToLocalStorage();
+    }
+    function formatAmountOnBlur(input) {
+        let v=input.value.replace(/[^\d.]/g,'');
+        if(v){let p=v.split('.');let i=p[0].replace(/\B(?=(\d{3})+(?!\d))/g,',');input.value=i+'.'+(p[1]||'').substring(0,2).padEnd(2,'0');}
+        updateTotalSales(); saveToLocalStorage();
+    }
+    function updateTotalSales() {
+        let t=0; document.querySelectorAll('.sales-amount').forEach(i=>t+=parseFloat(i.value.replace(/[^\d.]/g,''))||0);
+        totalSalesElement.textContent=`${CURRENCY} ${t.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',')}`;
+    }
+
+    // ── Add Sales Entry ───────────────────────────────────────────────
+    function addSalesEntry() {
+        const row = document.createElement('tr');
+        row.className='sales-row';
+        row.innerHTML=`<td><select class="sales-dept"><option>Reception Morning</option><option>Reception Afternoon</option><option>Restaurant Morning</option><option>Restaurant Afternoon</option><option>Bar</option><option>Laundry</option></select></td>
+        <td><input type="text" class="sales-amount" placeholder="0"></td>
+        <td><select class="sales-payment"><option>Cash</option><option>Visa</option><option>Credit</option></select></td>
+        <td class="text-center"><button class="remove-btn" type="button"><i class="fas fa-times"></i></button></td>`;
+        salesEntriesContainer.appendChild(row);
+        const amt=row.querySelector('.sales-amount');
+        amt.addEventListener('input',()=>formatNumberWithCommas(amt));
+        amt.addEventListener('blur',()=>formatAmountOnBlur(amt));
+        amt.addEventListener('focus',function(){if(this.value==='0'||this.value==='')this.select();});
+        row.querySelector('.sales-dept').addEventListener('change',saveToLocalStorage);
+        row.querySelector('.sales-payment').addEventListener('change',saveToLocalStorage);
+        row.querySelector('.remove-btn').addEventListener('click',()=>{row.remove();updateTotalSales();saveToLocalStorage();});
+        updateTotalSales(); saveToLocalStorage();
+    }
+    addSalesEntryBtn.addEventListener('click', addSalesEntry);
+
+    document.querySelectorAll('.remove-btn').forEach(b=>b.addEventListener('click',function(){this.closest('tr').remove();updateTotalSales();saveToLocalStorage();}));
+    document.querySelectorAll('.sales-amount').forEach(inp=>{
+        inp.addEventListener('input',()=>formatNumberWithCommas(inp));
+        inp.addEventListener('blur',()=>formatAmountOnBlur(inp));
+        inp.addEventListener('focus',function(){if(this.value==='0'||this.value==='')this.select();});
+    });
+    managerNameInput.addEventListener('input',function(){this.value=this.value.replace(/\b\w/g,c=>c.toUpperCase());saveToLocalStorage();});
+    remarksInput.addEventListener('input',function(){if(this.value.length===1)this.value=this.value.charAt(0).toUpperCase()+this.value.slice(1);saveToLocalStorage();});
+    document.addEventListener('change',e=>{if(e.target.classList.contains('sales-dept')||e.target.classList.contains('sales-payment'))saveToLocalStorage();});
+    document.querySelectorAll('input,select,textarea').forEach(inp=>{
+        if(!['manager-name','remarks'].includes(inp.id)&&!inp.classList.contains('sales-amount')){
+            inp.addEventListener('input',saveToLocalStorage);inp.addEventListener('change',saveToLocalStorage);
+        }
+    });
+
+    // ── PDF Generation ────────────────────────────────────────────────
+    function getLogoDataUrl(){return logoDisplay.src;}
+    function fmt(n){return (parseFloat(n)||0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',');}
+
+    function generatePreviewContent() {
+        let totalSales=0; const salesEntries=[];
+        document.querySelectorAll('.sales-row').forEach(row=>{
+            const dept=row.querySelector('.sales-dept').value;
+            const amount=parseFloat(row.querySelector('.sales-amount').value.replace(/[^0-9.]/g,''))||0;
+            const payment=row.querySelector('.sales-payment').value;
+            salesEntries.push({dept,amount,payment}); totalSales+=amount;
         });
+        const dateObj=new Date(reportDateInput.value);
+        const fDate=isNaN(dateObj)?reportDateInput.value:dateObj.toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+        return `<div class="pdf-header">
+            <div class="pdf-header-left"><h1 class="pdf-hotel-name">LINDE HOTEL</h1><div class="pdf-report-title">DUTY MANAGER DAILY REPORT</div></div>
+            <div class="pdf-header-right"><img src="${getLogoDataUrl()}" class="pdf-logo"></div>
+        </div>
+        <div class="pdf-section-container"><div class="pdf-section"><div class="pdf-section-title">General Information</div>
+            <div class="pdf-grid">
+                <div class="pdf-grid-item"><div class="pdf-label">Report Date</div><div class="pdf-value">${fDate}</div></div>
+                <div class="pdf-grid-item"><div class="pdf-label">Duty Manager</div><div class="pdf-value">${managerNameInput.value||'Not specified'}</div></div>
+                <div class="pdf-grid-item"></div>
+            </div></div></div>
+        <div class="pdf-section-container"><div class="pdf-section"><div class="pdf-section-title">Occupancy Summary</div>
+            <div class="pdf-grid">
+                <div class="pdf-grid-item"><div class="pdf-label">Rooms Sold</div><div class="pdf-value">${roomsSoldInput.value||'0'}</div></div>
+                <div class="pdf-grid-item"><div class="pdf-label">Complimentary</div><div class="pdf-value">${complimentaryRoomsInput.value||'0'}</div></div>
+                <div class="pdf-grid-item"><div class="pdf-label">Guests In-House</div><div class="pdf-value">${guestInHouseInput.value||'0'}</div></div>
+            </div></div></div>
+        <div class="pdf-section-container"><div class="pdf-section"><div class="pdf-section-title">Sales Summary</div>
+            <table class="pdf-table"><thead><tr><th>Department</th><th>Amount (MWK)</th><th>Payment</th></tr></thead>
+            <tbody>${salesEntries.map(e=>`<tr><td><strong>${e.dept}</strong></td><td>${fmt(e.amount)}</td><td>${e.payment}</td></tr>`).join('')}</tbody></table>
+            <div class="pdf-total">Total Revenue: ${CURRENCY} ${fmt(totalSales)}</div>
+        </div></div>
+        <div class="pdf-section-container"><div class="pdf-section"><div class="pdf-section-title">Departmental Status</div>
+            <div class="pdf-grid">${['restaurant','bar','kitchen','laundry','stores','conference'].map(k=>{
+                const el=document.getElementById(k+'-status'); const val=el?el.value:'—';
+                return `<div class="pdf-grid-item"><div class="pdf-label">${k.charAt(0).toUpperCase()+k.slice(1)}</div><div class="pdf-value ${val==='Issues'?'pdf-value-issues':''}">${val}</div></div>`;
+            }).join('')}</div></div></div>
+        <div class="pdf-section-container"><div class="pdf-section"><div class="pdf-section-title">Remarks / Incident Log</div>
+            <div style="white-space:pre-wrap;min-height:120px;padding:15px;border:1px solid #ddd;border-radius:4px;">${remarksInput.value||'No remarks recorded.'}</div>
+        </div></div>
+        <div style="margin-top:30px;padding-top:20px;border-top:1px solid #ddd;font-size:10pt;color:#666;text-align:center;">
+            Report generated on ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}
+        </div>`;
+    }
 
-        managerNameInput.addEventListener('input', function() {
-            this.value = this.value.replace(/\b\w/g, c => c.toUpperCase());
-            saveToLocalStorage();
+    // Preview from a raw snapshot object — builds HTML purely from data, never touches the form
+    function generatePreviewFromSnap(snap) {
+        const fmt = n => (parseFloat(n)||0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',');
+        const salesEntries = snap.salesEntries || [];
+        const totalSales = salesEntries.reduce((s,e) => s + (parseFloat((e.amount||'').replace(/[^\d.]/g,''))||0), 0);
+        const dateObj = new Date(snap.reportDate || '');
+        const fDate = isNaN(dateObj) ? (snap.reportDate||'—') : dateObj.toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+        const dept = snap.deptStatus || {};
+        const deptKeys = ['restaurant','bar','kitchen','laundry','stores','conference'];
+        const deptLabels = {restaurant:'Restaurant',bar:'Bar',kitchen:'Kitchen',laundry:'Laundry',stores:'Stores & Coldroom',conference:'Conference Rooms'};
+        return `<div class="pdf-header">
+            <div class="pdf-header-left"><h1 class="pdf-hotel-name">LINDE HOTEL</h1><div class="pdf-report-title">DUTY MANAGER DAILY REPORT</div></div>
+            <div class="pdf-header-right"><img src="${getLogoDataUrl()}" class="pdf-logo"></div>
+        </div>
+        <div class="pdf-section-container"><div class="pdf-section"><div class="pdf-section-title">General Information</div>
+            <div class="pdf-grid">
+                <div class="pdf-grid-item"><div class="pdf-label">Report Date</div><div class="pdf-value">${fDate}</div></div>
+                <div class="pdf-grid-item"><div class="pdf-label">Duty Manager</div><div class="pdf-value">${snap.managerName||'Not specified'}</div></div>
+                <div class="pdf-grid-item"></div>
+            </div></div></div>
+        <div class="pdf-section-container"><div class="pdf-section"><div class="pdf-section-title">Occupancy Summary</div>
+            <div class="pdf-grid">
+                <div class="pdf-grid-item"><div class="pdf-label">Rooms Sold</div><div class="pdf-value">${snap.roomsSold||'0'}</div></div>
+                <div class="pdf-grid-item"><div class="pdf-label">Complimentary</div><div class="pdf-value">${snap.complimentaryRooms||'0'}</div></div>
+                <div class="pdf-grid-item"><div class="pdf-label">Guests In-House</div><div class="pdf-value">${snap.guestInHouse||'0'}</div></div>
+            </div></div></div>
+        <div class="pdf-section-container"><div class="pdf-section"><div class="pdf-section-title">Sales Summary</div>
+            <table class="pdf-table"><thead><tr><th>Department</th><th>Amount (MWK)</th><th>Payment</th></tr></thead>
+            <tbody>${salesEntries.map(e=>{
+                const amt=parseFloat((e.amount||'').replace(/[^\d.]/g,''))||0;
+                return `<tr><td><strong>${e.department||e.dept||''}</strong></td><td>${fmt(amt)}</td><td>${e.paymentType||e.payment||''}</td></tr>`;
+            }).join('')}</tbody></table>
+            <div class="pdf-total">Total Revenue: ${CURRENCY} ${fmt(totalSales)}</div>
+        </div></div>
+        <div class="pdf-section-container"><div class="pdf-section"><div class="pdf-section-title">Departmental Status</div>
+            <div class="pdf-grid">${deptKeys.map(k=>{
+                const val = dept[k]||'—';
+                return `<div class="pdf-grid-item"><div class="pdf-label">${deptLabels[k]}</div><div class="pdf-value ${val==='Issues'?'pdf-value-issues':''}">${val}</div></div>`;
+            }).join('')}</div></div></div>
+        <div class="pdf-section-container"><div class="pdf-section"><div class="pdf-section-title">Remarks / Incident Log</div>
+            <div style="white-space:pre-wrap;min-height:120px;padding:15px;border:1px solid #ddd;border-radius:4px;">${snap.remarks||'No remarks recorded.'}</div>
+        </div></div>
+        <div style="margin-top:30px;padding-top:20px;border-top:1px solid #ddd;font-size:10pt;color:#666;text-align:center;">
+            Report generated on ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}
+        </div>`;
+    }
+
+    previewReportBtn.addEventListener('click',()=>{previewContent.innerHTML=generatePreviewContent();previewModal.style.display='flex';});
+    closePreviewBtn.addEventListener('click',()=>previewModal.style.display='none');
+    previewModal.addEventListener('click',e=>{if(e.target===previewModal)previewModal.style.display='none';});
+
+    async function generatePDF(customContent, customFilename) {
+        try {
+            pdfRender.innerHTML = customContent || generatePreviewContent();
+            pdfRender.style.cssText='position:absolute;left:0;top:0;z-index:-1;visibility:visible;';
+            await new Promise(r=>setTimeout(r,300));
+            const canvas=await html2canvas(pdfRender,{scale:2,useCORS:true,logging:false,backgroundColor:'#ffffff',allowTaint:true});
+            const imgWidth=210,pageHeight=297,imgHeight=canvas.height*imgWidth/canvas.width;
+            const {jsPDF}=window.jspdf; const pdf=new jsPDF('p','mm','a4');
+            let hl=imgHeight,pos=0;
+            const imgData=canvas.toDataURL('image/jpeg',0.95);
+            pdf.addImage(imgData,'JPEG',0,pos,imgWidth,imgHeight); hl-=pageHeight;
+            while(hl>=0){pos=hl-imgHeight;pdf.addPage();pdf.addImage(imgData,'JPEG',0,pos,imgWidth,imgHeight);hl-=pageHeight;}
+            pdf.save(customFilename||`Linde_Hotel_Report_${reportDateInput.value||'report'}.pdf`);
+        } catch(err){console.error(err);alert('PDF generation failed.');}
+        finally{pdfRender.style.cssText='position:fixed;left:-10000px;visibility:hidden;';}
+    }
+
+    // Auto-save to My Reports when PDF is downloaded
+    async function generateAndSave() {
+        const snap = getFormSnapshot();
+        await generatePDF();
+        await saveReportToVault(snap);
+        showToast('Report saved to My Reports');
+    }
+
+    generatePdfBtn.addEventListener('click', generateAndSave);
+    downloadPdfBtn.addEventListener('click', generateAndSave);
+
+    function showToast(msg) {
+        saveIndicator.textContent = msg;
+        saveIndicator.style.opacity = '1';
+        setTimeout(()=>{ saveIndicator.style.opacity='0'; setTimeout(()=>saveIndicator.textContent='Data Saved',400); },2500);
+    }
+
+    // ── New Shift ─────────────────────────────────────────────────────
+    newShiftBtn.addEventListener('click', function() {
+        if (!confirm('Start a new shift? All current data will be cleared.')) return;
+        reportDateInput.value = new Date().toISOString().split('T')[0];
+        roomsSoldInput.value=''; complimentaryRoomsInput.value=''; remarksInput.value='';
+        guestInHouseInput.value='0'; guestInHouseManuallySet=false;
+        document.querySelectorAll('.sales-row').forEach((r,i)=>{
+            if(i===0){r.querySelector('.sales-dept').value='Reception Morning';r.querySelector('.sales-amount').value='';r.querySelector('.sales-payment').value='Cash';}
+            else r.remove();
         });
-        remarksInput.addEventListener('input', function() {
-            if (this.value.length === 1) this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1);
-            saveToLocalStorage();
+        ['restaurant','bar','kitchen','laundry','stores','conference'].forEach(k=>{
+            const el=document.getElementById(k+'-status'); if(el) el.value='Closed';
         });
-        document.addEventListener('change', function(e) {
-            if (e.target.classList.contains('sales-dept') || e.target.classList.contains('sales-payment')) saveToLocalStorage();
+        updateTotalSales();
+        guestInHouseInput.value='0';
+        localStorage.removeItem(userDraftKey());
+        saveToLocalStorage();
+    });
+
+    // Switch User button (regular users)
+    document.getElementById('switch-user-btn').addEventListener('click', function() {
+        clearSession(); currentUser=null;
+        document.getElementById('main-app').style.display='none';
+        document.getElementById('vault-fab').style.display='none';
+        showWelcome();
+    });
+
+    // ── My Reports (Vault) ────────────────────────────────────────────
+    function formatVaultDate(iso){
+        const d=new Date(iso);
+        return d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})+' · '+d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+    }
+
+    function renderVaultList() {
+        const vault = getUserVaultLocal();
+        const list  = document.getElementById('vault-list');
+        if (!vault.length) {
+            list.innerHTML=`<div class="vault-empty"><i class="fas fa-inbox"></i>No saved reports yet.<br>Download a PDF to auto-save, or click <strong>Save Report</strong>.</div>`;
+            return;
+        }
+        list.innerHTML = vault.slice().reverse().map(snap=>{
+            const label = snap.managerName?`${snap.managerName} — ${snap.reportDate||'No date'}`:(snap.reportDate||'Untitled');
+            const meta  = `Saved ${formatVaultDate(snap.savedAt)} · Rooms: ${snap.roomsSold||0} · Guests: ${snap.guestInHouse||0}`;
+            return `<div class="vault-item">
+                <div class="vault-item-info"><div class="vault-item-title">${label}</div><div class="vault-item-meta">${meta}</div></div>
+                <div class="vault-item-btns">
+                    <button class="vault-btn vault-btn-preview" data-id="${snap.id}"><i class="fas fa-eye"></i> Preview</button>
+                    <button class="vault-btn vault-btn-load"    data-id="${snap.id}"><i class="fas fa-upload"></i> Load</button>
+                    <button class="vault-btn vault-btn-pdf"     data-id="${snap.id}"><i class="fas fa-file-pdf"></i> PDF</button>
+                    <button class="vault-btn vault-btn-del"     data-id="${snap.id}"><i class="fas fa-trash"></i></button>
+                </div>
+            </div>`;
+        }).join('');
+
+        list.querySelectorAll('.vault-btn-preview').forEach(btn=>btn.addEventListener('click',function(){
+            const snap=getUserVaultLocal().find(r=>String(r.id)===String(this.dataset.id));
+            if(!snap)return;
+            previewContent.innerHTML=generatePreviewFromSnap(snap);
+            previewModal.style.display='flex';
+            closeVault();
+        }));
+        list.querySelectorAll('.vault-btn-load').forEach(btn=>btn.addEventListener('click',function(){
+            const snap=getUserVaultLocal().find(r=>String(r.id)===String(this.dataset.id));
+            if(!snap)return;
+            applySnapshot(snap); saveToLocalStorage(); closeVault();
+        }));
+        list.querySelectorAll('.vault-btn-pdf').forEach(btn=>btn.addEventListener('click',async function(){
+            const snap=getUserVaultLocal().find(r=>String(r.id)===String(this.dataset.id));
+            if(!snap)return;
+            const cur=getFormSnapshot(); applySnapshot(snap); await generatePDF(); applySnapshot(cur);
+        }));
+        list.querySelectorAll('.vault-btn-del').forEach(btn=>btn.addEventListener('click',function(){
+            const id=this.dataset.id;
+            if(confirm('Delete this report?')){ saveUserVault(getUserVaultLocal().filter(r=>String(r.id)!==id)); renderVaultList(); }
+        }));
+    }
+
+    function openVault(){renderVaultList();document.getElementById('vault-modal').classList.add('open');}
+    function closeVault(){document.getElementById('vault-modal').classList.remove('open');}
+    document.getElementById('vault-fab').addEventListener('click',openVault);
+    document.getElementById('vault-close-btn').addEventListener('click',closeVault);
+    document.getElementById('vault-modal').addEventListener('click',e=>{if(e.target===document.getElementById('vault-modal'))closeVault();});
+    document.getElementById('vault-save-current-btn').addEventListener('click',async function(){
+        const snap=getFormSnapshot();
+        await saveReportToVault(snap);
+        renderVaultList();
+        this.innerHTML='<i class="fas fa-check"></i> Saved!';
+        this.style.background='linear-gradient(135deg,#2c3e50,#34495e)';
+        const s=this; setTimeout(()=>{s.innerHTML='<i class="fas fa-save"></i> Save Report';s.style.background='';},1800);
+    });
+
+    // ── Welcome Screen ────────────────────────────────────────────────
+    function showWelcome() {
+        const ws=document.getElementById('welcome-screen');
+        ws.style.display='flex'; ws.style.opacity='1'; ws.style.transform=''; ws.classList.remove('fade-out');
+        const wLogo=document.getElementById('welcome-logo'); wLogo.src=EMBEDDED_LOGO;
+        const h=new Date().getHours();
+        document.getElementById('welcome-greeting').textContent=h<12?'☀️ Good morning!':h<17?'🌤 Good afternoon!':'🌙 Good evening!';
+        document.getElementById('welcome-date').textContent=new Date().toLocaleDateString('en-GB',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+    }
+
+    function loginUser(name) {
+        if(!name){document.getElementById('welcome-manager-input').style.borderColor='#c0392b';return;}
+        currentUser=name.trim().toLowerCase();
+        const isAdmin=currentUser===ADMIN_NAME;
+        managerNameInput.value=name.trim();
+        const ws=document.getElementById('welcome-screen');
+        ws.classList.add('fade-out');
+        saveSession(name.trim(), isAdmin);
+        setTimeout(()=>{
+            ws.style.display='none';
+            if(isAdmin){ openAdminDashboard(); }
+            else {
+                document.getElementById('main-app').style.display='block';
+                document.getElementById('vault-fab').style.display='';
+                loadFromLocalStorage();
+                updateVaultBadge();
+            }
+        },500);
+    }
+
+    // Init welcome screen
+    (function(){
+        const nameInput=document.getElementById('welcome-manager-input');
+        const startBtn=document.getElementById('welcome-start-btn');
+        document.getElementById('welcome-logo').src=EMBEDDED_LOGO;
+        const h=new Date().getHours();
+        document.getElementById('welcome-greeting').textContent=h<12?'☀️ Good morning!':h<17?'🌤 Good afternoon!':'🌙 Good evening!';
+        document.getElementById('welcome-date').textContent=new Date().toLocaleDateString('en-GB',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+        nameInput.addEventListener('input',function(){this.value=this.value.replace(/\b\w/g,c=>c.toUpperCase());});
+        startBtn.addEventListener('click',()=>loginUser(nameInput.value.trim()));
+        nameInput.addEventListener('keydown',e=>{if(e.key==='Enter')loginUser(nameInput.value.trim());});
+        const lastUser=localStorage.getItem('linde_last_user');
+        if(lastUser) nameInput.value=lastUser.replace(/\b\w/g,c=>c.toUpperCase());
+
+        // ── Restore session on refresh ────────────────────────────────
+        const session=getSession();
+        if(session){
+            currentUser=session.name.toLowerCase();
+            managerNameInput.value=session.name;
+            document.getElementById('welcome-screen').style.display='none';
+            if(session.isAdmin){ openAdminDashboard(); }
+            else {
+                document.getElementById('main-app').style.display='block';
+                document.getElementById('vault-fab').style.display='';
+                loadFromLocalStorage();
+                updateVaultBadge();
+            }
+        }
+    })();
+
+    // ── Admin Dashboard ───────────────────────────────────────────────
+    function openAdminDashboard(){
+        document.getElementById('admin-dashboard').style.display='block';
+        document.getElementById('main-app').style.display='none';
+        document.getElementById('vault-fab').style.display='none';
+        renderAdminDashboard();
+    }
+
+    async function renderAdminDashboard(){
+        const allReports=await dbGetAllReports();
+        const users=[...new Set(allReports.map(r=>r.managerName||r.user||'Unknown').filter(Boolean))];
+        const uf=document.getElementById('admin-user-filter');
+        uf.innerHTML='<option value="">All Users</option>'+users.map(u=>`<option value="${u.toLowerCase()}">${u}</option>`).join('');
+        refreshAdminStats(allReports);
+    }
+
+    function getFilteredReports(allReports){
+        const rangeType=document.getElementById('admin-range').value;
+        const dateFrom=document.getElementById('admin-date-from').value;
+        const dateTo=document.getElementById('admin-date-to').value;
+        const userFilter=document.getElementById('admin-user-filter').value;
+        const now=new Date();
+        let fromDate,toDate=new Date(now.getFullYear(),now.getMonth(),now.getDate(),23,59,59);
+        if(rangeType==='custom'){fromDate=dateFrom?new Date(dateFrom):new Date(0);toDate=dateTo?new Date(dateTo+'T23:59:59'):toDate;}
+        else if(rangeType==='week'){fromDate=new Date(now);fromDate.setDate(now.getDate()-6);fromDate.setHours(0,0,0,0);}
+        else if(rangeType==='month'){fromDate=new Date(now.getFullYear(),now.getMonth(),1);}
+        else if(rangeType==='today'){fromDate=new Date(now.getFullYear(),now.getMonth(),now.getDate());}
+        else{fromDate=new Date(0);}
+        return allReports.filter(r=>{
+            const rd=new Date(r.reportDate||r.savedAt);
+            if(rd<fromDate||rd>toDate)return false;
+            if(userFilter){const ru=(r.user||r.managerName||'').toLowerCase();if(ru!==userFilter)return false;}
+            return true;
         });
+    }
 
-        // ── Save / Load (per-user draft) ──────────────────────────────
-        function getFormSnapshot() {
-            const salesEntries = [];
-            document.querySelectorAll('.sales-row').forEach(row => salesEntries.push({
-                department: row.querySelector('.sales-dept').value,
-                amount: row.querySelector('.sales-amount').value,
-                paymentType: row.querySelector('.sales-payment').value
-            }));
-            return {
-                id: Date.now(),
-                savedAt: new Date().toISOString(),
-                user: currentUser,
-                reportDate: reportDateInput.value,
-                managerName: managerNameInput.value,
-                roomsSold: roomsSoldInput.value,
-                complimentaryRooms: complimentaryRoomsInput.value,
-                guestInHouse: guestInHouseInput.value,
-                guestInHouseManuallySet,
-                remarks: remarksInput.value,
-                deptStatus: {
-                    restaurant: document.getElementById('restaurant-status').value,
-                    bar: document.getElementById('bar-status').value,
-                    kitchen: document.getElementById('kitchen-status').value,
-                    laundry: document.getElementById('laundry-status').value,
-                    stores: document.getElementById('stores-status').value,
-                    conference: document.getElementById('conference-status').value
-                },
-                salesEntries
-            };
-        }
-
-        function applySnapshot(snap) {
-            reportDateInput.value = snap.reportDate || today;
-            managerNameInput.value = snap.managerName || '';
-            roomsSoldInput.value = snap.roomsSold || '';
-            complimentaryRoomsInput.value = snap.complimentaryRooms || '';
-            remarksInput.value = snap.remarks || '';
-            guestInHouseManuallySet = !!snap.guestInHouseManuallySet;
-            guestInHouseInput.value = snap.guestInHouse || '0';
-            if (!guestInHouseManuallySet) updateGuestInHouse();
-
-            if (snap.deptStatus) {
-                ['restaurant','bar','kitchen','laundry','stores','conference'].forEach(k => {
-                    const el = document.getElementById(k+'-status');
-                    if (el && snap.deptStatus[k]) el.value = snap.deptStatus[k];
-                });
-            }
-
-            // Rebuild sales rows
-            const rows = document.querySelectorAll('.sales-row');
-            for (let i = 1; i < rows.length; i++) rows[i].remove();
-
-            const entries = snap.salesEntries || [];
-            if (entries.length > 0) {
-                const first = document.querySelector('.sales-row');
-                first.querySelector('.sales-dept').value = entries[0].department || 'Reception Morning';
-                first.querySelector('.sales-amount').value = entries[0].amount || '';
-                first.querySelector('.sales-payment').value = entries[0].paymentType || 'Cash';
-                for (let i = 1; i < entries.length; i++) {
-                    addSalesEntry();
-                    const newRow = salesEntriesContainer.lastElementChild;
-                    newRow.querySelector('.sales-dept').value = entries[i].department || 'Reception Morning';
-                    newRow.querySelector('.sales-amount').value = entries[i].amount || '';
-                    newRow.querySelector('.sales-payment').value = entries[i].paymentType || 'Cash';
-                }
-            }
-            updateTotalSales();
-        }
-
-        function saveToLocalStorage() {
-            if (!currentUser) return;
-            const snap = getFormSnapshot();
-            localStorage.setItem(userStorageKey(), JSON.stringify(snap));
-            saveIndicator.style.opacity = '1';
-            setTimeout(() => saveIndicator.style.opacity = '0', 800);
-        }
-
-        function loadFromLocalStorage() {
-            const raw = localStorage.getItem(userStorageKey());
-            if (!raw) return;
-            try { applySnapshot(JSON.parse(raw)); } catch(e) {}
-        }
-
-        const allInputs = document.querySelectorAll('input, select, textarea');
-        allInputs.forEach(inp => {
-            if (!['manager-name','remarks'].includes(inp.id) && !inp.classList.contains('sales-amount')) {
-                inp.addEventListener('input', saveToLocalStorage);
-                inp.addEventListener('change', saveToLocalStorage);
-            }
+    let _cachedAllReports=[];
+    function refreshAdminStats(allReports){
+        if(allReports) _cachedAllReports=allReports;
+        const reports=getFilteredReports(_cachedAllReports);
+        let totalSales=0,totalRooms=0,totalGuests=0,totalComp=0;
+        const byDept={},byUser={};
+        reports.forEach(r=>{
+            totalRooms+=parseInt(r.roomsSold)||0;
+            totalGuests+=parseInt(r.guestInHouse)||0;
+            totalComp+=parseInt(r.complimentaryRooms)||0;
+            const user=r.managerName||r.user||'Unknown';
+            if(!byUser[user])byUser[user]=0;
+            (r.salesEntries||[]).forEach(e=>{
+                const amt=parseFloat((e.amount||'').replace(/[^\d.]/g,''))||0;
+                totalSales+=amt; byUser[user]+=amt;
+                byDept[e.department||'Other']=(byDept[e.department||'Other']||0)+amt;
+            });
         });
+        document.getElementById('admin-stat-sales').textContent=`MWK ${fmt(totalSales)}`;
+        document.getElementById('admin-stat-rooms').textContent=totalRooms;
+        document.getElementById('admin-stat-guests').textContent=totalGuests;
+        document.getElementById('admin-stat-reports').textContent=reports.length;
+        document.getElementById('admin-stat-comp').textContent=totalComp;
+        document.getElementById('admin-stat-avg').textContent=reports.length?`MWK ${fmt(totalSales/reports.length)}`:'MWK 0';
 
-        // ── Vault (per-user) ──────────────────────────────────────────
-        function getUserVault() {
-            try {
-                const data = JSON.parse(localStorage.getItem(userVaultKey())) || [];
-                // Migrate old global vault if present
-                const oldKey = 'linde_hotel_reports_vault';
-                const old = JSON.parse(localStorage.getItem(oldKey) || '[]');
-                if (old.length > 0) {
-                    const merged = [...data, ...old.filter(o => !data.find(d => d.id === o.id))];
-                    localStorage.setItem(userVaultKey(), JSON.stringify(merged));
-                    localStorage.removeItem(oldKey);
-                    return merged;
-                }
-                return data;
-            }
-            catch(e) { return []; }
-        }
-        function saveUserVault(vault) {
-            localStorage.setItem(userVaultKey(), JSON.stringify(vault));
-            updateVaultBadge();
-        }
-        function updateVaultBadge() {
-            document.getElementById('vault-count').textContent = getUserVault().length;
-        }
+        document.getElementById('admin-dept-breakdown').innerHTML=Object.entries(byDept).sort((a,b)=>b[1]-a[1]).map(([d,v])=>`
+            <div class="admin-breakdown-row"><span>${d}</span><span class="admin-breakdown-val">MWK ${fmt(v)}</span>
+            <div class="admin-bar-wrap"><div class="admin-bar" style="width:${totalSales?Math.round(v/totalSales*100):0}%"></div></div></div>`
+        ).join('')||'<div class="vault-empty" style="padding:20px"><i class="fas fa-inbox"></i> No data</div>';
 
-        function formatVaultDate(iso) {
-            const d = new Date(iso);
-            return d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})
-                + ' · ' + d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
-        }
+        document.getElementById('admin-user-breakdown').innerHTML=Object.entries(byUser).sort((a,b)=>b[1]-a[1]).map(([u,v])=>`
+            <div class="admin-breakdown-row"><span><i class="fas fa-user-circle" style="color:var(--primary);margin-right:6px"></i>${u}</span>
+            <span class="admin-breakdown-val">MWK ${fmt(v)}</span>
+            <div class="admin-bar-wrap"><div class="admin-bar admin-bar-user" style="width:${totalSales?Math.round(v/totalSales*100):0}%"></div></div></div>`
+        ).join('')||'<div class="vault-empty" style="padding:20px"><i class="fas fa-inbox"></i> No data</div>';
 
-        function renderVaultList() {
-            const vault = getUserVault();
-            const list = document.getElementById('vault-list');
-            if (!vault.length) {
-                list.innerHTML = `<div class="vault-empty"><i class="fas fa-inbox"></i>No saved reports yet.<br>Click <strong>Save Current Report</strong> to save one.</div>`;
-                return;
-            }
-            list.innerHTML = vault.slice().reverse().map(snap => {
-                const label = snap.managerName ? `${snap.managerName} — ${snap.reportDate||'No date'}` : (snap.reportDate||'Untitled');
-                const meta = `Saved ${formatVaultDate(snap.savedAt)} · Rooms: ${snap.roomsSold||0} · Guests: ${snap.guestInHouse||0}`;
+        // Store filtered reports with stable IDs for preview/pdf buttons
+        const listEl=document.getElementById('admin-reports-list');
+        const sorted=reports.slice().sort((a,b)=>new Date(b.reportDate||b.savedAt)-new Date(a.reportDate||a.savedAt));
+        listEl.innerHTML=sorted.length===0
+            ?'<div class="vault-empty"><i class="fas fa-inbox"></i> No reports found.</div>'
+            :sorted.map((r,idx)=>{
+                const rTotal=(r.salesEntries||[]).reduce((s,e)=>s+(parseFloat((e.amount||'').replace(/[^\d.]/g,''))||0),0);
                 return `<div class="vault-item">
                     <div class="vault-item-info">
-                        <div class="vault-item-title">${label}</div>
-                        <div class="vault-item-meta">${meta}</div>
+                        <div class="vault-item-title">${r.managerName||r.user||'Unknown'} — ${r.reportDate||'No date'}</div>
+                        <div class="vault-item-meta">Revenue: MWK ${fmt(rTotal)} · Rooms: ${r.roomsSold||0} · Guests: ${r.guestInHouse||0} · ${formatVaultDate(r.savedAt)}</div>
                     </div>
                     <div class="vault-item-btns">
-                        <button class="vault-btn vault-btn-preview" data-id="${snap.id}"><i class="fas fa-eye"></i> Preview</button>
-                        <button class="vault-btn vault-btn-load"    data-id="${snap.id}"><i class="fas fa-upload"></i> Load</button>
-                        <button class="vault-btn vault-btn-pdf"     data-id="${snap.id}"><i class="fas fa-file-pdf"></i> PDF</button>
-                        <button class="vault-btn vault-btn-del"     data-id="${snap.id}"><i class="fas fa-trash"></i></button>
+                        <button class="vault-btn vault-btn-preview" data-idx="${idx}"><i class="fas fa-eye"></i> Preview</button>
+                        <button class="vault-btn vault-btn-pdf admin-pdf-btn" data-idx="${idx}"><i class="fas fa-file-pdf"></i> PDF</button>
                     </div>
                 </div>`;
             }).join('');
 
-            list.querySelectorAll('.vault-btn-preview').forEach(btn => btn.addEventListener('click', function() {
-                const snap = getUserVault().find(r => String(r.id) === String(this.dataset.id));
-                if (!snap) return;
-                const cur = getFormSnapshot();
-                applySnapshot(snap);
-                previewContent.innerHTML = generatePreviewContent();
-                previewModal.style.display = 'flex';
-                applySnapshot(cur);
-                closeVault();
-            }));
+        // Wire preview buttons — use stored sorted array, not getAllReports() index
+        listEl.querySelectorAll('.vault-btn-preview').forEach(btn=>btn.addEventListener('click',function(){
+            const snap=sorted[parseInt(this.dataset.idx)];
+            if(!snap)return;
+            previewContent.innerHTML=generatePreviewFromSnap(snap);
+            previewModal.style.display='flex';
+        }));
+        listEl.querySelectorAll('.admin-pdf-btn').forEach(btn=>btn.addEventListener('click',async function(){
+            const snap=sorted[parseInt(this.dataset.idx)];
+            if(!snap)return;
+            const cur=getFormSnapshot();
+            applySnapshot(snap);
+            await generatePDF(null,`Linde_Report_${snap.reportDate||'report'}.pdf`);
+            applySnapshot(cur);
+        }));
+    }
 
-            list.querySelectorAll('.vault-btn-load').forEach(btn => btn.addEventListener('click', function() {
-                const snapId = this.dataset.id;
-                const snap = getUserVault().find(r => String(r.id) === String(snapId));
-                if (!snap) { alert('Could not find report. Try reopening the vault.'); return; }
-                applySnapshot(snap);
-                saveToLocalStorage();
-                closeVault();
-            }));
-
-            list.querySelectorAll('.vault-btn-pdf').forEach(btn => btn.addEventListener('click', async function() {
-                const snap = getUserVault().find(r => String(r.id) === String(this.dataset.id));
-                if (!snap) return;
-                const cur = getFormSnapshot();
-                applySnapshot(snap);
-                await generatePDF();
-                applySnapshot(cur);
-            }));
-
-            list.querySelectorAll('.vault-btn-del').forEach(btn => btn.addEventListener('click', function() {
-                const snapId = this.dataset.id;
-                if (confirm('Delete this report? This cannot be undone.')) {
-                    saveUserVault(getUserVault().filter(r => String(r.id) !== String(snapId)));
-                    renderVaultList();
-                }
-            }));
-        }
-
-        function openVault() { renderVaultList(); document.getElementById('vault-modal').classList.add('open'); }
-        function closeVault() { document.getElementById('vault-modal').classList.remove('open'); }
-
-        document.getElementById('vault-fab').addEventListener('click', openVault);
-        document.getElementById('vault-close-btn').addEventListener('click', closeVault);
-        document.getElementById('vault-modal').addEventListener('click', e => { if(e.target===document.getElementById('vault-modal')) closeVault(); });
-
-        document.getElementById('vault-save-current-btn').addEventListener('click', function() {
-            const snap = getFormSnapshot();
-            // Also push to global reports store
-            const allReports = getAllReports();
-            allReports.push(snap);
-            saveAllReports(allReports);
-            // Push to user vault
-            const vault = getUserVault();
-            vault.push(snap);
-            saveUserVault(vault);
-            renderVaultList();
-            this.innerHTML = '<i class="fas fa-check"></i> Saved!';
-            this.style.background = 'linear-gradient(135deg,#2c3e50,#34495e)';
-            const self = this;
-            setTimeout(() => { self.innerHTML='<i class="fas fa-save"></i> Save Current Report'; self.style.background=''; }, 1800);
-        });
-
-        // ── Generate Preview HTML (from current form state) ───────────
-        function getLogoDataUrl() { return logoDisplay.src; }
-
-        function generatePreviewContent() {
-            let totalSales = 0;
-            const salesEntries = [];
-            document.querySelectorAll('.sales-row').forEach(row => {
-                const dept   = row.querySelector('.sales-dept').value;
-                const amount = parseFloat(row.querySelector('.sales-amount').value.replace(/[^0-9.]/g,'')) || 0;
-                const payment= row.querySelector('.sales-payment').value;
-                salesEntries.push({dept, amount, payment});
-                totalSales += amount;
-            });
-            const dateObj = new Date(reportDateInput.value);
-            const formattedDate = isNaN(dateObj) ? reportDateInput.value : dateObj.toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-            const logoUrl = getLogoDataUrl();
-            const fmt = n => n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',');
-            return `
-            <div class="pdf-header">
-                <div class="pdf-header-left"><h1 class="pdf-hotel-name">LINDE HOTEL</h1><div class="pdf-report-title">DUTY MANAGER DAILY REPORT</div></div>
-                <div class="pdf-header-right"><img src="${logoUrl}" alt="Linde Hotel Logo" class="pdf-logo"></div>
-            </div>
-            <div class="pdf-section-container"><div class="pdf-section">
-                <div class="pdf-section-title">General Information</div>
-                <div class="pdf-grid">
-                    <div class="pdf-grid-item"><div class="pdf-label">Report Date</div><div class="pdf-value">${formattedDate}</div></div>
-                    <div class="pdf-grid-item"><div class="pdf-label">Duty Manager</div><div class="pdf-value">${managerNameInput.value||'Not specified'}</div></div>
-                    <div class="pdf-grid-item"></div>
-                </div>
-            </div></div>
-            <div class="pdf-section-container"><div class="pdf-section">
-                <div class="pdf-section-title">Occupancy Summary</div>
-                <div class="pdf-grid">
-                    <div class="pdf-grid-item"><div class="pdf-label">Rooms Sold</div><div class="pdf-value">${roomsSoldInput.value||'0'}</div></div>
-                    <div class="pdf-grid-item"><div class="pdf-label">Complimentary Rooms</div><div class="pdf-value">${complimentaryRoomsInput.value||'0'}</div></div>
-                    <div class="pdf-grid-item"><div class="pdf-label">Guest In-House</div><div class="pdf-value">${guestInHouseInput.value||'0'}</div></div>
-                </div>
-            </div></div>
-            <div class="pdf-section-container"><div class="pdf-section">
-                <div class="pdf-section-title">Sales Summary</div>
-                <table class="pdf-table"><thead><tr><th>Department</th><th>Amount (MWK)</th><th>Payment Type</th></tr></thead>
-                <tbody>${salesEntries.map(e=>`<tr><td><strong>${e.dept}</strong></td><td>${fmt(e.amount)}</td><td>${e.payment}</td></tr>`).join('')}</tbody>
-                </table>
-                <div class="pdf-total">Total Revenue: ${CURRENCY} ${fmt(totalSales)}</div>
-            </div></div>
-            <div class="pdf-section-container"><div class="pdf-section">
-                <div class="pdf-section-title">Departmental Status</div>
-                <div class="pdf-grid">
-                    ${['restaurant','bar','kitchen','laundry','stores','conference'].map(k=>{
-                        const el=document.getElementById(k+'-status');
-                        const val=el?el.value:'—';
-                        return `<div class="pdf-grid-item"><div class="pdf-label">${k.charAt(0).toUpperCase()+k.slice(1)}</div><div class="pdf-value ${val==='Issues'?'pdf-value-issues':''}">${val}</div></div>`;
-                    }).join('')}
-                </div>
-            </div></div>
-            <div class="pdf-section-container"><div class="pdf-section">
-                <div class="pdf-section-title">Remarks / Incident Log</div>
-                <div style="white-space:pre-wrap;min-height:120px;padding:15px;border:1px solid #ddd;border-radius:4px;">${remarksInput.value||'No remarks recorded.'}</div>
-            </div></div>
-            <div style="margin-top:30px;padding-top:20px;border-top:1px solid #ddd;font-size:10pt;color:#666;text-align:center;">
-                Report generated on ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}
-            </div>`;
-        }
-
-        previewReportBtn.addEventListener('click', function() { previewContent.innerHTML = generatePreviewContent(); previewModal.style.display='flex'; });
-        closePreviewBtn.addEventListener('click', () => previewModal.style.display='none');
-        previewModal.addEventListener('click', e => { if(e.target===previewModal) previewModal.style.display='none'; });
-
-        // ── PDF Generation ────────────────────────────────────────────
-        async function generatePDF(customContent, customFilename) {
-            try {
-                pdfRender.innerHTML = customContent || generatePreviewContent();
-                pdfRender.style.cssText = 'position:absolute;left:0;top:0;z-index:-1;visibility:visible;';
-                await new Promise(r => setTimeout(r, 300));
-                const canvas = await html2canvas(pdfRender, {scale:2, useCORS:true, logging:false, backgroundColor:'#ffffff', allowTaint:true});
-                const imgWidth=210, pageHeight=297;
-                const imgHeight = canvas.height * imgWidth / canvas.width;
-                const {jsPDF} = window.jspdf;
-                const pdf = new jsPDF('p','mm','a4');
-                let heightLeft = imgHeight, position = 0;
-                const imgData = canvas.toDataURL('image/jpeg', 0.95);
-                pdf.addImage(imgData,'JPEG',0,position,imgWidth,imgHeight);
-                heightLeft -= pageHeight;
-                while (heightLeft >= 0) { position = heightLeft-imgHeight; pdf.addPage(); pdf.addImage(imgData,'JPEG',0,position,imgWidth,imgHeight); heightLeft -= pageHeight; }
-                pdf.save(customFilename || `Linde_Hotel_Duty_Report_${reportDateInput.value||'report'}.pdf`);
-            } catch(err) { console.error(err); alert('PDF generation failed. Please try again.'); }
-            finally { pdfRender.style.cssText = 'position:fixed;left:-10000px;visibility:hidden;'; }
-        }
-
-        generatePdfBtn.addEventListener('click', () => generatePDF());
-        downloadPdfBtn.addEventListener('click', () => generatePDF());
-
-        // ── New Shift ─────────────────────────────────────────────────
-        newShiftBtn.addEventListener('click', function() {
-            if (!confirm('Start a new shift? All current data will be cleared.')) return;
-            const currentDate = new Date().toISOString().split('T')[0];
-            reportDateInput.value = currentDate;
-            roomsSoldInput.value = '';
-            complimentaryRoomsInput.value = '';
-            remarksInput.value = '';
-            guestInHouseInput.value = '0';
-            guestInHouseManuallySet = false;
-            document.querySelectorAll('.sales-row').forEach((r, i) => {
-                if (i === 0) {
-                    r.querySelector('.sales-dept').value = 'Reception Morning';
-                    r.querySelector('.sales-amount').value = '';
-                    r.querySelector('.sales-payment').value = 'Cash';
-                } else {
-                    r.remove();
-                }
-            });
-            ['restaurant','bar','kitchen','laundry','stores','conference'].forEach(k => {
-                const el = document.getElementById(k + '-status');
-                if (el) el.value = 'Closed';
-            });
-            updateTotalSales();
-            guestInHouseInput.value = '0';
-            localStorage.removeItem(userStorageKey());
-            saveToLocalStorage();
-        });
-
-        updateGuestInHouse();
-        updateTotalSales();
-        window.addEventListener('DOMContentLoaded', () => {});
-
-        // ── Welcome Screen + Account Login ────────────────────────────
-        (function() {
-            const screen   = document.getElementById('welcome-screen');
-            const startBtn = document.getElementById('welcome-start-btn');
-            const nameInput= document.getElementById('welcome-manager-input');
-            const greetEl  = document.getElementById('welcome-greeting');
-            const dateEl   = document.getElementById('welcome-date');
-            const wLogo    = document.getElementById('welcome-logo');
-            wLogo.src = EMBEDDED_LOGO;
-
-            const h = new Date().getHours();
-            greetEl.textContent = h<12 ? '☀️ Good morning!' : h<17 ? '🌤 Good afternoon!' : '🌙 Good evening!';
-            dateEl.textContent  = new Date().toLocaleDateString('en-GB',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-
-            nameInput.addEventListener('input', function() {
-                this.value = this.value.replace(/\b\w/g, c => c.toUpperCase());
-            });
-
-            function loginUser(name) {
-                if (!name) { nameInput.focus(); nameInput.style.borderColor='#c0392b'; return; }
-                currentUser = name.trim().toLowerCase();
-                const isAdmin = currentUser === ADMIN_NAME;
-                managerNameInput.value = name.trim();
-                localStorage.setItem('linde_last_user', name.trim());
-
-                screen.classList.add('fade-out');
-                setTimeout(() => {
-                    screen.style.display = 'none';
-                    if (isAdmin) {
-                        openAdminDashboard();
-                    } else {
-                        document.getElementById('main-app').style.display = 'block';
-                        document.getElementById('vault-fab').style.display = '';
-                        loadFromLocalStorage();
-                        updateVaultBadge();
-                    }
-                }, 500);
-            }
-
-            startBtn.addEventListener('click', () => loginUser(nameInput.value.trim()));
-            nameInput.addEventListener('keydown', e => { if(e.key==='Enter') loginUser(nameInput.value.trim()); });
-
-            // Remember last user
-            const lastUser = localStorage.getItem('linde_last_user');
-            if (lastUser) nameInput.value = lastUser.replace(/\b\w/g, c => c.toUpperCase());
-        })();
-
-        // ── Admin Dashboard ───────────────────────────────────────────
-        function openAdminDashboard() {
-            document.getElementById('admin-dashboard').style.display = 'block';
-            document.getElementById('main-app').style.display = 'none';
-            document.getElementById('vault-fab').style.display = 'none';
-            renderAdminDashboard();
-        }
-
-        function closeAdminDashboard() {
-            document.getElementById('admin-dashboard').style.display = 'none';
-            document.getElementById('main-app').style.display = 'block';
-            document.getElementById('vault-fab').style.display = '';
-        }
-
-        function renderAdminDashboard() {
-            const allReports = getAllReports();
-            const fmt = n => (parseFloat(n)||0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',');
-
-            // Populate user filter
-            const users = [...new Set(allReports.map(r => r.user || r.managerName || 'Unknown').filter(Boolean))];
-            const userFilter = document.getElementById('admin-user-filter');
-            userFilter.innerHTML = '<option value="">All Users</option>' + users.map(u=>`<option value="${u.toLowerCase()}">${u}</option>`).join('');
-
+    // Admin filter events
+    ['admin-range','admin-user-filter','admin-date-from','admin-date-to'].forEach(id=>{
+        const el=document.getElementById(id);
+        if(el) el.addEventListener('change',function(){
+            if(id==='admin-range') document.getElementById('admin-custom-dates').style.display=this.value==='custom'?'flex':'none';
             refreshAdminStats();
-        }
-
-        function getFilteredReports() {
-            const allReports = getAllReports();
-            const rangeType  = document.getElementById('admin-range').value;
-            const dateFrom   = document.getElementById('admin-date-from').value;
-            const dateTo     = document.getElementById('admin-date-to').value;
-            const userFilter = document.getElementById('admin-user-filter').value;
-
-            const now = new Date();
-            let fromDate, toDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
-
-            if (rangeType === 'custom') {
-                fromDate = dateFrom ? new Date(dateFrom) : new Date(0);
-                toDate   = dateTo   ? new Date(dateTo+'T23:59:59') : toDate;
-            } else if (rangeType === 'week') {
-                fromDate = new Date(now); fromDate.setDate(now.getDate()-6); fromDate.setHours(0,0,0,0);
-            } else if (rangeType === 'month') {
-                fromDate = new Date(now.getFullYear(), now.getMonth(), 1);
-            } else if (rangeType === 'today') {
-                fromDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-            } else {
-                fromDate = new Date(0);
-            }
-
-            return allReports.filter(r => {
-                const rd = new Date(r.reportDate || r.savedAt);
-                if (rd < fromDate || rd > toDate) return false;
-                if (userFilter) {
-                    const rUser = (r.user || r.managerName || '').toLowerCase();
-                    if (rUser !== userFilter) return false;
-                }
-                return true;
-            });
-        }
-
-        function refreshAdminStats() {
-            const reports = getFilteredReports();
-            const fmt = n => (parseFloat(n)||0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',');
-
-            // Totals
-            let totalSales=0, totalRooms=0, totalGuests=0, totalComplimentary=0;
-            const salesByDept = {};
-            const salesByUser = {};
-            const salesByDate = {};
-
-            reports.forEach(r => {
-                const rooms = parseInt(r.roomsSold)||0;
-                const guests= parseInt(r.guestInHouse)||0;
-                const comp  = parseInt(r.complimentaryRooms)||0;
-                totalRooms += rooms; totalGuests += guests; totalComplimentary += comp;
-
-                const user = r.managerName || r.user || 'Unknown';
-                if (!salesByUser[user]) salesByUser[user] = 0;
-
-                (r.salesEntries||[]).forEach(e => {
-                    const amt = parseFloat((e.amount||'').replace(/[^\d.]/g,''))||0;
-                    totalSales += amt;
-                    salesByUser[user] += amt;
-                    const dept = e.department || 'Other';
-                    salesByDept[dept] = (salesByDept[dept]||0) + amt;
-                });
-
-                const dateKey = r.reportDate || (r.savedAt||'').split('T')[0];
-                if (dateKey) salesByDate[dateKey] = (salesByDate[dateKey]||0) + (parseFloat(r.totalSales)||0);
-            });
-
-            document.getElementById('admin-stat-sales').textContent    = `MWK ${fmt(totalSales)}`;
-            document.getElementById('admin-stat-rooms').textContent     = totalRooms;
-            document.getElementById('admin-stat-guests').textContent    = totalGuests;
-            document.getElementById('admin-stat-reports').textContent   = reports.length;
-            document.getElementById('admin-stat-comp').textContent      = totalComplimentary;
-            document.getElementById('admin-stat-avg').textContent       = reports.length ? `MWK ${fmt(totalSales/reports.length)}` : 'MWK 0';
-
-            // Dept breakdown
-            const deptHtml = Object.entries(salesByDept).sort((a,b)=>b[1]-a[1]).map(([d,v])=>`
-                <div class="admin-breakdown-row">
-                    <span>${d}</span>
-                    <span class="admin-breakdown-val">MWK ${fmt(v)}</span>
-                    <div class="admin-bar-wrap"><div class="admin-bar" style="width:${totalSales?Math.round(v/totalSales*100):0}%"></div></div>
-                </div>`).join('') || '<div class="vault-empty" style="padding:20px"><i class="fas fa-inbox"></i> No data</div>';
-            document.getElementById('admin-dept-breakdown').innerHTML = deptHtml;
-
-            // User breakdown
-            const userHtml = Object.entries(salesByUser).sort((a,b)=>b[1]-a[1]).map(([u,v])=>`
-                <div class="admin-breakdown-row">
-                    <span><i class="fas fa-user-circle" style="color:var(--primary);margin-right:6px"></i>${u}</span>
-                    <span class="admin-breakdown-val">MWK ${fmt(v)}</span>
-                    <div class="admin-bar-wrap"><div class="admin-bar admin-bar-user" style="width:${totalSales?Math.round(v/totalSales*100):0}%"></div></div>
-                </div>`).join('') || '<div class="vault-empty" style="padding:20px"><i class="fas fa-inbox"></i> No data</div>';
-            document.getElementById('admin-user-breakdown').innerHTML = userHtml;
-
-            // Reports list
-            const listHtml = reports.length === 0
-                ? '<div class="vault-empty"><i class="fas fa-inbox"></i> No reports found for this period.</div>'
-                : reports.slice().sort((a,b)=>new Date(b.reportDate||b.savedAt)-new Date(a.reportDate||a.savedAt)).map(r => {
-                    let rTotal = (r.salesEntries||[]).reduce((s,e)=>s+(parseFloat((e.amount||'').replace(/[^\d.]/g,''))||0),0);
-                    return `<div class="vault-item">
-                        <div class="vault-item-info">
-                            <div class="vault-item-title">${r.managerName||r.user||'Unknown'} — ${r.reportDate||'No date'}</div>
-                            <div class="vault-item-meta">Revenue: MWK ${fmt(rTotal)} · Rooms: ${r.roomsSold||0} · Guests: ${r.guestInHouse||0} · Saved: ${formatVaultDate(r.savedAt)}</div>
-                        </div>
-                        <div class="vault-item-btns">
-                            <button class="vault-btn vault-btn-preview" data-idx="${getAllReports().indexOf(r)}"><i class="fas fa-eye"></i> Preview</button>
-                            <button class="vault-btn vault-btn-pdf admin-pdf-btn" data-idx="${getAllReports().indexOf(r)}"><i class="fas fa-file-pdf"></i> PDF</button>
-                        </div>
-                    </div>`;
-                }).join('');
-            document.getElementById('admin-reports-list').innerHTML = listHtml;
-
-            // Wire admin report preview/pdf
-            document.querySelectorAll('#admin-reports-list .vault-btn-preview').forEach(btn => btn.addEventListener('click', function() {
-                const snap = getAllReports()[parseInt(this.dataset.idx)];
-                if (!snap) return;
-                const cur = getFormSnapshot();
-                applySnapshot(snap);
-                previewContent.innerHTML = generatePreviewContent();
-                previewModal.style.display = 'flex';
-                applySnapshot(cur);
-            }));
-            document.querySelectorAll('#admin-reports-list .admin-pdf-btn').forEach(btn => btn.addEventListener('click', async function() {
-                const snap = getAllReports()[parseInt(this.dataset.idx)];
-                if (!snap) return;
-                const cur = getFormSnapshot();
-                applySnapshot(snap);
-                await generatePDF(null, `Linde_Report_${snap.reportDate||'report'}.pdf`);
-                applySnapshot(cur);
-            }));
-        }
-
-        // Admin combined period PDF
-        document.getElementById('admin-combined-pdf-btn').addEventListener('click', async function() {
-            const reports = getFilteredReports();
-            if (!reports.length) { alert('No reports found for the selected period.'); return; }
-            const fmt = n => (parseFloat(n)||0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',');
-            let totalSales=0, totalRooms=0, totalGuests=0;
-            const salesByDept = {};
-            reports.forEach(r => {
-                totalRooms += parseInt(r.roomsSold)||0;
-                totalGuests += parseInt(r.guestInHouse)||0;
-                (r.salesEntries||[]).forEach(e => {
-                    const amt = parseFloat((e.amount||'').replace(/[^\d.]/g,''))||0;
-                    totalSales += amt;
-                    salesByDept[e.department||'Other'] = (salesByDept[e.department||'Other']||0)+amt;
-                });
-            });
-            const range = document.getElementById('admin-range').value;
-            const rangeLabel = range==='week'?'Last 7 Days':range==='month'?'This Month':range==='today'?'Today':'Selected Period';
-            const combined = `
-            <div class="pdf-header">
-                <div class="pdf-header-left"><h1 class="pdf-hotel-name">LINDE HOTEL</h1><div class="pdf-report-title">ADMIN PERIOD REPORT — ${rangeLabel.toUpperCase()}</div></div>
-                <div class="pdf-header-right"><img src="${getLogoDataUrl()}" class="pdf-logo"></div>
-            </div>
-            <div class="pdf-section-container"><div class="pdf-section">
-                <div class="pdf-section-title">Period Summary</div>
-                <div class="pdf-grid">
-                    <div class="pdf-grid-item"><div class="pdf-label">Total Reports</div><div class="pdf-value">${reports.length}</div></div>
-                    <div class="pdf-grid-item"><div class="pdf-label">Total Revenue</div><div class="pdf-value">MWK ${fmt(totalSales)}</div></div>
-                    <div class="pdf-grid-item"><div class="pdf-label">Total Rooms Sold</div><div class="pdf-value">${totalRooms}</div></div>
-                    <div class="pdf-grid-item"><div class="pdf-label">Total Guests</div><div class="pdf-value">${totalGuests}</div></div>
-                    <div class="pdf-grid-item"><div class="pdf-label">Avg Revenue/Report</div><div class="pdf-value">MWK ${fmt(totalSales/reports.length)}</div></div>
-                </div>
-            </div></div>
-            <div class="pdf-section-container"><div class="pdf-section">
-                <div class="pdf-section-title">Revenue by Department</div>
-                <table class="pdf-table"><thead><tr><th>Department</th><th>Total (MWK)</th><th>% Share</th></tr></thead>
-                <tbody>${Object.entries(salesByDept).sort((a,b)=>b[1]-a[1]).map(([d,v])=>`<tr><td>${d}</td><td>${fmt(v)}</td><td>${totalSales?Math.round(v/totalSales*100):0}%</td></tr>`).join('')}</tbody>
-                </table>
-            </div></div>
-            <div class="pdf-section-container"><div class="pdf-section">
-                <div class="pdf-section-title">Individual Reports</div>
-                <table class="pdf-table"><thead><tr><th>Date</th><th>Manager</th><th>Rooms</th><th>Guests</th><th>Revenue</th></tr></thead>
-                <tbody>${reports.sort((a,b)=>new Date(b.reportDate||b.savedAt)-new Date(a.reportDate||a.savedAt)).map(r=>{
-                    const rev=(r.salesEntries||[]).reduce((s,e)=>s+(parseFloat((e.amount||'').replace(/[^\d.]/g,''))||0),0);
-                    return `<tr><td>${r.reportDate||'—'}</td><td>${r.managerName||r.user||'—'}</td><td>${r.roomsSold||0}</td><td>${r.guestInHouse||0}</td><td>${fmt(rev)}</td></tr>`;
-                }).join('')}</tbody>
-                </table>
-            </div></div>
-            <div style="margin-top:30px;padding-top:20px;border-top:1px solid #ddd;font-size:10pt;color:#666;text-align:center;">
-                Generated by Admin on ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}
-            </div>`;
-            await generatePDF(combined, `Linde_Admin_Report_${rangeLabel.replace(/\s/g,'_')}.pdf`);
         });
+    });
 
-        // Admin filter events
-        ['admin-range','admin-user-filter','admin-date-from','admin-date-to'].forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.addEventListener('change', function() {
-                const customRow = document.getElementById('admin-custom-dates');
-                if (id==='admin-range') customRow.style.display = this.value==='custom' ? 'flex' : 'none';
-                refreshAdminStats();
+    // Admin combined PDF
+    document.getElementById('admin-combined-pdf-btn').addEventListener('click',async function(){
+        const reports=getFilteredReports(_cachedAllReports);
+        if(!reports.length){alert('No reports for the selected period.');return;}
+        let totalSales=0,totalRooms=0,totalGuests=0;const byDept={};
+        reports.forEach(r=>{
+            totalRooms+=parseInt(r.roomsSold)||0;totalGuests+=parseInt(r.guestInHouse)||0;
+            (r.salesEntries||[]).forEach(e=>{
+                const amt=parseFloat((e.amount||'').replace(/[^\d.]/g,''))||0;
+                totalSales+=amt;byDept[e.department||'Other']=(byDept[e.department||'Other']||0)+amt;
             });
         });
+        const range=document.getElementById('admin-range').value;
+        const label=range==='week'?'Last 7 Days':range==='month'?'This Month':range==='today'?'Today':'Selected Period';
+        const combined=`<div class="pdf-header">
+            <div class="pdf-header-left"><h1 class="pdf-hotel-name">LINDE HOTEL</h1><div class="pdf-report-title">ADMIN REPORT — ${label.toUpperCase()}</div></div>
+            <div class="pdf-header-right"><img src="${getLogoDataUrl()}" class="pdf-logo"></div></div>
+        <div class="pdf-section-container"><div class="pdf-section"><div class="pdf-section-title">Period Summary</div>
+            <div class="pdf-grid">
+                <div class="pdf-grid-item"><div class="pdf-label">Reports</div><div class="pdf-value">${reports.length}</div></div>
+                <div class="pdf-grid-item"><div class="pdf-label">Total Revenue</div><div class="pdf-value">MWK ${fmt(totalSales)}</div></div>
+                <div class="pdf-grid-item"><div class="pdf-label">Rooms Sold</div><div class="pdf-value">${totalRooms}</div></div>
+                <div class="pdf-grid-item"><div class="pdf-label">Total Guests</div><div class="pdf-value">${totalGuests}</div></div>
+                <div class="pdf-grid-item"><div class="pdf-label">Avg Revenue</div><div class="pdf-value">MWK ${fmt(totalSales/reports.length)}</div></div>
+            </div></div></div>
+        <div class="pdf-section-container"><div class="pdf-section"><div class="pdf-section-title">Revenue by Department</div>
+            <table class="pdf-table"><thead><tr><th>Department</th><th>Total (MWK)</th><th>% Share</th></tr></thead>
+            <tbody>${Object.entries(byDept).sort((a,b)=>b[1]-a[1]).map(([d,v])=>`<tr><td>${d}</td><td>${fmt(v)}</td><td>${totalSales?Math.round(v/totalSales*100):0}%</td></tr>`).join('')}</tbody></table>
+        </div></div>
+        <div class="pdf-section-container"><div class="pdf-section"><div class="pdf-section-title">Individual Reports</div>
+            <table class="pdf-table"><thead><tr><th>Date</th><th>Manager</th><th>Rooms</th><th>Guests</th><th>Revenue</th></tr></thead>
+            <tbody>${reports.sort((a,b)=>new Date(b.reportDate||b.savedAt)-new Date(a.reportDate||a.savedAt)).map(r=>{
+                const rev=(r.salesEntries||[]).reduce((s,e)=>s+(parseFloat((e.amount||'').replace(/[^\d.]/g,''))||0),0);
+                return `<tr><td>${r.reportDate||'—'}</td><td>${r.managerName||r.user||'—'}</td><td>${r.roomsSold||0}</td><td>${r.guestInHouse||0}</td><td>${fmt(rev)}</td></tr>`;
+            }).join('')}</tbody></table>
+        </div></div>
+        <div style="margin-top:30px;padding-top:20px;border-top:1px solid #ddd;font-size:10pt;color:#666;text-align:center;">
+            Generated by Admin · ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}
+        </div>`;
+        await generatePDF(combined,`Linde_Admin_${label.replace(/\s/g,'_')}.pdf`);
+    });
 
-        document.getElementById('switch-user-btn').addEventListener('click', function() {
-            currentUser = null;
-            document.getElementById('main-app').style.display = 'none';
-            document.getElementById('vault-fab').style.display = 'none';
-            const ws = document.getElementById('welcome-screen');
-            ws.style.display = 'flex';
-            ws.style.opacity = '1';
-            ws.style.transform = '';
-            ws.classList.remove('fade-out');
-        });
+    // Admin switch user
+    document.getElementById('admin-logout-btn').addEventListener('click',function(){
+        clearSession(); currentUser=null;
+        document.getElementById('admin-dashboard').style.display='none';
+        document.getElementById('vault-fab').style.display='none';
+        showWelcome();
+    });
 
-        document.getElementById('admin-logout-btn').addEventListener('click', function() {
-            currentUser = null;
-            document.getElementById('admin-dashboard').style.display='none';
-            document.getElementById('main-app').style.display='none';
-            document.getElementById('vault-fab').style.display='none';
-            const ws = document.getElementById('welcome-screen');
-            ws.style.display='flex';
-            ws.classList.remove('fade-out');
-            ws.style.opacity='1';
-            ws.style.transform='';
-        });
-
-        updateVaultBadge();
+    updateGuestInHouse();
+    updateTotalSales();
+    updateVaultBadge();
     </script>
-</body>
 </html>
