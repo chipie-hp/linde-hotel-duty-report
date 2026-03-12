@@ -1477,14 +1477,17 @@
     // ── Supabase helpers ──────────────────────────────────────────────
     async function dbSaveReport(snap) {
         try {
-            await sb.from('reports').upsert({
+            const { error } = await sb.from('reports').upsert({
                 id: String(snap.id),
-                user_name: snap.user || currentUser || 'unknown',
+                user_name: (snap.user || currentUser || 'unknown').toLowerCase(),
                 report_date: snap.reportDate || null,
                 saved_at: snap.savedAt,
                 data: snap
             }, { onConflict: 'id' });
-        } catch(e) { console.warn('Supabase save failed, using localStorage fallback:', e); }
+            if (error) throw error;
+        } catch(e) {
+            console.error('Supabase save error:', e);
+        }
     }
 
     async function dbGetAllReports() {
