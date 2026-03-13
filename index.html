@@ -566,178 +566,128 @@
             margin: 0;
         }
        
+        /* ── Mobile topbar ── */
+        .mobile-topbar {
+            display: none;
+            background: linear-gradient(135deg, #1a5f7a, #0e3d4f);
+            padding: 9px 12px;
+            align-items: center;
+            justify-content: space-between;
+            margin: -20px -20px 14px -20px;
+            position: sticky; top: 0; z-index: 50;
+        }
+        .mtb-left { display: flex; align-items: center; gap: 8px; }
+        .mtb-logo-wrap { width: 32px; height: 25px; background: rgba(255,255,255,0.15); border-radius: 4px; overflow: hidden; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+        .mtb-logo-wrap img { width: 100%; height: 100%; object-fit: cover; border-radius: 4px; }
+        .mtb-name { color: white; font-size: 11.5px; font-weight: 700; }
+        .mtb-sub { color: rgba(255,255,255,0.5); font-size: 7px; margin-top: 1px; }
+        .mtb-switch { background: rgba(255,255,255,0.12); color: white; border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding: 3px 8px; font-size: 9px; font-weight: 600; display: flex; align-items: center; gap: 3px; cursor: pointer; white-space: nowrap; }
+
+        /* ── Compact card title ── */
+        .card-compact-title { display: none; font-size: 8.5px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 7px; align-items: center; gap: 4px; }
+        .card-compact-title i { color: #1a5f7a; font-size: 8px; }
+        .occ-field-lbl { display: none; font-size: 6.5px; font-weight: 800; color: #1a5f7a; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
+
+        /* ── Mobile sales cards ── */
+        .sales-card { display: none; }
+        .sales-card-entry { background: #f0f7fa; border: 1.5px solid #cce3ec; border-radius: 7px; padding: 6px 8px; margin-bottom: 5px; display: flex; align-items: center; gap: 6px; }
+        .sce-left { flex: 1; min-width: 0; }
+        .sce-right { text-align: right; flex-shrink: 0; }
+        .sce-lbl { font-size: 6.5px; font-weight: 800; color: #1a5f7a; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
+        .sce-val { font-size: 9px; font-weight: 700; color: #0f2027; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .sce-pay { display: inline-block; font-size: 6.5px; font-weight: 800; color: #64748b; background: #e2e8f0; border-radius: 3px; padding: 1px 4px; margin-top: 2px; }
+        .sce-rm { background: #fee2e2; color: #dc2626; border: none; border-radius: 50%; width: 18px; height: 18px; font-size: 7px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; cursor: pointer; }
+        .sales-card-total { display: flex; justify-content: space-between; align-items: center; margin-top: 5px; padding-top: 4px; border-top: 1px solid #e2e8f0; }
+        .sct-label { font-size: 6.5px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }
+        .sct-val { font-size: 9px; font-weight: 800; color: #1a5f7a; }
+        .sales-card-add-btn { width: 100%; padding: 6px; border: 1.5px dashed #93c5d9; border-radius: 7px; background: none; color: #1a5f7a; font-size: 8.5px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 4px; margin-top: 3px; cursor: pointer; }
+
+        /* ── Mobile dept grid ── */
+        .dept-mobile-grid { display: none; grid-template-columns: 1fr 1fr; gap: 5px; }
+        .dept-mobile-item { background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 6px; padding: 5px 7px; display: flex; align-items: center; justify-content: space-between; }
+        .dmi-name { font-size: 8.5px; font-weight: 600; color: #374151; }
+        .dept-mobile-item select { border: none; background: transparent; font-size: 7.5px; font-weight: 800; padding: 0; color: #64748b; cursor: pointer; outline: none; width: auto; max-width: 55px; -webkit-appearance: none; text-align: right; }
+        .dept-mobile-item select option[value="Issues"] { color: #dc2626; font-weight: 800; }
+
+        /* ── Mobile FAB ── */
+        #mobile-fab-panel { display: none; position: fixed; bottom: 0; right: 0; padding: 0 14px 16px 0; z-index: 600; flex-direction: column; align-items: flex-end; gap: 6px; }
+        .fab-action-row { display: flex; align-items: center; gap: 7px; }
+        .fab-action-lbl { background: #0f2027; color: rgba(255,255,255,0.9); font-size: 9px; font-weight: 600; padding: 3px 9px; border-radius: 5px; box-shadow: 0 2px 6px rgba(0,0,0,0.2); white-space: nowrap; }
+        .fab-action-btn { width: 32px; height: 32px; border-radius: 50%; border: none; display: flex; align-items: center; justify-content: center; font-size: 12px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+        #fab-main-btn { width: 42px; height: 42px; border-radius: 50%; background: linear-gradient(135deg, #1a5f7a, #0e3d4f); color: white; border: none; font-size: 16px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 14px rgba(26,95,122,0.45); position: relative; overflow: hidden; margin-left: auto; }
+        #fab-main-btn .fab-shine { position: absolute; top: 0; left: -50%; width: 35%; height: 100%; background: rgba(255,255,255,0.2); transform: skewX(-20deg); }
+        .fab-auto-saved { font-size: 7.5px; color: #94a3b8; text-align: right; padding: 2px 4px 0; display: flex; align-items: center; justify-content: flex-end; gap: 3px; }
+
+        /* ── Admin collapsed report cards ── */
+        .admin-report-card { border-bottom: 0.5px solid #f0f0f0; background: white; cursor: pointer; transition: background 0.15s; }
+        .admin-report-card:last-child { border-bottom: none; }
+        .arc-head { padding: 10px 14px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+        .arc-left { min-width: 0; flex: 1; }
+        .arc-name { font-size: 12px; font-weight: 700; color: #1a1a2e; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .arc-date { font-size: 9px; color: #9ca3af; margin-top: 1px; }
+        .arc-right { text-align: right; flex-shrink: 0; }
+        .arc-rev { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 700; color: #1a5f7a; white-space: nowrap; }
+        .arc-meta { font-size: 8.5px; color: #b0b8c4; margin-top: 2px; white-space: nowrap; }
+        .arc-issue { color: #dc2626; }
+        .arc-actions { display: flex; gap: 6px; padding: 0 14px 10px; background: #fafafa; border-top: 0.5px solid #f5f5f5; }
+        .arc-btn { flex: 1; padding: 6px 0; border-radius: 7px; font-size: 10px; font-weight: 700; border: none; display: flex; align-items: center; justify-content: center; gap: 4px; cursor: pointer; }
+        .arc-btn-p { background: #e0f2fe; color: #0369a1; }
+        .arc-btn-f { background: #dcfce7; color: #15803d; }
+        .arc-btn-d { background: #fef2f2; color: #dc2626; }
+
+        /* ── Welcome autocomplete ── */
+        #welcome-autocomplete { position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1.5px solid #dde3e8; border-top: none; border-radius: 0 0 8px 8px; z-index: 200; display: none; box-shadow: 0 4px 12px rgba(0,0,0,0.12); overflow: hidden; }
+        .wac-item { padding: 9px 14px; font-size: 0.92rem; font-weight: 600; color: #1a1a2e; cursor: pointer; }
+        .wac-item:hover { background: #f0f7fa; color: #1a5f7a; }
+
+        /* ── Welcome button shine ── */
+        .welcome-btn { position: relative; overflow: hidden; }
+        .welcome-btn-shine { position: absolute; top: 0; left: -60%; width: 40%; height: 100%; background: rgba(255,255,255,0.18); transform: skewX(-20deg); animation: shine-anim 2.8s infinite; }
+        @keyframes shine-anim { 0%,60%{left:-60%} 80%{left:120%} 100%{left:120%} }
+
         /* Responsive */
         @media (max-width: 768px) {
-            body {
-                padding: 12px;
-            }
-
-            .header {
-                flex-direction: column;
-                gap: 16px;
-                align-items: center;
-                text-align: center;
-                padding: 16px 0;
-            }
-
-            .logo {
-                max-width: 120px;
-                min-width: 120px;
-            }
-
-            .hotel-name {
-                font-size: 1.5rem;
-                letter-spacing: 1.5px;
-            }
-
-            .report-title {
-                font-size: 0.9rem;
-            }
-
-            .card {
-                padding: 18px;
-                margin-bottom: 18px;
-            }
-
-            .card-title {
-                font-size: 1.1rem;
-                margin-bottom: 16px;
-            }
-
-            .grid-3 {
-                grid-template-columns: 1fr;
-                gap: 10px;
-            }
-           
-            .button-panel {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 12px;
-            }
-           
-            .btn {
-                width: 100%;
-                max-width: none;
-                min-width: auto;
-                padding: 14px 20px;
-                font-size: 0.95rem;
-            }
-           
-            .sales-table {
-                font-size: 0.85rem;
-                display: block;
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-            }
-
-            .sales-table thead {
-                display: none;
-            }
-
-            .sales-table tbody {
-                display: block;
-            }
-
-            .sales-table tr {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 10px;
-                padding: 12px;
-                margin-bottom: 12px;
-                border: 1px solid var(--border);
-                border-radius: 8px;
-                background: #f9fafb;
-            }
-
-            .sales-table td {
-                display: flex;
-                flex-direction: column;
-                border: none;
-                padding: 0;
-            }
-
-            .sales-table td::before {
-                content: attr(data-label);
-                font-size: 0.7rem;
-                font-weight: 700;
-                color: var(--text-gray);
-                text-transform: uppercase;
-                margin-bottom: 4px;
-                letter-spacing: 0.5px;
-            }
-
-            .sales-table td:first-child {
-                grid-column: 1 / -1;
-            }
-
-            .sales-table td:last-child {
-                grid-column: 1 / -1;
-                align-items: center;
-                padding-top: 8px;
-            }
-
-            .remove-btn {
-                width: 100%;
-                max-width: 200px;
-                border-radius: 8px;
-                padding: 10px;
-                height: auto;
-            }
-           
-            .modal-content {
-                max-height: 95vh;
-                border-radius: 8px;
-            }
-
-            .modal-close {
-                top: 10px;
-                right: 10px;
-                width: 36px;
-                height: 36px;
-                font-size: 20px;
-            }
-
-            .modal-body {
-                padding: 20px;
-            }
-
-            .modal-actions {
-                padding: 16px 20px;
-                display: flex;
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .modal-actions .btn {
-                margin: 0;
-            }
-
-            .total-sales {
-                padding: 16px;
-                background: #f8f9fa;
-                border-radius: 8px;
-                margin-top: 16px;
-            }
-
-            .total-amount {
-                font-size: 1.3rem;
-                display: block;
-                text-align: center;
-                margin-top: 8px;
-                padding: 0;
-                border: none;
-            }
-
-            label {
-                font-size: 0.7rem;
-            }
-
-            input, select, textarea {
-                font-size: 14px;
-                padding: 10px 12px;
-            }
+            body { padding: 12px; }
+            .mobile-topbar { display: flex; }
+            .header { display: none; }
+            .card { padding: 9px 10px; margin-bottom: 9px; border-left-width: 3px; border-radius: 8px; }
+            .card:hover { transform: none; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+            .card-title { display: none; }
+            .card-compact-title { display: flex; }
+            .grid-3 { grid-template-columns: 1fr 1fr; gap: 4px; }
+            .grid-3 .form-group { margin-bottom: 0; }
+            .occ-field-lbl { display: block; }
+            .grid-3 input, .grid-3 select { background: #f0f7fa; border: 1.5px solid #cce3ec; border-radius: 6px; padding: 4px 7px; font-size: 9px; font-weight: 700; color: #0f2027; }
+            .grid-3 label { display: none; }
+            .sales-table { display: none !important; }
+            #sales-table-add-btn { display: none !important; }
+            .sales-card { display: block; }
+            .grid-3.dept-grid-pc { display: none !important; }
+            .dept-mobile-grid { display: grid; }
+            .button-panel { display: none !important; }
+            #mobile-fab-panel { display: flex; }
+            #vault-fab { bottom: 68px; right: 14px; padding: 9px 14px; font-size: 0.78rem; }
+            textarea { font-size: 10px !important; padding: 7px 8px; min-height: 55px; }
+            .modal-content { max-height: 95vh; border-radius: 8px; }
+            .modal-close { top: 10px; right: 10px; width: 36px; height: 36px; font-size: 20px; }
+            .modal-body { padding: 14px; }
+            .modal-actions { padding: 10px 14px; display: flex; flex-direction: column; gap: 8px; }
+            .modal-actions .btn { margin: 0; min-width: auto; }
+            .total-sales { padding: 8px 10px; background: #f8f9fa; border-radius: 7px; margin-top: 8px; }
+            .total-amount { font-size: 0.95rem; display: block; text-align: center; margin-top: 4px; padding: 0; border: none; }
+            label { font-size: 0.7rem; }
+            .admin-header { padding: 12px 14px; flex-direction: row; flex-wrap: wrap; gap: 8px; }
+            .admin-header-left h2 { font-size: 1rem; }
+            .admin-logout { padding: 5px 12px; font-size: 0.75rem; }
+            .admin-stats-grid { grid-template-columns: repeat(2,1fr); gap: 8px; }
+            .admin-two-col { grid-template-columns: 1fr; gap: 12px; }
+            .admin-filters { padding: 12px 14px; gap: 10px; }
+            .admin-filter-group { min-width: 100%; }
+            #admin-custom-dates { width: 100%; }
+            .admin-combined-btn { width: 100%; margin-left: 0; justify-content: center; }
+            #admin-reports-list { max-height: none; }
         }
-       
+
         /* Status indicators */
         .status-option {
             position: relative;
@@ -815,46 +765,6 @@
             max-width: 440px;
             overflow: hidden;
             animation: fadeInScale 0.6s ease-out;
-        }
-        @media (max-width: 768px) {
-            .welcome-card {
-                max-width: 100%;
-                border-radius: 12px;
-            }
-
-            .welcome-top {
-                padding: 28px 24px 24px;
-            }
-
-            .welcome-logo {
-                max-width: 180px;
-            }
-
-            .welcome-hotel-name {
-                font-size: 1.3rem;
-                letter-spacing: 2px;
-            }
-
-            .welcome-subtitle {
-                font-size: 0.72rem;
-            }
-
-            .welcome-bottom {
-                padding: 24px 24px 28px;
-            }
-
-            .welcome-greeting {
-                font-size: 1rem;
-            }
-
-            .welcome-date-display {
-                font-size: 0.78rem;
-            }
-
-            .welcome-btn {
-                padding: 14px;
-                font-size: 0.9rem;
-            }
         }
         .welcome-top {
             background: linear-gradient(160deg, #0f2027, #2c5364);
@@ -981,21 +891,6 @@
             z-index: 500;
             transition: all 0.3s;
         }
-        @media (max-width: 768px) {
-            #vault-fab {
-                bottom: 20px;
-                right: 16px;
-                padding: 11px 18px;
-                font-size: 0.8rem;
-                gap: 6px;
-            }
-
-            #vault-fab .vault-badge {
-                width: 18px;
-                height: 18px;
-                font-size: 0.65rem;
-            }
-        }
         #vault-fab:hover {
             transform: translateY(-3px);
             box-shadow: 0 10px 25px rgba(243,156,18,0.5);
@@ -1036,60 +931,6 @@
             box-shadow: 0 20px 60px rgba(0,0,0,0.2);
             overflow: hidden;
             animation: fadeInScale 0.3s ease-out;
-        }
-        @media (max-width: 768px) {
-            .vault-modal-content {
-                max-height: 92vh;
-                border-radius: 12px;
-            }
-
-            .vault-header {
-                padding: 18px 20px 16px;
-            }
-
-            .vault-header h2 {
-                font-size: 1rem;
-            }
-
-            .vault-actions {
-                padding: 14px 20px;
-            }
-
-            .vault-save-btn {
-                width: 100%;
-                justify-content: center;
-            }
-
-            .vault-list {
-                padding: 14px 20px;
-            }
-
-            .vault-item {
-                flex-direction: column;
-                align-items: stretch;
-                padding: 12px 14px;
-                gap: 12px;
-            }
-
-            .vault-item-title {
-                font-size: 0.85rem;
-            }
-
-            .vault-item-meta {
-                font-size: 0.7rem;
-            }
-
-            .vault-item-btns {
-                flex-wrap: wrap;
-                gap: 8px;
-            }
-
-            .vault-btn {
-                flex: 1 1 calc(50% - 4px);
-                min-width: calc(50% - 4px);
-                padding: 8px 10px;
-                font-size: 0.7rem;
-            }
         }
         .vault-header {
             padding: 22px 28px 18px;
@@ -1296,30 +1137,6 @@
             gap: 12px;
             margin-bottom: 22px;
         }
-        @media (max-width: 768px) {
-            .admin-stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 10px;
-            }
-
-            .admin-stat-card {
-                padding: 10px 12px;
-            }
-
-            .admin-stat-icon {
-                width: 32px;
-                height: 32px;
-                font-size: 12px;
-            }
-
-            .admin-stat-label {
-                font-size: 10px;
-            }
-
-            .admin-stat-value {
-                font-size: 12px;
-            }
-        }
         .admin-stat-card {
             background: #f4f6f8;
             border-radius: 8px;
@@ -1340,22 +1157,11 @@
         .admin-stat-card.highlight { border-left-color: #16a34a; }
         .admin-stat-card.highlight .admin-stat-icon { color: #16a34a; }
         .admin-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 22px; }
-        @media (max-width: 768px) {
-            .admin-two-col {
-                grid-template-columns: 1fr;
-                gap: 14px;
-            }
-        }
         .admin-panel {
             background: white;
             border-radius: 12px;
             padding: 20px;
             box-shadow: 0 3px 12px rgba(0,0,0,0.07);
-        }
-        @media (max-width: 768px) {
-            .admin-panel {
-                padding: 16px;
-            }
         }
         .admin-panel-title {
             font-size: 0.9rem;
@@ -1385,59 +1191,8 @@
         .admin-bar-user { background: linear-gradient(90deg, var(--success), #2ecc71); }
         #admin-reports-list { max-height: 420px; overflow-y: auto; }
         @media (max-width: 768px) {
-            .admin-header {
-                flex-direction: column;
-                padding: 18px 20px;
-                gap: 12px;
-            }
-
-            .admin-header-left h2 {
-                font-size: 1.1rem;
-            }
-
-            .admin-header-left p {
-                font-size: 0.75rem;
-            }
-
-            .admin-logout {
-                width: 100%;
-                padding: 10px 18px;
-            }
-
-            .admin-filters {
-                padding: 16px 18px;
-                gap: 12px;
-            }
-
-            .admin-filter-group {
-                min-width: 100%;
-                width: 100%;
-            }
-
-            #admin-custom-dates {
-                width: 100%;
-            }
-
-            .admin-combined-btn {
-                width: 100%;
-                margin-left: 0;
-                justify-content: center;
-            }
-
-            .admin-breakdown-row {
-                grid-template-columns: 1fr auto;
-                gap: 8px;
-                font-size: 0.78rem;
-            }
-
-            .admin-bar-wrap {
-                grid-column: 1 / -1;
-                margin-top: 6px;
-            }
-
-            .admin-panel-title {
-                font-size: 0.85rem;
-            }
+            .admin-stats-grid { grid-template-columns: 1fr 1fr; }
+            .admin-two-col { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -1535,17 +1290,35 @@
 
     <!-- Main App -->
     <div id="main-app" style="display:none;">
-    <!-- Header with logo -->
-    <div class="header">
-        <img id="logo-display" src="https://cdn.pixabay.com/photo/2016/12/30/16/26/hotel-1940893_1280.png" alt="Linde Hotel Logo" class="logo">
-        <h1 class="hotel-name">LINDE HOTEL</h1>
-        <p class="report-title">DUTY MANAGER DAILY REPORT</p>
+
+    <!-- Mobile Topbar (hidden on desktop) -->
+    <div class="mobile-topbar" id="mobile-topbar">
+        <div class="mtb-left">
+            <div class="mtb-logo-wrap"><img id="logo-display-mobile" src="" alt="Linde"></div>
+            <div>
+                <div class="mtb-name">Linde Hotel</div>
+                <div class="mtb-sub" id="mtb-sub-text">Duty Manager Portal</div>
+            </div>
+        </div>
+        <button class="mtb-switch" id="mtb-switch-btn"><i class="fas fa-sign-out-alt" style="font-size:8px;"></i> Switch</button>
     </div>
-   
+
+    <!-- Header with logo (desktop only) -->
+    <div class="header">
+        <img id="logo-display" src="" alt="Linde Hotel Logo" class="logo">
+        <div>
+            <h1 class="hotel-name">LINDE HOTEL</h1>
+            <p class="report-title">DUTY MANAGER DAILY REPORT</p>
+        </div>
+    </div>
+
     <!-- General & Occupancy Card -->
     <div class="card">
-        <h2 class="card-title"><i class="fas fa-calendar-alt"></i> General & Occupancy</h2>
-        <div class="grid-3">
+        <h2 class="card-title"><i class="fas fa-calendar-alt"></i> General &amp; Occupancy</h2>
+        <div class="card-compact-title"><i class="fas fa-calendar-alt"></i> Occupancy</div>
+
+        <!-- Desktop grid -->
+        <div class="grid-3" id="occ-desktop-grid">
             <div class="form-group">
                 <label for="report-date">Report Date</label>
                 <input type="date" id="report-date">
@@ -1554,9 +1327,7 @@
                 <label for="manager-name">Duty Manager Name</label>
                 <input type="text" id="manager-name" placeholder="Enter manager name">
             </div>
-            <div class="form-group">
-                <!-- Empty column for spacing -->
-            </div>
+            <div class="form-group"></div>
             <div class="form-group">
                 <label for="rooms-sold">Rooms Sold</label>
                 <input type="number" id="rooms-sold" min="0" value="">
@@ -1570,11 +1341,52 @@
                 <input type="number" id="guest-in-house" min="0" value="0">
             </div>
         </div>
+
+        <!-- Mobile field boxes -->
+        <div id="occ-mobile-grid" style="display:none;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:4px;">
+                <div class="occ-field-wrap">
+                    <span class="occ-field-lbl">Date</span>
+                    <div style="background:#f0f7fa;border:1.5px solid #cce3ec;border-radius:6px;padding:4px 7px;">
+                        <input type="date" id="report-date-m" style="background:transparent;border:none;padding:0;font-size:9px;font-weight:700;color:#0f2027;width:100%;outline:none;">
+                    </div>
+                </div>
+                <div class="occ-field-wrap">
+                    <span class="occ-field-lbl">Manager</span>
+                    <div style="background:#f0f7fa;border:1.5px solid #cce3ec;border-radius:6px;padding:4px 7px;">
+                        <input type="text" id="manager-name-m" placeholder="Name" style="background:transparent;border:none;padding:0;font-size:9px;font-weight:700;color:#0f2027;width:100%;outline:none;">
+                    </div>
+                </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;">
+                <div class="occ-field-wrap">
+                    <span class="occ-field-lbl">Rooms sold</span>
+                    <div style="background:#f0f7fa;border:1.5px solid #cce3ec;border-radius:6px;padding:4px 7px;">
+                        <input type="number" id="rooms-sold-m" min="0" placeholder="0" style="background:transparent;border:none;padding:0;font-size:9px;font-weight:700;color:#0f2027;width:100%;outline:none;">
+                    </div>
+                </div>
+                <div class="occ-field-wrap">
+                    <span class="occ-field-lbl">Comp.</span>
+                    <div style="background:#f0f7fa;border:1.5px solid #cce3ec;border-radius:6px;padding:4px 7px;">
+                        <input type="number" id="complimentary-rooms-m" min="0" placeholder="0" style="background:transparent;border:none;padding:0;font-size:9px;font-weight:700;color:#0f2027;width:100%;outline:none;">
+                    </div>
+                </div>
+                <div class="occ-field-wrap">
+                    <span class="occ-field-lbl">Guests</span>
+                    <div style="background:#f0f7fa;border:1.5px solid #cce3ec;border-radius:6px;padding:4px 7px;">
+                        <input type="number" id="guest-in-house-m" min="0" placeholder="0" style="background:transparent;border:none;padding:0;font-size:9px;font-weight:700;color:#0f2027;width:100%;outline:none;">
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-   
+
     <!-- Sales Summary Card -->
     <div class="card">
         <h2 class="card-title"><i class="fas fa-chart-line"></i> Sales Summary</h2>
+        <div class="card-compact-title"><i class="fas fa-chart-line"></i> Sales</div>
+
+        <!-- Desktop table -->
         <table class="sales-table">
             <thead>
                 <tr>
@@ -1586,126 +1398,125 @@
             </thead>
             <tbody id="sales-entries">
                 <tr class="sales-row">
-                    <td>
-                        <select class="sales-dept">
-                            <option value="Reception Morning">Reception Morning</option>
-                            <option value="Reception Afternoon">Reception Afternoon</option>
-                            <option value="Restaurant Morning">Restaurant Morning</option>
-                            <option value="Restaurant Afternoon">Restaurant Afternoon</option>
-                            <option value="Bar">Bar</option>
-                            <option value="Laundry">Laundry</option>
-                        </select>
-                    </td>
-                    <td>
-                        <input type="text" class="sales-amount" placeholder="0">
-                    </td>
-                    <td>
-                        <select class="sales-payment">
-                            <option value="Cash">Cash</option>
-                            <option value="Visa">Visa</option>
-                            <option value="Credit">Credit</option>
-                        </select>
-                    </td>
-                    <td class="text-center">
-                        <button class="remove-btn" type="button"><i class="fas fa-times"></i></button>
-                    </td>
+                    <td><select class="sales-dept">
+                        <option value="Reception Morning">Reception Morning</option>
+                        <option value="Reception Afternoon">Reception Afternoon</option>
+                        <option value="Restaurant Morning">Restaurant Morning</option>
+                        <option value="Restaurant Afternoon">Restaurant Afternoon</option>
+                        <option value="Bar">Bar</option>
+                        <option value="Laundry">Laundry</option>
+                    </select></td>
+                    <td><input type="text" class="sales-amount" placeholder="0"></td>
+                    <td><select class="sales-payment">
+                        <option value="Cash">Cash</option>
+                        <option value="Visa">Visa</option>
+                        <option value="Credit">Credit</option>
+                    </select></td>
+                    <td class="text-center"><button class="remove-btn" type="button"><i class="fas fa-times"></i></button></td>
                 </tr>
             </tbody>
         </table>
-       
-        <div class="text-center">
+        <div class="text-center" id="sales-table-add-btn">
             <button class="btn btn-success btn-small" id="add-sales-entry">
                 <i class="fas fa-plus-circle"></i> Add Sales Entry
             </button>
         </div>
-       
+
+        <!-- Mobile sales cards -->
+        <div class="sales-card" id="sales-card-list"></div>
+        <button class="sales-card-add-btn" id="add-sales-entry-mobile" style="display:none;">
+            <i class="fas fa-plus" style="font-size:8px;"></i> Add Sales Entry
+        </button>
+
         <div class="total-sales">
             <div>Total Sales:</div>
             <div class="total-amount" id="total-sales">MWK 0</div>
         </div>
     </div>
-   
+
     <!-- Departmental Status Card -->
     <div class="card">
         <h2 class="card-title"><i class="fas fa-clipboard-check"></i> Departmental Status</h2>
-        <div class="grid-3">
+        <div class="card-compact-title"><i class="fas fa-clipboard-check"></i> Dept Status</div>
+
+        <!-- Desktop grid -->
+        <div class="grid-3 dept-grid-pc">
             <div class="form-group status-option">
                 <label for="restaurant-status">Restaurant</label>
-                <select id="restaurant-status">
-                    <option value="Closed">Closed</option>
-                    <option value="Issues">Issues</option>
-                </select>
+                <select id="restaurant-status"><option value="Closed">Closed</option><option value="Issues">Issues</option></select>
             </div>
             <div class="form-group status-option">
                 <label for="bar-status">Bar</label>
-                <select id="bar-status">
-                    <option value="Closed">Closed</option>
-                    <option value="Issues">Issues</option>
-                </select>
+                <select id="bar-status"><option value="Closed">Closed</option><option value="Issues">Issues</option></select>
             </div>
             <div class="form-group status-option">
                 <label for="kitchen-status">Kitchen</label>
-                <select id="kitchen-status">
-                    <option value="Closed">Closed</option>
-                    <option value="Issues">Issues</option>
-                </select>
+                <select id="kitchen-status"><option value="Closed">Closed</option><option value="Issues">Issues</option></select>
             </div>
             <div class="form-group status-option">
                 <label for="laundry-status">Laundry</label>
-                <select id="laundry-status">
-                    <option value="Closed">Closed</option>
-                    <option value="Issues">Issues</option>
-                </select>
+                <select id="laundry-status"><option value="Closed">Closed</option><option value="Issues">Issues</option></select>
             </div>
             <div class="form-group status-option">
-                <label for="stores-status">Stores & Coldroom</label>
-                <select id="stores-status">
-                    <option value="Closed">Closed</option>
-                    <option value="Issues">Issues</option>
-                </select>
+                <label for="stores-status">Stores &amp; Coldroom</label>
+                <select id="stores-status"><option value="Closed">Closed</option><option value="Issues">Issues</option></select>
             </div>
             <div class="form-group status-option">
                 <label for="conference-status">Conference Rooms</label>
-                <select id="conference-status">
-                    <option value="Closed">Closed</option>
-                    <option value="Issues">Issues</option>
-                </select>
+                <select id="conference-status"><option value="Closed">Closed</option><option value="Issues">Issues</option></select>
             </div>
         </div>
+
+        <!-- Mobile dept grid -->
+        <div class="dept-mobile-grid">
+            <div class="dept-mobile-item"><span class="dmi-name">Restaurant</span><select data-dept="restaurant-status"><option value="Closed">Closed</option><option value="Issues">Issues</option></select></div>
+            <div class="dept-mobile-item"><span class="dmi-name">Bar</span><select data-dept="bar-status"><option value="Closed">Closed</option><option value="Issues">Issues</option></select></div>
+            <div class="dept-mobile-item"><span class="dmi-name">Kitchen</span><select data-dept="kitchen-status"><option value="Closed">Closed</option><option value="Issues">Issues</option></select></div>
+            <div class="dept-mobile-item"><span class="dmi-name">Laundry</span><select data-dept="laundry-status"><option value="Closed">Closed</option><option value="Issues">Issues</option></select></div>
+            <div class="dept-mobile-item"><span class="dmi-name">Stores</span><select data-dept="stores-status"><option value="Closed">Closed</option><option value="Issues">Issues</option></select></div>
+            <div class="dept-mobile-item"><span class="dmi-name">Conference</span><select data-dept="conference-status"><option value="Closed">Closed</option><option value="Issues">Issues</option></select></div>
+        </div>
     </div>
-   
+
     <!-- Remarks / Incident Log Card -->
     <div class="card">
         <h2 class="card-title"><i class="fas fa-sticky-note"></i> Remarks / Incident Log</h2>
+        <div class="card-compact-title"><i class="fas fa-sticky-note"></i> Remarks</div>
         <div class="form-group">
             <label for="remarks">Enter remarks, incidents, or notes for the shift</label>
             <textarea id="remarks" rows="6" placeholder="Start typing your remarks here..."></textarea>
         </div>
     </div>
-   
-    <!-- Button Panel -->
+
+    <!-- Desktop Button Panel -->
     <div class="button-panel">
-        <button class="btn btn-primary" id="preview-report">
-            <i class="fas fa-eye"></i> Preview Report
-        </button>
-        <button class="btn btn-success" id="generate-pdf">
-            <i class="fas fa-file-pdf"></i> Generate Official PDF
-        </button>
-        <button class="btn btn-danger" id="new-shift">
-            <i class="fas fa-redo"></i> New Shift
-        </button>
-        <button class="btn" id="switch-user-btn" style="background:#6c757d;color:white;">
-            <i class="fas fa-sign-out-alt"></i> Switch User
-        </button>
+        <button class="btn btn-primary" id="preview-report"><i class="fas fa-search"></i> Preview</button>
+        <button class="btn btn-success" id="generate-pdf"><i class="fas fa-file-pdf"></i> PDF</button>
+        <button class="btn" id="print-btn-desktop" style="background:#1a5f7a;color:white;"><i class="fas fa-print"></i> Print</button>
+        <button class="btn btn-danger" id="new-shift"><i class="fas fa-redo"></i> New shift</button>
+        <button class="btn" id="switch-user-btn" style="background:#6c757d;color:white;"><i class="fas fa-sign-out-alt"></i> Switch User</button>
     </div>
-   
+
+    <!-- Mobile FAB -->
+    <div id="mobile-fab-panel">
+        <div id="fab-actions" style="display:none;flex-direction:column;align-items:flex-end;gap:6px;">
+            <div class="fab-action-row"><span class="fab-action-lbl">Preview</span><button class="fab-action-btn" id="fab-preview" style="background:#e0f2fe;color:#0369a1;"><i class="fas fa-search"></i></button></div>
+            <div class="fab-action-row"><span class="fab-action-lbl">PDF</span><button class="fab-action-btn" id="fab-pdf" style="background:#dcfce7;color:#15803d;"><i class="fas fa-file-pdf"></i></button></div>
+            <div class="fab-action-row"><span class="fab-action-lbl">Print</span><button class="fab-action-btn" id="fab-print" style="background:#f0f9ff;color:#1a5f7a;"><i class="fas fa-print"></i></button></div>
+            <div class="fab-action-row"><span class="fab-action-lbl">New shift</span><button class="fab-action-btn" id="fab-newshift" style="background:#fef2f2;color:#dc2626;"><i class="fas fa-redo"></i></button></div>
+        </div>
+        <button id="fab-main-btn"><span class="fab-shine"></span><i class="fas fa-ellipsis-h" id="fab-icon"></i></button>
+        <div class="fab-auto-saved" id="fab-saved-indicator"><i class="fas fa-check-circle" style="color:#16a34a;font-size:8px;"></i> Auto-saved</div>
+    </div>
+
     <!-- Save Indicator -->
     <div class="save-indicator" id="save-indicator">Data Saved</div>
-   
+
     <!-- Hidden print area -->
     <div id="print-area" style="display:none;"></div>
-   
+
     </div><!-- end #main-app -->
+
 
     <!-- Hidden PDF Render Area -->
     <div id="pdf-render"></div>
@@ -1737,16 +1548,23 @@
             <div class="welcome-bottom">
                 <div class="welcome-greeting" id="welcome-greeting">Good morning!</div>
                 <div class="welcome-date-display" id="welcome-date"></div>
-                <div class="welcome-name-wrap">
+                <div class="welcome-name-wrap" style="position:relative;margin-bottom:20px;">
                     <label for="welcome-manager-input">Your Name</label>
                     <input type="text" id="welcome-manager-input" placeholder="e.g. Sarah Banda" autocomplete="off">
+                    <div id="welcome-autocomplete"></div>
                 </div>
                 <button class="welcome-btn" id="welcome-start-btn">
+                    <span class="welcome-btn-shine"></span>
                     <i class="fas fa-sign-in-alt"></i> Start Shift
                 </button>
-                <div class="welcome-footer"><i class="fas fa-shield-alt"></i> Your data is auto-saved as you work</div>
+                <div class="welcome-footer" style="margin-top:14px;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:nowrap;">
+                    <span style="font-size:0.65rem;font-weight:700;color:#b0b8c1;letter-spacing:0.6px;white-space:nowrap;">Drim Apps</span>
+                    <a href="https://wa.me/265896462596" style="display:flex;align-items:center;gap:3px;font-size:0.68rem;color:#9ca3af;text-decoration:none;white-space:nowrap;"><i class="fab fa-whatsapp" style="color:#22c55e;font-size:11px;"></i>+265 896 462 596</a>
+                    <a href="mailto:chipiemie@gmail.com" style="display:flex;align-items:center;gap:3px;font-size:0.68rem;color:#9ca3af;text-decoration:none;white-space:nowrap;"><i class="fas fa-envelope" style="color:#60a5fa;font-size:10px;"></i>chipiemie@gmail.com</a>
+                </div>
             </div>
         </div>
+    </div>
     </div>
 
     <!-- ── My Reports FAB ── -->
@@ -2616,5 +2434,334 @@
     updateGuestInHouse();
     updateTotalSales();
     updateVaultBadge();
+
+    // ── Mobile / Desktop field sync ───────────────────────────────────
+    const isMobile = () => window.innerWidth <= 768;
+
+    function showMobileOrDesktop() {
+        const mobile = isMobile();
+        document.getElementById('occ-desktop-grid').style.display = mobile ? 'none' : '';
+        document.getElementById('occ-mobile-grid').style.display = mobile ? '' : 'none';
+        document.getElementById('add-sales-entry-mobile').style.display = mobile ? 'flex' : 'none';
+        document.getElementById('sales-table-add-btn').style.display = mobile ? 'none' : '';
+        // Update mobile topbar
+        const mtbSub = document.getElementById('mtb-sub-text');
+        if (mtbSub && currentUser) {
+            const dateVal = document.getElementById('report-date').value;
+            mtbSub.textContent = (currentUser.replace(/\b\w/g, c => c.toUpperCase())) + (dateVal ? ' · ' + formatReportDate(dateVal) : '');
+        }
+    }
+    window.addEventListener('resize', showMobileOrDesktop);
+
+    // Sync mobile ↔ desktop occupancy fields
+    function syncMobileToDesktop() {
+        const dm = document.getElementById('report-date-m');
+        const dd = document.getElementById('report-date');
+        const mm = document.getElementById('manager-name-m');
+        const md = document.getElementById('manager-name');
+        const rsm = document.getElementById('rooms-sold-m');
+        const rsd = document.getElementById('rooms-sold');
+        const crm = document.getElementById('complimentary-rooms-m');
+        const crd = document.getElementById('complimentary-rooms');
+        const gm = document.getElementById('guest-in-house-m');
+        const gd = document.getElementById('guest-in-house');
+        if (dm && dd) { dm.addEventListener('change', () => { dd.value = dm.value; updateGuestInHouse(); showMobileOrDesktop(); }); }
+        if (mm && md) { mm.addEventListener('input', () => { mm.value = mm.value.replace(/\b\w/g, c => c.toUpperCase()); md.value = mm.value; saveToLocalStorage(); showMobileOrDesktop(); }); }
+        if (rsm && rsd) { rsm.addEventListener('input', () => { rsd.value = rsm.value; updateGuestInHouse(); }); }
+        if (crm && crd) { crm.addEventListener('input', () => { crd.value = crm.value; updateGuestInHouse(); }); }
+        if (gm && gd) { gm.addEventListener('input', () => { gd.value = gm.value; guestInHouseManuallySet = true; saveToLocalStorage(); }); }
+        // Desktop → mobile
+        if (dd && dm) { dd.addEventListener('change', () => { if (dm) dm.value = dd.value; showMobileOrDesktop(); }); }
+        if (md && mm) { md.addEventListener('input', () => { if (mm) mm.value = md.value; showMobileOrDesktop(); }); }
+        if (rsd && rsm) { rsd.addEventListener('input', () => { if (rsm) rsm.value = rsd.value; }); }
+        if (crd && crm) { crd.addEventListener('input', () => { if (crm) crm.value = crd.value; }); }
+        if (gd && gm) { gd.addEventListener('input', () => { if (gm) gm.value = gd.value; }); }
+    }
+    syncMobileToDesktop();
+
+    // Sync mobile dept selects ↔ desktop
+    document.querySelectorAll('.dept-mobile-item select[data-dept]').forEach(sel => {
+        const targetId = sel.getAttribute('data-dept');
+        const desktop = document.getElementById(targetId);
+        sel.addEventListener('change', () => { if (desktop) desktop.value = sel.value; saveToLocalStorage(); });
+        if (desktop) desktop.addEventListener('change', () => { sel.value = desktop.value; });
+    });
+
+    // Sync applySnapshot to also update mobile fields
+    const _origApplySnapshot = applySnapshot;
+    applySnapshot = function(snap) {
+        _origApplySnapshot(snap);
+        // Mirror to mobile fields
+        const dm = document.getElementById('report-date-m');
+        const mm = document.getElementById('manager-name-m');
+        const rsm = document.getElementById('rooms-sold-m');
+        const crm = document.getElementById('complimentary-rooms-m');
+        const gm = document.getElementById('guest-in-house-m');
+        if (dm) dm.value = snap.reportDate || '';
+        if (mm) mm.value = snap.managerName || '';
+        if (rsm) rsm.value = snap.roomsSold || '';
+        if (crm) crm.value = snap.complimentaryRooms || '';
+        if (gm) gm.value = snap.guestInHouse || '0';
+        // Mirror dept to mobile selects
+        if (snap.deptStatus) {
+            document.querySelectorAll('.dept-mobile-item select[data-dept]').forEach(sel => {
+                const k = sel.getAttribute('data-dept').replace('-status', '');
+                if (snap.deptStatus[k]) sel.value = snap.deptStatus[k];
+            });
+        }
+        renderMobileSalesCards();
+        showMobileOrDesktop();
+    };
+
+    // ── Mobile Sales Cards ────────────────────────────────────────────
+    function renderMobileSalesCards() {
+        const cardList = document.getElementById('sales-card-list');
+        if (!cardList) return;
+        const rows = document.querySelectorAll('.sales-row');
+        cardList.innerHTML = '';
+        rows.forEach((row, idx) => {
+            const dept = row.querySelector('.sales-dept').value;
+            const amt = row.querySelector('.sales-amount').value || '0';
+            const pay = row.querySelector('.sales-payment').value;
+            const card = document.createElement('div');
+            card.className = 'sales-card-entry';
+            card.dataset.idx = idx;
+            card.innerHTML = `
+                <div class="sce-left">
+                    <div class="sce-lbl">Department</div>
+                    <div class="sce-val">${dept}</div>
+                </div>
+                <div class="sce-right">
+                    <div class="sce-lbl">Amount</div>
+                    <div class="sce-val">MWK ${amt}</div>
+                    <span class="sce-pay">${pay}</span>
+                </div>
+                <button class="sce-rm" data-idx="${idx}"><i class="fas fa-times" style="font-size:6px;"></i></button>`;
+            card.querySelector('.sce-rm').addEventListener('click', function(e) {
+                e.stopPropagation();
+                const rows2 = document.querySelectorAll('.sales-row');
+                if (rows2[idx]) { rows2[idx].remove(); updateTotalSales(); saveToLocalStorage(); renderMobileSalesCards(); }
+            });
+            // Tap card to edit — could expand; for now just highlight
+            cardList.appendChild(card);
+        });
+        // Total
+        const tot = document.getElementById('total-sales');
+        const div = document.createElement('div');
+        div.className = 'sales-card-total';
+        div.innerHTML = `<span class="sct-label">Total Sales</span><span class="sct-val">${tot ? tot.textContent : 'MWK 0'}</span>`;
+        cardList.appendChild(div);
+    }
+
+    // Patch addSalesEntry to also re-render mobile cards
+    const _origAddSalesEntry = addSalesEntry;
+    function addSalesEntry() {
+        _origAddSalesEntry ? _origAddSalesEntry() : null;
+        renderMobileSalesCards();
+    }
+    document.getElementById('add-sales-entry').removeEventListener && null;
+    document.getElementById('add-sales-entry').onclick = () => { 
+        // call original logic inline
+        const row = document.createElement('tr');
+        row.className='sales-row';
+        row.innerHTML=`<td><select class="sales-dept"><option>Reception Morning</option><option>Reception Afternoon</option><option>Restaurant Morning</option><option>Restaurant Afternoon</option><option>Bar</option><option>Laundry</option></select></td>
+        <td><input type="text" class="sales-amount" placeholder="0"></td>
+        <td><select class="sales-payment"><option>Cash</option><option>Visa</option><option>Credit</option></select></td>
+        <td class="text-center"><button class="remove-btn" type="button"><i class="fas fa-times"></i></button></td>`;
+        salesEntriesContainer.appendChild(row);
+        const amt=row.querySelector('.sales-amount');
+        amt.addEventListener('input',()=>formatNumberWithCommas(amt));
+        amt.addEventListener('blur',()=>formatAmountOnBlur(amt));
+        amt.addEventListener('focus',function(){if(this.value==='0'||this.value==='')this.select();});
+        row.querySelector('.sales-dept').addEventListener('change',()=>{saveToLocalStorage();renderMobileSalesCards();});
+        row.querySelector('.sales-payment').addEventListener('change',()=>{saveToLocalStorage();renderMobileSalesCards();});
+        row.querySelector('.remove-btn').addEventListener('click',()=>{row.remove();updateTotalSales();saveToLocalStorage();renderMobileSalesCards();});
+        updateTotalSales(); saveToLocalStorage(); renderMobileSalesCards();
+    };
+    document.getElementById('add-sales-entry-mobile').addEventListener('click', () => {
+        document.getElementById('add-sales-entry').click();
+    });
+
+    // ── Mobile FAB toggle ─────────────────────────────────────────────
+    let fabOpen = false;
+    const fabMainBtn = document.getElementById('fab-main-btn');
+    const fabActions = document.getElementById('fab-actions');
+    const fabIcon = document.getElementById('fab-icon');
+    if (fabMainBtn) {
+        fabMainBtn.addEventListener('click', () => {
+            fabOpen = !fabOpen;
+            fabActions.style.display = fabOpen ? 'flex' : 'none';
+            fabIcon.className = fabOpen ? 'fas fa-times' : 'fas fa-ellipsis-h';
+        });
+    }
+    if (document.getElementById('fab-preview')) {
+        document.getElementById('fab-preview').addEventListener('click', () => { document.getElementById('preview-report').click(); fabOpen=false; fabActions.style.display='none'; fabIcon.className='fas fa-ellipsis-h'; });
+        document.getElementById('fab-pdf').addEventListener('click', () => { document.getElementById('generate-pdf').click(); fabOpen=false; fabActions.style.display='none'; fabIcon.className='fas fa-ellipsis-h'; });
+        document.getElementById('fab-print').addEventListener('click', () => { document.getElementById('print-preview-btn') && document.getElementById('print-preview-btn').click(); fabOpen=false; fabActions.style.display='none'; fabIcon.className='fas fa-ellipsis-h'; });
+        document.getElementById('fab-newshift').addEventListener('click', () => { document.getElementById('new-shift').click(); fabOpen=false; fabActions.style.display='none'; fabIcon.className='fas fa-ellipsis-h'; });
+    }
+
+    // Mobile switch button
+    document.getElementById('mtb-switch-btn') && document.getElementById('mtb-switch-btn').addEventListener('click', () => {
+        document.getElementById('switch-user-btn').click();
+    });
+
+    // Desktop print button
+    document.getElementById('print-btn-desktop') && document.getElementById('print-btn-desktop').addEventListener('click', () => {
+        previewContent.innerHTML = generatePreviewContent();
+        previewModal.style.display = 'flex';
+    });
+
+    // Update FAB saved indicator when toast shows
+    const _origShowToast = showToast;
+    showToast = function(msg) {
+        _origShowToast(msg);
+        const fi = document.getElementById('fab-saved-indicator');
+        if (fi) { fi.style.opacity='1'; setTimeout(()=>fi.style.opacity='',2000); }
+    };
+
+    // ── Autocomplete on welcome screen ───────────────────────────────
+    function initAutocomplete() {
+        const nameInput = document.getElementById('welcome-manager-input');
+        const acDiv = document.getElementById('welcome-autocomplete');
+        if (!nameInput || !acDiv) return;
+        nameInput.addEventListener('input', function() {
+            const val = this.value.trim();
+            if (val.length < 4) { acDiv.style.display='none'; return; }
+            // Get unique user names from localStorage vaults
+            const allKeys = Object.keys(localStorage).filter(k => k.startsWith('linde_vault_'));
+            const names = new Set();
+            allKeys.forEach(k => {
+                try {
+                    const reports = JSON.parse(localStorage.getItem(k)) || [];
+                    reports.forEach(r => { if (r.managerName) names.add(r.managerName); });
+                } catch(e) {}
+            });
+            // Also check last user
+            const lastUser = localStorage.getItem('linde_last_user');
+            if (lastUser) names.add(lastUser.replace(/\b\w/g, c=>c.toUpperCase()));
+            const matches = [...names].filter(n => n.toLowerCase().startsWith(val.toLowerCase()));
+            if (!matches.length) { acDiv.style.display='none'; return; }
+            acDiv.innerHTML = matches.slice(0,3).map(m => `<div class="wac-item">${m}</div>`).join('');
+            acDiv.style.display = 'block';
+            acDiv.querySelectorAll('.wac-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    nameInput.value = item.textContent;
+                    acDiv.style.display = 'none';
+                });
+            });
+        });
+        document.addEventListener('click', e => { if (!acDiv.contains(e.target) && e.target !== nameInput) acDiv.style.display='none'; });
+    }
+    initAutocomplete();
+
+    // ── Vault linked to Supabase ──────────────────────────────────────
+    // Patch renderVaultList to load from Supabase first
+    const _origRenderVaultList = renderVaultList;
+    async function renderVaultListWithSupabase() {
+        const list = document.getElementById('vault-list');
+        if (list) list.innerHTML = '<div class="vault-empty"><i class="fas fa-spinner fa-spin"></i> Loading...</div>';
+        try {
+            const remote = await dbGetUserReports(currentUser);
+            if (remote && remote.length) {
+                // Merge remote into local
+                const local = getUserVaultLocal();
+                const merged = [...local];
+                remote.forEach(r => { if (!merged.find(l => String(l.id) === String(r.id))) merged.push(r); });
+                if (merged.length > local.length) saveUserVault(merged);
+            }
+        } catch(e) { console.warn('Supabase vault fetch failed, using local', e); }
+        _origRenderVaultList();
+    }
+    // Override openVault to use the supabase version
+    document.getElementById('vault-fab').removeEventListener('click', openVault);
+    document.getElementById('vault-fab').addEventListener('click', () => {
+        renderVaultListWithSupabase();
+        document.getElementById('vault-modal').classList.add('open');
+    });
+
+    // ── Admin report cards (collapsed) ───────────────────────────────
+    // Patch refreshAdminStats to use new card style
+    const _origRefreshAdminStats = refreshAdminStats;
+    refreshAdminStats = function(allReports) {
+        _origRefreshAdminStats(allReports);
+        // Re-render individual reports with new card style
+        renderAdminReportCards();
+    };
+
+    function renderAdminReportCards() {
+        const sorted = getFilteredReports(_cachedAllReports).slice().sort((a,b)=>new Date(b.reportDate||b.savedAt)-new Date(a.reportDate||a.savedAt));
+        const listEl = document.getElementById('admin-reports-list');
+        if (!listEl) return;
+        if (!sorted.length) { listEl.innerHTML='<div class="vault-empty"><i class="fas fa-inbox"></i> No reports found.</div>'; return; }
+        listEl.innerHTML = sorted.map((r,idx) => {
+            const rTotal = (r.salesEntries||[]).reduce((s,e)=>s+(parseFloat((e.amount||'').replace(/[^\d.]/g,''))||0),0);
+            const issues = Object.values(r.deptStatus||{}).filter(v=>v==='Issues').length;
+            const metaIssue = issues ? `<span class="arc-issue">${issues} issue${issues>1?'s':''}</span>` : 'OK';
+            return `<div class="admin-report-card" data-idx="${idx}">
+                <div class="arc-head">
+                    <div class="arc-left">
+                        <div class="arc-name">${r.managerName||r.user||'Unknown'}</div>
+                        <div class="arc-date">${formatReportDate(r.reportDate)}</div>
+                    </div>
+                    <div class="arc-right">
+                        <div class="arc-rev">MWK ${fmt(rTotal)}</div>
+                        <div class="arc-meta">R:${r.roomsSold||0} · G:${r.guestInHouse||0} · C:${r.complimentaryRooms||0} · ${metaIssue}</div>
+                    </div>
+                </div>
+                <div class="arc-actions" style="display:none;">
+                    <button class="arc-btn arc-btn-p" data-idx="${idx}"><i class="fas fa-search" style="font-size:9px;"></i> Preview</button>
+                    <button class="arc-btn arc-btn-f" data-idx="${idx}"><i class="fas fa-file-pdf" style="font-size:9px;"></i> PDF</button>
+                    <button class="arc-btn arc-btn-d" data-id="${r.id}" data-idx="${idx}"><i class="fas fa-trash" style="font-size:9px;"></i> Delete</button>
+                </div>
+            </div>`;
+        }).join('');
+
+        // Toggle expand on card click
+        listEl.querySelectorAll('.admin-report-card').forEach(card => {
+            card.querySelector('.arc-head').addEventListener('click', () => {
+                const actions = card.querySelector('.arc-actions');
+                const isOpen = actions.style.display !== 'none';
+                // Close all
+                listEl.querySelectorAll('.arc-actions').forEach(a => a.style.display='none');
+                actions.style.display = isOpen ? 'none' : 'flex';
+            });
+        });
+
+        // Wire buttons
+        listEl.querySelectorAll('.arc-btn-p').forEach(btn => btn.addEventListener('click', async function(e) {
+            e.stopPropagation();
+            const snap = sorted[parseInt(this.dataset.idx)];
+            if (!snap) return;
+            previewContent.innerHTML = generatePreviewFromSnap(snap);
+            previewModal.style.display = 'flex';
+        }));
+        listEl.querySelectorAll('.arc-btn-f').forEach(btn => btn.addEventListener('click', async function(e) {
+            e.stopPropagation();
+            const snap = sorted[parseInt(this.dataset.idx)];
+            if (!snap) return;
+            const cur = getFormSnapshot(); applySnapshot(snap);
+            await generatePDF(null, `Linde_Report_${snap.reportDate||'report'}.pdf`);
+            applySnapshot(cur);
+        }));
+        listEl.querySelectorAll('.arc-btn-d').forEach(btn => btn.addEventListener('click', async function(e) {
+            e.stopPropagation();
+            if (!confirm('Permanently delete this report?')) return;
+            await dbDeleteReport(this.dataset.id);
+            await renderAdminDashboard();
+        }));
+    }
+
+    // ── Init mobile on load ───────────────────────────────────────────
+    showMobileOrDesktop();
+    renderMobileSalesCards();
+    // Save last user on login
+    const _origLoginUser = loginUser;
+    loginUser = function(name) {
+        if (name) localStorage.setItem('linde_last_user', name.trim());
+        _origLoginUser(name);
+        setTimeout(showMobileOrDesktop, 600);
+    };
+
     </script>
 </html>
