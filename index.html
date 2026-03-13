@@ -714,8 +714,8 @@
             .modal-body { padding: 14px; }
             .modal-actions { padding: 10px 14px; display: flex; flex-direction: column; gap: 8px; }
             .modal-actions .btn { margin: 0; min-width: auto; }
-            #print-preview-btn { display: none; }
-            .fab-print-row { display: none; }
+            #print-preview-btn { display: none !important; }
+            #fab-lbl-print, #fab-print { display: none !important; }
             #download-pdf { font-size: 11px !important; padding: 7px 10px !important; }
             .total-sales { padding: 8px 10px; background: #f8f9fa; border-radius: 7px; margin-top: 8px; }
             .total-amount { font-size: 1rem; display: block; text-align: center; margin-top: 4px; padding: 0; border: none; }
@@ -1362,7 +1362,7 @@
             <div class="mtb-logo-wrap"><img id="logo-display-mobile" src="" alt="Linde"></div>
             <div>
                 <div class="mtb-name">Linde Hotel</div>
-                <div class="mtb-sub" id="mtb-sub-text"></div>
+                <div class="mtb-sub" id="mtb-sub-text">Duty Manager Portal</div>
             </div>
         </div>
         <button class="mtb-switch" id="mtb-switch-btn"><i class="fas fa-sign-out-alt" style="font-size:8px;"></i> Switch</button>
@@ -1535,7 +1535,7 @@
         <div id="fab-actions" style="display:none;flex-direction:column;align-items:flex-end;gap:6px;">
             <div class="fab-action-row"><button class="fab-action-lbl" id="fab-lbl-preview">Preview</button><button class="fab-action-btn" id="fab-preview" style="background:#e0f2fe;color:#0369a1;"><i class="fas fa-search"></i></button></div>
             <div class="fab-action-row"><button class="fab-action-lbl" id="fab-lbl-pdf">PDF</button><button class="fab-action-btn" id="fab-pdf" style="background:#dcfce7;color:#15803d;"><i class="fas fa-file-pdf"></i></button></div>
-            <div class="fab-action-row fab-print-row"><button class="fab-action-lbl" id="fab-lbl-print">Print</button><button class="fab-action-btn" id="fab-print" style="background:#f0f9ff;color:#1a5f7a;"><i class="fas fa-print"></i></button></div>
+            <div class="fab-action-row"><button class="fab-action-lbl" id="fab-lbl-print">Print</button><button class="fab-action-btn" id="fab-print" style="background:#f0f9ff;color:#1a5f7a;"><i class="fas fa-print"></i></button></div>
             <div class="fab-action-row"><button class="fab-action-lbl" id="fab-lbl-newshift">New shift</button><button class="fab-action-btn" id="fab-newshift" style="background:#fef2f2;color:#dc2626;"><i class="fas fa-redo"></i></button></div>
         </div>
         <button id="fab-main-btn"><span class="fab-shine"></span><i class="fas fa-ellipsis-h" id="fab-icon"></i></button>
@@ -2498,16 +2498,13 @@
     // ── Mobile topbar sub text update ────────────────────────────────
     function updateMobileTopbar() {
         const mtbSub = document.getElementById('mtb-sub-text');
-        if (!mtbSub) return;
-        const nameVal = document.getElementById('manager-name').value || (currentUser ? currentUser.replace(/\w/g, c => c.toUpperCase()) : '');
-        const dateVal = document.getElementById('report-date').value;
-        if (nameVal) {
-            mtbSub.textContent = nameVal + (dateVal ? ' · ' + formatReportDate(dateVal) : '');
+        if (mtbSub && currentUser) {
+            const dateVal = document.getElementById('report-date').value;
+            mtbSub.textContent = (currentUser.replace(/\b\w/g, c => c.toUpperCase())) + (dateVal ? ' · ' + formatReportDate(dateVal) : '');
         }
     }
-    // Update topbar whenever date or manager name changes
+    // Update topbar whenever date changes
     document.getElementById('report-date').addEventListener('change', updateMobileTopbar);
-    document.getElementById('manager-name').addEventListener('input', updateMobileTopbar);
     updateMobileTopbar();
 
     // Sync mobile dept selects ↔ desktop
@@ -2679,12 +2676,6 @@
         });
     }
     function closeFab() { fabOpen=false; fabActions.style.display='none'; fabIcon.className='fas fa-ellipsis-h'; }
-    // Tap anywhere outside the FAB panel to close it
-    document.addEventListener('click', (e) => {
-        if (fabOpen && !document.getElementById('mobile-fab-panel').contains(e.target)) {
-            closeFab();
-        }
-    });
     if (document.getElementById('fab-preview')) {
         const fabAct = {
             preview: () => { document.getElementById('preview-report').click(); closeFab(); },
