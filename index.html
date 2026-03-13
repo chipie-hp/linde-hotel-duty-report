@@ -577,46 +577,72 @@
             position: sticky; top: 0; z-index: 50;
         }
         .mtb-left { display: flex; align-items: center; gap: 8px; }
-        .mtb-logo-wrap { width: 32px; height: 25px; background: rgba(255,255,255,0.15); border-radius: 4px; overflow: hidden; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
-        .mtb-logo-wrap img { width: 100%; height: 100%; object-fit: cover; border-radius: 4px; }
-        .mtb-name { color: white; font-size: 11.5px; font-weight: 700; }
-        .mtb-sub { color: rgba(255,255,255,0.5); font-size: 7px; margin-top: 1px; }
-        .mtb-switch { background: rgba(255,255,255,0.12); color: white; border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding: 3px 8px; font-size: 9px; font-weight: 600; display: flex; align-items: center; gap: 3px; cursor: pointer; white-space: nowrap; }
+        .mtb-logo-wrap { width: 44px; height: 36px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; flex-shrink: 0; display: flex; align-items: center; justify-content: center; padding: 2px; }
+        .mtb-logo-wrap img { width: 100%; height: 100%; object-fit: contain; border-radius: 2px; }
+        .mtb-name { color: white; font-size: 12.5px; font-weight: 700; }
+        .mtb-sub { color: rgba(255,255,255,0.65); font-size: 10px; margin-top: 1px; }
+        .mtb-switch { background: rgba(255,255,255,0.12); color: white; border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding: 4px 10px; font-size: 9.5px; font-weight: 600; display: flex; align-items: center; gap: 3px; cursor: pointer; white-space: nowrap; }
 
         /* ── Compact card title ── */
-        .card-compact-title { display: none; font-size: 8.5px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 7px; align-items: center; gap: 4px; }
+        .card-compact-title { display: none; font-size: 9px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 7px; align-items: center; gap: 4px; }
         .card-compact-title i { color: #1a5f7a; font-size: 8px; }
-        .occ-field-lbl { display: none; font-size: 6.5px; font-weight: 800; color: #1a5f7a; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
+        .occ-field-lbl { display: none; font-size: 8.5px; font-weight: 800; color: #1a5f7a; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
+        .occ-desktop-label { display: block; }
+        .occ-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+        .occ-grid .occ-field-wrap { display: flex; flex-direction: column; margin-bottom: 18px; }
 
         /* ── Mobile sales cards ── */
         .sales-card { display: none; }
         .sales-card-entry { background: #f0f7fa; border: 1.5px solid #cce3ec; border-radius: 7px; padding: 6px 8px; margin-bottom: 5px; display: flex; align-items: center; gap: 6px; }
         .sce-left { flex: 1; min-width: 0; }
         .sce-right { text-align: right; flex-shrink: 0; }
-        .sce-lbl { font-size: 6.5px; font-weight: 800; color: #1a5f7a; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
+        .sce-lbl { font-size: 7.5px; font-weight: 800; color: #1a5f7a; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
         .sce-val { font-size: 9px; font-weight: 700; color: #0f2027; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .sce-pay { display: inline-block; font-size: 6.5px; font-weight: 800; color: #64748b; background: #e2e8f0; border-radius: 3px; padding: 1px 4px; margin-top: 2px; }
+        .sce-pay { display: inline-block; font-size: 8px; font-weight: 800; color: #64748b; background: #e2e8f0; border-radius: 3px; padding: 1px 5px; margin-top: 2px; }
         .sce-rm { background: #fee2e2; color: #dc2626; border: none; border-radius: 50%; width: 18px; height: 18px; font-size: 7px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; cursor: pointer; }
         .sales-card-total { display: flex; justify-content: space-between; align-items: center; margin-top: 5px; padding-top: 4px; border-top: 1px solid #e2e8f0; }
-        .sct-label { font-size: 6.5px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }
-        .sct-val { font-size: 9px; font-weight: 800; color: #1a5f7a; }
-        .sales-card-add-btn { width: 100%; padding: 6px; border: 1.5px dashed #93c5d9; border-radius: 7px; background: none; color: #1a5f7a; font-size: 8.5px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 4px; margin-top: 3px; cursor: pointer; }
+        .sct-label { font-size: 9px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }
+        .sct-val { font-size: 11px; font-weight: 800; color: #1a5f7a; }
+        .sales-card-add-btn { width: 100%; padding: 6px; border: 1.5px dashed #93c5d9; border-radius: 7px; background: none; color: #1a5f7a; font-size: 8.5px; font-weight: 700; display: none; align-items: center; justify-content: center; gap: 4px; margin-top: 3px; cursor: pointer; }
+
+        /* ── Mobile sales card expand/collapse ── */
+        .sales-card-entry { background: #f0f7fa; border: 1.5px solid #cce3ec; border-radius: 8px; margin-bottom: 6px; overflow: hidden; cursor: pointer; }
+        .sce-open { border-color: #1a5f7a; cursor: default; }
+        .sce-collapsed { display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; gap: 8px; }
+        .sce-col-main { flex: 1; min-width: 0; }
+        .sce-col-dept { font-size: 12px; font-weight: 700; color: #0f2027; }
+        .sce-col-meta { display: flex; align-items: center; gap: 6px; margin-top: 2px; }
+        .sce-col-amt { font-size: 11px; color: #4b6b7a; font-weight: 600; }
+        .sce-col-actions { display: none; align-items: center; gap: 6px; flex-shrink: 0; }
+        .sce-chevron { font-size: 14px; color: #94a3b8; flex-shrink: 0; margin-left: 6px; }
+        .sce-edit-btn { background: #e0f2fe; color: #0369a1; border: none; border-radius: 5px; padding: 4px 10px; font-size: 11px; font-weight: 700; cursor: pointer; }
+        .sce-rm { background: #fee2e2; color: #dc2626; border: none; border-radius: 50%; width: 26px; height: 26px; font-size: 11px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; cursor: pointer; }
+        .sce-edit { padding: 10px; }
+        .sce-edit-row { display: flex; gap: 8px; }
+        .sce-edit-group { display: flex; flex-direction: column; }
+        .sce-dept-sel { background: white; border: 1.5px solid #cce3ec; border-radius: 6px; padding: 7px 8px; font-size: 12px; font-weight: 600; color: #0f2027; width: 100%; outline: none; }
+        .sce-amt-inp { background: white; border: 1.5px solid #1a5f7a; border-radius: 6px; padding: 7px 10px; font-size: 14px; font-weight: 700; color: #0f2027; width: 100%; outline: none; }
+        .sce-pills { display: flex; gap: 6px; }
+        .sce-pill { padding: 6px 14px; border-radius: 6px; border: 1.5px solid #cce3ec; background: white; font-size: 12px; font-weight: 600; color: #64748b; cursor: pointer; }
+        .sce-pill-active { background: #1a5f7a; color: white; border-color: #1a5f7a; }
+        .sce-done-btn { flex: 1; background: #1a5f7a; color: white; border: none; border-radius: 6px; padding: 8px; font-size: 12px; font-weight: 700; cursor: pointer; }
+        .sce-rm-btn { background: #fef2f2; color: #dc2626; border: none; border-radius: 6px; padding: 8px 14px; font-size: 12px; font-weight: 700; cursor: pointer; }
 
         /* ── Mobile dept grid ── */
         .dept-mobile-grid { display: none; grid-template-columns: 1fr 1fr; gap: 5px; }
         .dept-mobile-item { background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 6px; padding: 5px 7px; display: flex; align-items: center; justify-content: space-between; }
-        .dmi-name { font-size: 8.5px; font-weight: 600; color: #374151; }
-        .dept-mobile-item select { border: none; background: transparent; font-size: 7.5px; font-weight: 800; padding: 0; color: #64748b; cursor: pointer; outline: none; width: auto; max-width: 55px; -webkit-appearance: none; text-align: right; }
+        .dmi-name { font-size: 10px; font-weight: 600; color: #374151; }
+        .dept-mobile-item select { border: none; background: transparent; font-size: 9.5px; font-weight: 800; padding: 0; color: #64748b; cursor: pointer; outline: none; width: auto; max-width: 65px; -webkit-appearance: none; text-align: right; }
         .dept-mobile-item select option[value="Issues"] { color: #dc2626; font-weight: 800; }
 
         /* ── Mobile FAB ── */
         #mobile-fab-panel { display: none; position: fixed; bottom: 0; right: 0; padding: 0 14px 16px 0; z-index: 600; flex-direction: column; align-items: flex-end; gap: 6px; }
-        .fab-action-row { display: flex; align-items: center; gap: 7px; }
-        .fab-action-lbl { background: #0f2027; color: rgba(255,255,255,0.9); font-size: 9px; font-weight: 600; padding: 3px 9px; border-radius: 5px; box-shadow: 0 2px 6px rgba(0,0,0,0.2); white-space: nowrap; }
-        .fab-action-btn { width: 32px; height: 32px; border-radius: 50%; border: none; display: flex; align-items: center; justify-content: center; font-size: 12px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+        .fab-action-row { display: flex; align-items: center; gap: 7px; cursor: pointer; }
+        .fab-action-lbl { background: #0f2027; color: rgba(255,255,255,0.9); font-size: 11px; font-weight: 600; padding: 5px 12px; border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.2); white-space: nowrap; border: none; cursor: pointer; }
+        .fab-action-btn { width: 34px; height: 34px; border-radius: 50%; border: none; display: flex; align-items: center; justify-content: center; font-size: 14px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
         #fab-main-btn { width: 42px; height: 42px; border-radius: 50%; background: linear-gradient(135deg, #1a5f7a, #0e3d4f); color: white; border: none; font-size: 16px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 14px rgba(26,95,122,0.45); position: relative; overflow: hidden; margin-left: auto; }
         #fab-main-btn .fab-shine { position: absolute; top: 0; left: -50%; width: 35%; height: 100%; background: rgba(255,255,255,0.2); transform: skewX(-20deg); }
-        .fab-auto-saved { font-size: 7.5px; color: #94a3b8; text-align: right; padding: 2px 4px 0; display: flex; align-items: center; justify-content: flex-end; gap: 3px; }
+        .fab-auto-saved { font-size: 8.5px; color: #94a3b8; text-align: right; padding: 2px 4px 0; display: flex; align-items: center; justify-content: flex-end; gap: 3px; }
 
         /* ── Admin collapsed report cards ── */
         .admin-report-card { border-bottom: 0.5px solid #f0f0f0; background: white; cursor: pointer; transition: background 0.15s; }
@@ -654,11 +680,26 @@
             .card:hover { transform: none; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
             .card-title { display: none; }
             .card-compact-title { display: flex; }
-            .grid-3 { grid-template-columns: 1fr 1fr; gap: 4px; }
-            .grid-3 .form-group { margin-bottom: 0; }
+            /* Occupancy — real fields, mobile style */
+            .occ-grid { grid-template-columns: 1fr 1fr; gap: 5px; }
+            .occ-grid .occ-field-wrap { margin-bottom: 0; }
+            .occ-grid .occ-field-wrap:nth-child(3) { display: none; } /* empty spacer */
             .occ-field-lbl { display: block; }
-            .grid-3 input, .grid-3 select { background: #f0f7fa; border: 1.5px solid #cce3ec; border-radius: 6px; padding: 4px 7px; font-size: 9px; font-weight: 700; color: #0f2027; }
-            .grid-3 label { display: none; }
+            .occ-desktop-label { display: none !important; }
+            .occ-grid input, .occ-grid select {
+                background: #f0f7fa; border: 1.5px solid #cce3ec; border-radius: 6px;
+                padding: 5px 8px; font-size: 11px; font-weight: 700; color: #0f2027; width: 100%;
+            }
+            /* last 3 fields in a 3-col sub-row */
+            .occ-grid .occ-field-wrap:nth-child(4),
+            .occ-grid .occ-field-wrap:nth-child(5),
+            .occ-grid .occ-field-wrap:nth-child(6) { grid-column: auto; }
+            #rooms-sold, #complimentary-rooms, #guest-in-house { }
+            /* Override occ-grid to be 2-col top + 3-col bottom */
+            .occ-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; }
+            .occ-grid .occ-field-wrap:nth-child(1) { grid-column: 1 / 2; }
+            .occ-grid .occ-field-wrap:nth-child(2) { grid-column: 2 / 4; }
+
             .sales-table { display: none !important; }
             #sales-table-add-btn { display: none !important; }
             .sales-card { display: block; }
@@ -666,16 +707,40 @@
             .dept-mobile-grid { display: grid; }
             .button-panel { display: none !important; }
             #mobile-fab-panel { display: flex; }
-            #vault-fab { bottom: 68px; right: 14px; padding: 9px 14px; font-size: 0.78rem; }
-            textarea { font-size: 10px !important; padding: 7px 8px; min-height: 55px; }
+            #vault-fab { bottom: 68px; right: 14px; padding: 9px 14px; font-size: 0.85rem; }
+            textarea { font-size: 13px !important; padding: 8px 10px; min-height: 70px; }
             .modal-content { max-height: 95vh; border-radius: 8px; }
             .modal-close { top: 10px; right: 10px; width: 36px; height: 36px; font-size: 20px; }
             .modal-body { padding: 14px; }
             .modal-actions { padding: 10px 14px; display: flex; flex-direction: column; gap: 8px; }
             .modal-actions .btn { margin: 0; min-width: auto; }
+            #print-preview-btn { display: none !important; }
+            #fab-lbl-print, #fab-print { display: none !important; }
+            #download-pdf { font-size: 11px !important; padding: 7px 10px !important; }
             .total-sales { padding: 8px 10px; background: #f8f9fa; border-radius: 7px; margin-top: 8px; }
-            .total-amount { font-size: 0.95rem; display: block; text-align: center; margin-top: 4px; padding: 0; border: none; }
-            label { font-size: 0.7rem; }
+            .total-amount { font-size: 1rem; display: block; text-align: center; margin-top: 4px; padding: 0; border: none; }
+            label { font-size: 0.75rem; }
+            /* Increase general mobile font sizes */
+            .card-compact-title { font-size: 10.5px; margin-bottom: 9px; }
+            .sce-lbl { font-size: 7.5px; }
+            .sce-val { font-size: 11px; }
+            .sce-pay { font-size: 8px; }
+            .sct-label { font-size: 8px; }
+            .sct-val { font-size: 11px; }
+            .dmi-name { font-size: 11px; }
+            .dept-mobile-item select { font-size: 10px; max-width: 68px; }
+            .arc-name { font-size: 13px; }
+            .arc-date { font-size: 10px; }
+            .arc-rev { font-size: 12px; }
+            .arc-meta { font-size: 9.5px; }
+            .arc-btn { font-size: 11px; padding: 7px 0; }
+            .fab-action-lbl { font-size: 11px; padding: 4px 10px; }
+            .fab-action-btn { width: 36px; height: 36px; font-size: 14px; }
+            #fab-main-btn { width: 46px; height: 46px; font-size: 18px; }
+            .mtb-name { font-size: 13px; }
+            .mtb-sub { font-size: 9px; }
+            .mtb-switch { font-size: 11px; padding: 4px 10px; }
+            .sales-card-add-btn { display: flex; font-size: 11px; padding: 8px; }
             .admin-header { padding: 12px 14px; flex-direction: row; flex-wrap: wrap; gap: 8px; }
             .admin-header-left h2 { font-size: 1rem; }
             .admin-logout { padding: 5px 12px; font-size: 0.75rem; }
@@ -1316,66 +1381,34 @@
     <div class="card">
         <h2 class="card-title"><i class="fas fa-calendar-alt"></i> General &amp; Occupancy</h2>
         <div class="card-compact-title"><i class="fas fa-calendar-alt"></i> Occupancy</div>
-
-        <!-- Desktop grid -->
-        <div class="grid-3" id="occ-desktop-grid">
-            <div class="form-group">
-                <label for="report-date">Report Date</label>
+        <div class="occ-grid">
+            <div class="occ-field-wrap">
+                <span class="occ-field-lbl">Date</span>
+                <label class="occ-desktop-label" for="report-date">Report Date</label>
                 <input type="date" id="report-date">
             </div>
-            <div class="form-group">
-                <label for="manager-name">Duty Manager Name</label>
+            <div class="occ-field-wrap">
+                <span class="occ-field-lbl">Manager</span>
+                <label class="occ-desktop-label" for="manager-name">Duty Manager Name</label>
                 <input type="text" id="manager-name" placeholder="Enter manager name">
             </div>
-            <div class="form-group"></div>
-            <div class="form-group">
-                <label for="rooms-sold">Rooms Sold</label>
+            <div class="occ-field-wrap occ-desktop-only"></div>
+            <div class="occ-field-wrap">
+                <span class="occ-field-lbl">Rooms sold</span>
+                <label class="occ-desktop-label" for="rooms-sold">Rooms Sold</label>
                 <input type="number" id="rooms-sold" min="0" value="">
             </div>
-            <div class="form-group">
-                <label for="complimentary-rooms">Complimentary Rooms</label>
+            <div class="occ-field-wrap">
+                <span class="occ-field-lbl">Comp.</span>
+                <label class="occ-desktop-label" for="complimentary-rooms">Complimentary Rooms</label>
                 <input type="number" id="complimentary-rooms" min="0" value="">
             </div>
-            <div class="form-group">
-                <label for="guest-in-house">Guest In-House</label>
-                <input type="number" id="guest-in-house" min="0" value="0">
-            </div>
-        </div>
-
-        <!-- Mobile field boxes -->
-        <div id="occ-mobile-grid" style="display:none;">
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:4px;">
-                <div class="occ-field-wrap">
-                    <span class="occ-field-lbl">Date</span>
-                    <div style="background:#f0f7fa;border:1.5px solid #cce3ec;border-radius:6px;padding:4px 7px;">
-                        <input type="date" id="report-date-m" style="background:transparent;border:none;padding:0;font-size:9px;font-weight:700;color:#0f2027;width:100%;outline:none;">
-                    </div>
-                </div>
-                <div class="occ-field-wrap">
-                    <span class="occ-field-lbl">Manager</span>
-                    <div style="background:#f0f7fa;border:1.5px solid #cce3ec;border-radius:6px;padding:4px 7px;">
-                        <input type="text" id="manager-name-m" placeholder="Name" style="background:transparent;border:none;padding:0;font-size:9px;font-weight:700;color:#0f2027;width:100%;outline:none;">
-                    </div>
-                </div>
-            </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;">
-                <div class="occ-field-wrap">
-                    <span class="occ-field-lbl">Rooms sold</span>
-                    <div style="background:#f0f7fa;border:1.5px solid #cce3ec;border-radius:6px;padding:4px 7px;">
-                        <input type="number" id="rooms-sold-m" min="0" placeholder="0" style="background:transparent;border:none;padding:0;font-size:9px;font-weight:700;color:#0f2027;width:100%;outline:none;">
-                    </div>
-                </div>
-                <div class="occ-field-wrap">
-                    <span class="occ-field-lbl">Comp.</span>
-                    <div style="background:#f0f7fa;border:1.5px solid #cce3ec;border-radius:6px;padding:4px 7px;">
-                        <input type="number" id="complimentary-rooms-m" min="0" placeholder="0" style="background:transparent;border:none;padding:0;font-size:9px;font-weight:700;color:#0f2027;width:100%;outline:none;">
-                    </div>
-                </div>
-                <div class="occ-field-wrap">
-                    <span class="occ-field-lbl">Guests</span>
-                    <div style="background:#f0f7fa;border:1.5px solid #cce3ec;border-radius:6px;padding:4px 7px;">
-                        <input type="number" id="guest-in-house-m" min="0" placeholder="0" style="background:transparent;border:none;padding:0;font-size:9px;font-weight:700;color:#0f2027;width:100%;outline:none;">
-                    </div>
+            <div class="occ-field-wrap">
+                <span class="occ-field-lbl">Guests</span>
+                <label class="occ-desktop-label" for="guest-in-house">Guest In-House</label>
+                <div style="position:relative;display:flex;align-items:center;">
+                    <input type="number" id="guest-in-house" min="0" value="0" style="padding-right:44px;">
+                    <button id="guest-reset-btn" title="Reset to auto-calculate" style="position:absolute;right:4px;background:#e0f2fe;color:#0369a1;border:none;border-radius:4px;padding:2px 6px;font-size:9px;font-weight:700;cursor:pointer;display:none;">auto</button>
                 </div>
             </div>
         </div>
@@ -1424,7 +1457,7 @@
 
         <!-- Mobile sales cards -->
         <div class="sales-card" id="sales-card-list"></div>
-        <button class="sales-card-add-btn" id="add-sales-entry-mobile" style="display:none;">
+        <button class="sales-card-add-btn" id="add-sales-entry-mobile">
             <i class="fas fa-plus" style="font-size:8px;"></i> Add Sales Entry
         </button>
 
@@ -1500,10 +1533,10 @@
     <!-- Mobile FAB -->
     <div id="mobile-fab-panel">
         <div id="fab-actions" style="display:none;flex-direction:column;align-items:flex-end;gap:6px;">
-            <div class="fab-action-row"><span class="fab-action-lbl">Preview</span><button class="fab-action-btn" id="fab-preview" style="background:#e0f2fe;color:#0369a1;"><i class="fas fa-search"></i></button></div>
-            <div class="fab-action-row"><span class="fab-action-lbl">PDF</span><button class="fab-action-btn" id="fab-pdf" style="background:#dcfce7;color:#15803d;"><i class="fas fa-file-pdf"></i></button></div>
-            <div class="fab-action-row"><span class="fab-action-lbl">Print</span><button class="fab-action-btn" id="fab-print" style="background:#f0f9ff;color:#1a5f7a;"><i class="fas fa-print"></i></button></div>
-            <div class="fab-action-row"><span class="fab-action-lbl">New shift</span><button class="fab-action-btn" id="fab-newshift" style="background:#fef2f2;color:#dc2626;"><i class="fas fa-redo"></i></button></div>
+            <div class="fab-action-row"><button class="fab-action-lbl" id="fab-lbl-preview">Preview</button><button class="fab-action-btn" id="fab-preview" style="background:#e0f2fe;color:#0369a1;"><i class="fas fa-search"></i></button></div>
+            <div class="fab-action-row"><button class="fab-action-lbl" id="fab-lbl-pdf">PDF</button><button class="fab-action-btn" id="fab-pdf" style="background:#dcfce7;color:#15803d;"><i class="fas fa-file-pdf"></i></button></div>
+            <div class="fab-action-row"><button class="fab-action-lbl" id="fab-lbl-print">Print</button><button class="fab-action-btn" id="fab-print" style="background:#f0f9ff;color:#1a5f7a;"><i class="fas fa-print"></i></button></div>
+            <div class="fab-action-row"><button class="fab-action-lbl" id="fab-lbl-newshift">New shift</button><button class="fab-action-btn" id="fab-newshift" style="background:#fef2f2;color:#dc2626;"><i class="fas fa-redo"></i></button></div>
         </div>
         <button id="fab-main-btn"><span class="fab-shine"></span><i class="fas fa-ellipsis-h" id="fab-icon"></i></button>
         <div class="fab-auto-saved" id="fab-saved-indicator"><i class="fas fa-check-circle" style="color:#16a34a;font-size:8px;"></i> Auto-saved</div>
@@ -1632,6 +1665,8 @@
     const logoDisplay             = document.getElementById('logo-display');
 
     logoDisplay.src = EMBEDDED_LOGO;
+    const logoDisplayMobile = document.getElementById('logo-display-mobile');
+    if (logoDisplayMobile) logoDisplayMobile.src = EMBEDDED_LOGO;
 
     // ── Supabase helpers ──────────────────────────────────────────────
     async function dbSaveReport(snap) {
@@ -1805,34 +1840,53 @@
     }
     function loadFromLocalStorage() {
         const raw = localStorage.getItem(userDraftKey());
-        if (!raw) return;
+        if (!raw) {
+            // No saved draft — just set today's date
+            reportDateInput.value = new Date().toISOString().split('T')[0];
+            updateMobileTopbar && updateMobileTopbar();
+            return;
+        }
         try { applySnapshot(JSON.parse(raw)); } catch(e) {}
     }
 
     // ── Save report to vault + Supabase ──────────────────────────────
     async function saveReportToVault(snap) {
-        // Local vault
+        // Save locally first — instant, no waiting
         const vault = getUserVaultLocal();
         if (!vault.find(r => r.id === snap.id)) vault.push(snap);
         saveUserVault(vault);
-        // Global local
         const all = getLocalAllReports();
         if (!all.find(r => r.id === snap.id)) { all.push(snap); localStorage.setItem('linde_all_reports_v1', JSON.stringify(all)); }
-        // Supabase
-        await dbSaveReport(snap);
         updateVaultBadge();
+        // Sync to Supabase in background — don't block the UI
+        dbSaveReport(snap).catch(e => console.warn('Background Supabase sync failed:', e));
     }
 
     // ── Guest In-House calc ───────────────────────────────────────────
     function updateGuestInHouse() {
         if (!guestInHouseManuallySet) {
             guestInHouseInput.value = (parseInt(roomsSoldInput.value)||0) + (parseInt(complimentaryRoomsInput.value)||0);
+            const btn = document.getElementById('guest-reset-btn');
+            if (btn) btn.style.display = 'none';
         }
         saveToLocalStorage();
     }
     roomsSoldInput.addEventListener('input', updateGuestInHouse);
     complimentaryRoomsInput.addEventListener('input', updateGuestInHouse);
-    guestInHouseInput.addEventListener('input', () => { guestInHouseManuallySet = true; saveToLocalStorage(); });
+    guestInHouseInput.addEventListener('input', () => {
+        guestInHouseManuallySet = true;
+        const btn = document.getElementById('guest-reset-btn');
+        if (btn) btn.style.display = 'block';
+        saveToLocalStorage();
+    });
+    const guestResetBtn = document.getElementById('guest-reset-btn');
+    if (guestResetBtn) {
+        guestResetBtn.addEventListener('click', () => {
+            guestInHouseManuallySet = false;
+            guestResetBtn.style.display = 'none';
+            updateGuestInHouse();
+        });
+    }
 
     // ── Number formatting ─────────────────────────────────────────────
     function formatNumberWithCommas(input) {
@@ -1870,9 +1924,9 @@
         row.querySelector('.remove-btn').addEventListener('click',()=>{row.remove();updateTotalSales();saveToLocalStorage();});
         updateTotalSales(); saveToLocalStorage();
     }
-    addSalesEntryBtn.addEventListener('click', addSalesEntry);
+    addSalesEntryBtn.addEventListener('click', () => { addSalesEntry(); renderMobileSalesCards(); }); // desktop
 
-    document.querySelectorAll('.remove-btn').forEach(b=>b.addEventListener('click',function(){this.closest('tr').remove();updateTotalSales();saveToLocalStorage();}));
+    document.querySelectorAll('.remove-btn').forEach(b=>b.addEventListener('click',function(){this.closest('tr').remove();updateTotalSales();saveToLocalStorage();renderMobileSalesCards();}));
     document.querySelectorAll('.sales-amount').forEach(inp=>{
         inp.addEventListener('input',()=>formatNumberWithCommas(inp));
         inp.addEventListener('blur',()=>formatAmountOnBlur(inp));
@@ -2155,6 +2209,10 @@
                 document.getElementById('vault-fab').style.display='';
                 loadFromLocalStorage();
                 updateVaultBadge();
+                renderMobileSalesCards();
+                updateMobileTopbar();
+                renderMobileSalesCards();
+                updateMobileTopbar();
             }
         },500);
     }
@@ -2185,6 +2243,8 @@
                 document.getElementById('vault-fab').style.display='';
                 loadFromLocalStorage();
                 updateVaultBadge();
+                renderMobileSalesCards();
+                updateMobileTopbar();
             }
         }
     })();
@@ -2435,49 +2495,17 @@
     updateTotalSales();
     updateVaultBadge();
 
-    // ── Mobile / Desktop field sync ───────────────────────────────────
-    const isMobile = () => window.innerWidth <= 768;
-
-    function showMobileOrDesktop() {
-        const mobile = isMobile();
-        document.getElementById('occ-desktop-grid').style.display = mobile ? 'none' : '';
-        document.getElementById('occ-mobile-grid').style.display = mobile ? '' : 'none';
-        document.getElementById('add-sales-entry-mobile').style.display = mobile ? 'flex' : 'none';
-        document.getElementById('sales-table-add-btn').style.display = mobile ? 'none' : '';
-        // Update mobile topbar
+    // ── Mobile topbar sub text update ────────────────────────────────
+    function updateMobileTopbar() {
         const mtbSub = document.getElementById('mtb-sub-text');
         if (mtbSub && currentUser) {
             const dateVal = document.getElementById('report-date').value;
             mtbSub.textContent = (currentUser.replace(/\b\w/g, c => c.toUpperCase())) + (dateVal ? ' · ' + formatReportDate(dateVal) : '');
         }
     }
-    window.addEventListener('resize', showMobileOrDesktop);
-
-    // Sync mobile ↔ desktop occupancy fields
-    function syncMobileToDesktop() {
-        const dm = document.getElementById('report-date-m');
-        const dd = document.getElementById('report-date');
-        const mm = document.getElementById('manager-name-m');
-        const md = document.getElementById('manager-name');
-        const rsm = document.getElementById('rooms-sold-m');
-        const rsd = document.getElementById('rooms-sold');
-        const crm = document.getElementById('complimentary-rooms-m');
-        const crd = document.getElementById('complimentary-rooms');
-        const gm = document.getElementById('guest-in-house-m');
-        const gd = document.getElementById('guest-in-house');
-        if (dm && dd) { dm.addEventListener('change', () => { dd.value = dm.value; updateGuestInHouse(); showMobileOrDesktop(); }); }
-        if (mm && md) { mm.addEventListener('input', () => { mm.value = mm.value.replace(/\b\w/g, c => c.toUpperCase()); md.value = mm.value; saveToLocalStorage(); showMobileOrDesktop(); }); }
-        if (rsm && rsd) { rsm.addEventListener('input', () => { rsd.value = rsm.value; updateGuestInHouse(); }); }
-        if (crm && crd) { crm.addEventListener('input', () => { crd.value = crm.value; updateGuestInHouse(); }); }
-        if (gm && gd) { gm.addEventListener('input', () => { gd.value = gm.value; guestInHouseManuallySet = true; saveToLocalStorage(); }); }
-        // Desktop → mobile
-        if (dd && dm) { dd.addEventListener('change', () => { if (dm) dm.value = dd.value; showMobileOrDesktop(); }); }
-        if (md && mm) { md.addEventListener('input', () => { if (mm) mm.value = md.value; showMobileOrDesktop(); }); }
-        if (rsd && rsm) { rsd.addEventListener('input', () => { if (rsm) rsm.value = rsd.value; }); }
-        if (crd && crm) { crd.addEventListener('input', () => { if (crm) crm.value = crd.value; }); }
-        if (gd && gm) { gd.addEventListener('input', () => { if (gm) gm.value = gd.value; }); }
-    }
-    syncMobileToDesktop();
+    // Update topbar whenever date changes
+    document.getElementById('report-date').addEventListener('change', updateMobileTopbar);
+    updateMobileTopbar();
 
     // Sync mobile dept selects ↔ desktop
     document.querySelectorAll('.dept-mobile-item select[data-dept]').forEach(sel => {
@@ -2487,99 +2515,152 @@
         if (desktop) desktop.addEventListener('change', () => { sel.value = desktop.value; });
     });
 
-    // Sync applySnapshot to also update mobile fields
+    // Patch applySnapshot to also sync mobile dept selects + re-render sales cards
     const _origApplySnapshot = applySnapshot;
     applySnapshot = function(snap) {
         _origApplySnapshot(snap);
-        // Mirror to mobile fields
-        const dm = document.getElementById('report-date-m');
-        const mm = document.getElementById('manager-name-m');
-        const rsm = document.getElementById('rooms-sold-m');
-        const crm = document.getElementById('complimentary-rooms-m');
-        const gm = document.getElementById('guest-in-house-m');
-        if (dm) dm.value = snap.reportDate || '';
-        if (mm) mm.value = snap.managerName || '';
-        if (rsm) rsm.value = snap.roomsSold || '';
-        if (crm) crm.value = snap.complimentaryRooms || '';
-        if (gm) gm.value = snap.guestInHouse || '0';
-        // Mirror dept to mobile selects
-        if (snap.deptStatus) {
-            document.querySelectorAll('.dept-mobile-item select[data-dept]').forEach(sel => {
-                const k = sel.getAttribute('data-dept').replace('-status', '');
-                if (snap.deptStatus[k]) sel.value = snap.deptStatus[k];
-            });
-        }
+        // Sync mobile dept selects from desktop values
+        document.querySelectorAll('.dept-mobile-item select[data-dept]').forEach(sel => {
+            const desktop = document.getElementById(sel.getAttribute('data-dept'));
+            if (desktop) sel.value = desktop.value;
+        });
         renderMobileSalesCards();
-        showMobileOrDesktop();
+        updateMobileTopbar();
     };
 
     // ── Mobile Sales Cards ────────────────────────────────────────────
-    function renderMobileSalesCards() {
+    let mobileExpandedIdx = -1;
+
+    function renderMobileSalesCards(keepOpen) {
         const cardList = document.getElementById('sales-card-list');
         if (!cardList) return;
         const rows = document.querySelectorAll('.sales-row');
         cardList.innerHTML = '';
+        const depts = ['Reception Morning','Reception Afternoon','Restaurant Morning','Restaurant Afternoon','Bar','Laundry'];
+        const pays  = ['Cash','Visa','Credit'];
+
         rows.forEach((row, idx) => {
             const dept = row.querySelector('.sales-dept').value;
-            const amt = row.querySelector('.sales-amount').value || '0';
-            const pay = row.querySelector('.sales-payment').value;
+            const amt  = row.querySelector('.sales-amount').value || '';
+            const pay  = row.querySelector('.sales-payment').value;
+            const isOpen = (idx === mobileExpandedIdx);
             const card = document.createElement('div');
-            card.className = 'sales-card-entry';
+            card.className = 'sales-card-entry' + (isOpen ? ' sce-open' : '');
             card.dataset.idx = idx;
-            card.innerHTML = `
-                <div class="sce-left">
-                    <div class="sce-lbl">Department</div>
-                    <div class="sce-val">${dept}</div>
-                </div>
-                <div class="sce-right">
-                    <div class="sce-lbl">Amount</div>
-                    <div class="sce-val">MWK ${amt}</div>
-                    <span class="sce-pay">${pay}</span>
-                </div>
-                <button class="sce-rm" data-idx="${idx}"><i class="fas fa-times" style="font-size:6px;"></i></button>`;
-            card.querySelector('.sce-rm').addEventListener('click', function(e) {
-                e.stopPropagation();
-                const rows2 = document.querySelectorAll('.sales-row');
-                if (rows2[idx]) { rows2[idx].remove(); updateTotalSales(); saveToLocalStorage(); renderMobileSalesCards(); }
-            });
-            // Tap card to edit — could expand; for now just highlight
+
+            if (isOpen) {
+                // ── Expanded: live inputs ──
+                card.innerHTML = `
+                    <div class="sce-edit">
+                        <div class="sce-edit-tap-close" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #cce3ec;cursor:pointer;">
+                            <span style="font-size:11px;color:#1a5f7a;font-weight:700;">${dept}</span>
+                            <span style="font-size:10px;color:#94a3b8;">tap to close ›</span>
+                        </div>
+                        <div class="sce-edit-row">
+                            <div class="sce-edit-group" style="flex:1;">
+                                <div class="sce-lbl">Department</div>
+                                <select class="sce-dept-sel">${depts.map(d=>`<option${d===dept?' selected':''}>${d}</option>`).join('')}</select>
+                            </div>
+                        </div>
+                        <div class="sce-edit-row" style="margin-top:7px;">
+                            <div class="sce-edit-group" style="flex:1;">
+                                <div class="sce-lbl">Amount (MWK)</div>
+                                <input class="sce-amt-inp" type="text" inputmode="numeric" placeholder="0" value="${amt}">
+                            </div>
+                        </div>
+                        <div class="sce-edit-row" style="margin-top:7px;">
+                            <div class="sce-lbl" style="margin-bottom:4px;">Payment</div>
+                            <div class="sce-pills">
+                                ${pays.map(p=>`<button class="sce-pill${p===pay?' sce-pill-active':''}" data-pay="${p}">${p}</button>`).join('')}
+                            </div>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;margin-top:8px;gap:6px;">
+                            <button class="sce-done-btn">Done</button>
+                            <button class="sce-rm-btn"><i class="fas fa-times"></i> Remove</button>
+                        </div>
+                    </div>`;
+
+                // tap header to collapse (saves current values via closure)
+                card.querySelector('.sce-edit-tap-close').addEventListener('click', () => {
+                    mobileExpandedIdx = -1; renderMobileSalesCards();
+                });
+                // dept change
+                card.querySelector('.sce-dept-sel').addEventListener('change', function() {
+                    row.querySelector('.sales-dept').value = this.value;
+                    saveToLocalStorage();
+                });
+                // amount input — sync on every keystroke AND on blur
+                const amtInp = card.querySelector('.sce-amt-inp');
+                function syncAmt() {
+                    let v = amtInp.value.replace(/[^\d.]/g,'');
+                    let p = v.split('.');
+                    if (p.length > 2) v = p[0]+'.'+p[1];
+                    let i = (p[0]||'').replace(/\B(?=(\d{3})+(?!\d))/g,',');
+                    amtInp.value = p.length===2 ? i+'.'+p[1].substring(0,2) : i;
+                    row.querySelector('.sales-amount').value = amtInp.value;
+                    updateTotalSales(); saveToLocalStorage();
+                    const totEl = cardList.querySelector('.sct-val');
+                    if (totEl) totEl.textContent = document.getElementById('total-sales').textContent;
+                }
+                amtInp.addEventListener('input', syncAmt);
+                amtInp.addEventListener('blur', syncAmt);
+                // payment pills
+                card.querySelectorAll('.sce-pill').forEach(pill => {
+                    pill.addEventListener('click', function() {
+                        card.querySelectorAll('.sce-pill').forEach(p => p.classList.remove('sce-pill-active'));
+                        this.classList.add('sce-pill-active');
+                        row.querySelector('.sales-payment').value = this.dataset.pay;
+                        saveToLocalStorage();
+                    });
+                });
+                // done
+                card.querySelector('.sce-done-btn').addEventListener('click', () => {
+                    mobileExpandedIdx = -1; renderMobileSalesCards();
+                });
+                // remove
+                card.querySelector('.sce-rm-btn').addEventListener('click', () => {
+                    row.remove(); updateTotalSales(); saveToLocalStorage();
+                    mobileExpandedIdx = -1; renderMobileSalesCards();
+                });
+
+            } else {
+                // ── Collapsed: tap to expand ──
+                card.innerHTML = `
+                    <div class="sce-collapsed">
+                        <div class="sce-col-main">
+                            <div class="sce-col-dept">${dept}</div>
+                            <div class="sce-col-meta">
+                                <span class="sce-col-amt">${CURRENCY} ${amt||'0'}</span>
+                                <span class="sce-pay">${pay}</span>
+                            </div>
+                        </div>
+                        <span class="sce-chevron">›</span>
+                    </div>`;
+
+                // tap anywhere on collapsed card = expand it
+                card.addEventListener('click', () => {
+                    mobileExpandedIdx = idx;
+                    renderMobileSalesCards();
+                });
+            }
+
             cardList.appendChild(card);
         });
-        // Total
+
+        // Total row
         const tot = document.getElementById('total-sales');
         const div = document.createElement('div');
         div.className = 'sales-card-total';
-        div.innerHTML = `<span class="sct-label">Total Sales</span><span class="sct-val">${tot ? tot.textContent : 'MWK 0'}</span>`;
+        div.innerHTML = `<span class="sct-label">Total Sales</span><span class="sct-val">${tot ? tot.textContent : CURRENCY+' 0'}</span>`;
         cardList.appendChild(div);
     }
 
-    // Patch addSalesEntry to also re-render mobile cards
-    const _origAddSalesEntry = addSalesEntry;
-    function addSalesEntry() {
-        _origAddSalesEntry ? _origAddSalesEntry() : null;
-        renderMobileSalesCards();
-    }
-    document.getElementById('add-sales-entry').removeEventListener && null;
-    document.getElementById('add-sales-entry').onclick = () => { 
-        // call original logic inline
-        const row = document.createElement('tr');
-        row.className='sales-row';
-        row.innerHTML=`<td><select class="sales-dept"><option>Reception Morning</option><option>Reception Afternoon</option><option>Restaurant Morning</option><option>Restaurant Afternoon</option><option>Bar</option><option>Laundry</option></select></td>
-        <td><input type="text" class="sales-amount" placeholder="0"></td>
-        <td><select class="sales-payment"><option>Cash</option><option>Visa</option><option>Credit</option></select></td>
-        <td class="text-center"><button class="remove-btn" type="button"><i class="fas fa-times"></i></button></td>`;
-        salesEntriesContainer.appendChild(row);
-        const amt=row.querySelector('.sales-amount');
-        amt.addEventListener('input',()=>formatNumberWithCommas(amt));
-        amt.addEventListener('blur',()=>formatAmountOnBlur(amt));
-        amt.addEventListener('focus',function(){if(this.value==='0'||this.value==='')this.select();});
-        row.querySelector('.sales-dept').addEventListener('change',()=>{saveToLocalStorage();renderMobileSalesCards();});
-        row.querySelector('.sales-payment').addEventListener('change',()=>{saveToLocalStorage();renderMobileSalesCards();});
-        row.querySelector('.remove-btn').addEventListener('click',()=>{row.remove();updateTotalSales();saveToLocalStorage();renderMobileSalesCards();});
-        updateTotalSales(); saveToLocalStorage(); renderMobileSalesCards();
-    };
+    // Mobile add sales button — add entry then open it expanded
     document.getElementById('add-sales-entry-mobile').addEventListener('click', () => {
-        document.getElementById('add-sales-entry').click();
+        addSalesEntry();                                          // adds row, does NOT call renderMobileSalesCards
+        const rows = document.querySelectorAll('.sales-row');
+        mobileExpandedIdx = rows.length - 1;                    // point to the new row
+        renderMobileSalesCards();                                // render once with it open
     });
 
     // ── Mobile FAB toggle ─────────────────────────────────────────────
@@ -2594,11 +2675,19 @@
             fabIcon.className = fabOpen ? 'fas fa-times' : 'fas fa-ellipsis-h';
         });
     }
+    function closeFab() { fabOpen=false; fabActions.style.display='none'; fabIcon.className='fas fa-ellipsis-h'; }
     if (document.getElementById('fab-preview')) {
-        document.getElementById('fab-preview').addEventListener('click', () => { document.getElementById('preview-report').click(); fabOpen=false; fabActions.style.display='none'; fabIcon.className='fas fa-ellipsis-h'; });
-        document.getElementById('fab-pdf').addEventListener('click', () => { document.getElementById('generate-pdf').click(); fabOpen=false; fabActions.style.display='none'; fabIcon.className='fas fa-ellipsis-h'; });
-        document.getElementById('fab-print').addEventListener('click', () => { document.getElementById('print-preview-btn') && document.getElementById('print-preview-btn').click(); fabOpen=false; fabActions.style.display='none'; fabIcon.className='fas fa-ellipsis-h'; });
-        document.getElementById('fab-newshift').addEventListener('click', () => { document.getElementById('new-shift').click(); fabOpen=false; fabActions.style.display='none'; fabIcon.className='fas fa-ellipsis-h'; });
+        const fabAct = {
+            preview: () => { document.getElementById('preview-report').click(); closeFab(); },
+            pdf:     () => { document.getElementById('generate-pdf').click(); closeFab(); },
+            print:   () => { previewContent.innerHTML=generatePreviewContent(); previewModal.style.display='flex'; closeFab(); },
+            newshift:() => { document.getElementById('new-shift').click(); closeFab(); }
+        };
+        ['preview','pdf','print','newshift'].forEach(k => {
+            document.getElementById('fab-'+k).addEventListener('click', fabAct[k]);
+            const lbl = document.getElementById('fab-lbl-'+k);
+            if (lbl) lbl.addEventListener('click', fabAct[k]);
+        });
     }
 
     // Mobile switch button
@@ -2625,24 +2714,34 @@
         const nameInput = document.getElementById('welcome-manager-input');
         const acDiv = document.getElementById('welcome-autocomplete');
         if (!nameInput || !acDiv) return;
-        nameInput.addEventListener('input', function() {
-            const val = this.value.trim();
-            if (val.length < 4) { acDiv.style.display='none'; return; }
-            // Get unique user names from localStorage vaults
-            const allKeys = Object.keys(localStorage).filter(k => k.startsWith('linde_vault_'));
+
+        function getAllKnownNames() {
             const names = new Set();
-            allKeys.forEach(k => {
+            // Primary: directly remembered names from this device
+            try {
+                const known = JSON.parse(localStorage.getItem('linde_known_names') || '[]');
+                known.forEach(n => names.add(n));
+            } catch(e) {}
+            // Fallback: names from vault reports
+            Object.keys(localStorage).filter(k => k.startsWith('linde_vault_')).forEach(k => {
                 try {
                     const reports = JSON.parse(localStorage.getItem(k)) || [];
-                    reports.forEach(r => { if (r.managerName) names.add(r.managerName); });
+                    reports.forEach(r => { if (r.managerName) names.add(r.managerName.replace(/\w/g, c=>c.toUpperCase())); });
                 } catch(e) {}
             });
-            // Also check last user
+            // Always include last user
             const lastUser = localStorage.getItem('linde_last_user');
-            if (lastUser) names.add(lastUser.replace(/\b\w/g, c=>c.toUpperCase()));
-            const matches = [...names].filter(n => n.toLowerCase().startsWith(val.toLowerCase()));
+            if (lastUser) names.add(lastUser.replace(/\w/g, c=>c.toUpperCase()));
+            return [...names];
+        }
+
+        nameInput.addEventListener('input', function() {
+            const val = this.value.trim();
+            if (!val) { acDiv.style.display='none'; return; }
+            const allNames = getAllKnownNames();
+            const matches = allNames.filter(n => n.toLowerCase().startsWith(val.toLowerCase()));
             if (!matches.length) { acDiv.style.display='none'; return; }
-            acDiv.innerHTML = matches.slice(0,3).map(m => `<div class="wac-item">${m}</div>`).join('');
+            acDiv.innerHTML = matches.slice(0,5).map(m => `<div class="wac-item">${m}</div>`).join('');
             acDiv.style.display = 'block';
             acDiv.querySelectorAll('.wac-item').forEach(item => {
                 item.addEventListener('click', () => {
@@ -2651,6 +2750,22 @@
                 });
             });
         });
+
+        // Show all known names on focus if field is empty
+        nameInput.addEventListener('focus', function() {
+            if (this.value.trim()) return;
+            const allNames = getAllKnownNames();
+            if (!allNames.length) return;
+            acDiv.innerHTML = allNames.slice(0,5).map(m => `<div class="wac-item">${m}</div>`).join('');
+            acDiv.style.display = 'block';
+            acDiv.querySelectorAll('.wac-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    nameInput.value = item.textContent;
+                    acDiv.style.display = 'none';
+                });
+            });
+        });
+
         document.addEventListener('click', e => { if (!acDiv.contains(e.target) && e.target !== nameInput) acDiv.style.display='none'; });
     }
     initAutocomplete();
@@ -2659,19 +2774,30 @@
     // Patch renderVaultList to load from Supabase first
     const _origRenderVaultList = renderVaultList;
     async function renderVaultListWithSupabase() {
-        const list = document.getElementById('vault-list');
-        if (list) list.innerHTML = '<div class="vault-empty"><i class="fas fa-spinner fa-spin"></i> Loading...</div>';
+        // Show local data immediately — no spinner, no wait
+        _origRenderVaultList();
+        // Then sync from Supabase silently in background
         try {
             const remote = await dbGetUserReports(currentUser);
             if (remote && remote.length) {
-                // Merge remote into local
                 const local = getUserVaultLocal();
                 const merged = [...local];
-                remote.forEach(r => { if (!merged.find(l => String(l.id) === String(r.id))) merged.push(r); });
-                if (merged.length > local.length) saveUserVault(merged);
+                let changed = false;
+                remote.forEach(r => {
+                    if (!merged.find(l => String(l.id) === String(r.id))) {
+                        merged.push(r);
+                        changed = true;
+                    }
+                });
+                if (changed) {
+                    saveUserVault(merged);
+                    // Refresh list silently only if vault is still open
+                    if (document.getElementById('vault-modal').classList.contains('open')) {
+                        _origRenderVaultList();
+                    }
+                }
             }
-        } catch(e) { console.warn('Supabase vault fetch failed, using local', e); }
-        _origRenderVaultList();
+        } catch(e) { console.warn('Background Supabase vault sync failed:', e); }
     }
     // Override openVault to use the supabase version
     document.getElementById('vault-fab').removeEventListener('click', openVault);
@@ -2758,7 +2884,15 @@
     // Save last user on login
     const _origLoginUser = loginUser;
     loginUser = function(name) {
-        if (name) localStorage.setItem('linde_last_user', name.trim());
+        if (name) {
+            localStorage.setItem('linde_last_user', name.trim());
+            // Remember this name on the device
+            try {
+                const known = JSON.parse(localStorage.getItem('linde_known_names') || '[]');
+                const proper = name.trim().replace(/\w/g, c => c.toUpperCase());
+                if (!known.includes(proper)) { known.push(proper); localStorage.setItem('linde_known_names', JSON.stringify(known)); }
+            } catch(e) {}
+        }
         _origLoginUser(name);
         setTimeout(showMobileOrDesktop, 600);
     };
