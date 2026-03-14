@@ -636,7 +636,9 @@
         .dept-mobile-item select option[value="Issues"] { color: #dc2626; font-weight: 800; }
 
         /* ── Mobile FAB ── */
-        #mobile-fab-panel { display: none; position: fixed; bottom: 0; right: 0; padding: 0 14px 16px 0; z-index: 600; flex-direction: column; align-items: flex-end; gap: 6px; }
+        #fab-backdrop { display: none; position: fixed; inset: 0; z-index: 598; background: transparent; }
+        #fab-backdrop.active { display: block; }
+        #mobile-fab-panel { display: none; position: fixed; bottom: 0; right: 0; padding: 0 14px 10px 0; z-index: 600; flex-direction: column; align-items: flex-end; gap: 6px; }
         .fab-action-row { display: flex; align-items: center; gap: 7px; cursor: pointer; }
         .fab-action-lbl { background: #0f2027; color: rgba(255,255,255,0.9); font-size: 11px; font-weight: 600; padding: 5px 12px; border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.2); white-space: nowrap; border: none; cursor: pointer; }
         .fab-action-btn { width: 34px; height: 34px; border-radius: 50%; border: none; display: flex; align-items: center; justify-content: center; font-size: 14px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
@@ -707,18 +709,35 @@
             .dept-mobile-grid { display: grid; }
             .button-panel { display: none !important; }
             #mobile-fab-panel { display: flex; }
-            #vault-fab { bottom: 68px; right: 14px; padding: 9px 14px; font-size: 0.85rem; }
+            #vault-fab {
+                bottom: 10px;
+                right: 52px;
+                padding: 0 8px 0 8px;
+                height: 36px;
+                font-size: 10.5px;
+                gap: 5px;
+                border-radius: 18px;
+            }
+            #vault-fab i { font-size: 10px; }
+            #vault-fab .vault-badge {
+                width: 16px;
+                height: 16px;
+                font-size: 8px;
+                flex-shrink: 0;
+            }
             textarea { font-size: 13px !important; padding: 8px 10px; min-height: 70px; }
             .modal-content { max-height: 95vh; border-radius: 8px; }
             .modal-close { top: 10px; right: 10px; width: 36px; height: 36px; font-size: 20px; }
             .modal-body { padding: 14px; }
-            .modal-actions { padding: 10px 14px; display: flex; flex-direction: column; gap: 8px; }
+            .modal-actions { padding: 10px 14px; display: flex; flex-direction: column; gap: 8px; position: sticky; bottom: 0; background: white; border-top: 1px solid #e5e7eb; z-index: 10; box-shadow: 0 -2px 8px rgba(0,0,0,0.07); }
             .modal-actions .btn { margin: 0; min-width: auto; }
             #print-preview-btn { display: none !important; }
             #fab-lbl-print, #fab-print { display: none !important; }
             #download-pdf { font-size: 11px !important; padding: 7px 10px !important; }
-            .total-sales { padding: 8px 10px; background: #f8f9fa; border-radius: 7px; margin-top: 8px; }
-            .total-amount { font-size: 1rem; display: block; text-align: center; margin-top: 4px; padding: 0; border: none; }
+            .total-sales { padding: 0; background: none; border-top: none; margin-top: 8px; }
+            .total-sales > div:first-child { display: none; }
+            .total-amount { font-size: 11px; display: flex; justify-content: space-between; align-items: center; background: #f0f7fa; border-radius: 7px; padding: 6px 10px; margin: 0; border: none; text-align: left; width: 100%; }
+            .total-amount::before { content: 'Total Sales'; font-size: 9px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
             label { font-size: 0.75rem; }
             /* Increase general mobile font sizes */
             .card-compact-title { font-size: 10.5px; margin-bottom: 9px; }
@@ -729,11 +748,13 @@
             .sct-val { font-size: 11px; }
             .dmi-name { font-size: 11px; }
             .dept-mobile-item select { font-size: 10px; max-width: 68px; }
-            .arc-name { font-size: 13px; }
-            .arc-date { font-size: 10px; }
-            .arc-rev { font-size: 12px; }
-            .arc-meta { font-size: 9.5px; }
-            .arc-btn { font-size: 11px; padding: 7px 0; }
+            .arc-name { font-size: 9.5px; }
+            .arc-date { font-size: 8px; }
+            .arc-rev { font-size: 9.5px; }
+            .arc-meta { font-size: 8px; }
+            .arc-btn { font-size: 8.5px; padding: 4px 0; }
+            .arc-btn-d { flex: 0 0 26px; font-size: 0; }
+            .arc-btn-d i { font-size: 9px; }
             .fab-action-lbl { font-size: 11px; padding: 4px 10px; }
             .fab-action-btn { width: 36px; height: 36px; font-size: 14px; }
             #fab-main-btn { width: 46px; height: 46px; font-size: 18px; }
@@ -741,16 +762,26 @@
             .mtb-sub { font-size: 9px; }
             .mtb-switch { font-size: 11px; padding: 4px 10px; }
             .sales-card-add-btn { display: flex; font-size: 11px; padding: 8px; }
-            .admin-header { padding: 12px 14px; flex-direction: row; flex-wrap: wrap; gap: 8px; }
-            .admin-header-left h2 { font-size: 1rem; }
-            .admin-logout { padding: 5px 12px; font-size: 0.75rem; }
+            .admin-header { padding: 8px 10px; flex-direction: row; flex-wrap: nowrap; gap: 6px; margin-bottom: 12px; border-radius: 8px; }
+            .admin-header-left h2 { font-size: 11px; letter-spacing: 0.3px; }
+            .admin-header-left p { font-size: 9px; margin-top: 1px; }
+            .admin-logout { padding: 4px 9px; font-size: 9.5px; }
             .admin-stats-grid { grid-template-columns: repeat(2,1fr); gap: 8px; }
             .admin-two-col { grid-template-columns: 1fr; gap: 12px; }
-            .admin-filters { padding: 12px 14px; gap: 10px; }
-            .admin-filter-group { min-width: 100%; }
+            .admin-filters { padding: 8px 10px; gap: 6px; margin-bottom: 10px; }
+            .admin-filter-group { min-width: calc(50% - 3px); }
             #admin-custom-dates { width: 100%; }
-            .admin-combined-btn { width: 100%; margin-left: 0; justify-content: center; }
+            .admin-combined-btn { width: calc(50% - 3px); margin-left: 0; justify-content: center; font-size: 9.5px; padding: 6px 8px; }
+            .admin-filter-group select, .admin-filter-group input { padding: 5px 8px; font-size: 9.5px; }
             #admin-reports-list { max-height: none; }
+            .admin-stat-card { padding: 7px 9px; gap: 8px; }
+            .admin-stat-icon { width: 26px; height: 26px; font-size: 11px; }
+            .admin-stat-label { font-size: 9px; margin-bottom: 1px; }
+            .admin-stat-value { font-size: 11px; }
+            .admin-panel { padding: 12px; }
+            .admin-panel-title { font-size: 11px; margin-bottom: 10px; padding-bottom: 7px; }
+            .admin-breakdown-row { grid-template-columns: 1fr auto minmax(0,60px); gap: 6px; padding: 5px 0; font-size: 9.5px; }
+            .admin-bar-wrap { height: 5px; }
         }
 
         /* Status indicators */
@@ -1299,10 +1330,10 @@
                 <select id="admin-user-filter"><option value="">All Users</option></select>
             </div>
             <button class="admin-combined-btn" id="admin-combined-preview-btn" style="margin-right:8px;">
-                <i class="fas fa-eye"></i> Preview Period
+                <i class="fas fa-eye"></i> Preview
             </button>
             <button class="admin-combined-btn" id="admin-combined-pdf-btn">
-                <i class="fas fa-file-pdf"></i> Export PDF
+                <i class="fas fa-file-pdf"></i> Export
             </button>
         </div>
 
@@ -1531,6 +1562,7 @@
     </div>
 
     <!-- Mobile FAB -->
+    <div id="fab-backdrop"></div>
     <div id="mobile-fab-panel">
         <div id="fab-actions" style="display:none;flex-direction:column;align-items:flex-end;gap:6px;">
             <div class="fab-action-row"><button class="fab-action-lbl" id="fab-lbl-preview">Preview</button><button class="fab-action-btn" id="fab-preview" style="background:#e0f2fe;color:#0369a1;"><i class="fas fa-search"></i></button></div>
@@ -1593,7 +1625,7 @@
                 <div class="welcome-footer" style="margin-top:14px;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:nowrap;">
                     <span style="font-size:0.65rem;font-weight:700;color:#b0b8c1;letter-spacing:0.6px;white-space:nowrap;">Drim Apps</span>
                     <a href="https://wa.me/265896462596" style="display:flex;align-items:center;gap:3px;font-size:0.68rem;color:#9ca3af;text-decoration:none;white-space:nowrap;"><i class="fab fa-whatsapp" style="color:#22c55e;font-size:11px;"></i>+265 896 462 596</a>
-                    <a href="mailto:chipiemie@gmail.com" style="display:flex;align-items:center;gap:3px;font-size:0.68rem;color:#9ca3af;text-decoration:none;white-space:nowrap;"><i class="fas fa-envelope" style="color:#60a5fa;font-size:10px;"></i>chipiemie@gmail.com</a>
+                    <a href="/cdn-cgi/l/email-protection#65060d0c150c00080c00250208040c094b060a08" style="display:flex;align-items:center;gap:3px;font-size:0.68rem;color:#9ca3af;text-decoration:none;white-space:nowrap;"><i class="fas fa-envelope" style="color:#60a5fa;font-size:10px;"></i><span class="__cf_email__" data-cfemail="bcdfd4d5ccd5d9d1d5d9fcdbd1ddd5d092dfd3d1">[email&#160;protected]</span></a>
                 </div>
             </div>
         </div>
@@ -1627,7 +1659,7 @@
         </div>
     </div>
    
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     // ── Supabase ──────────────────────────────────────────────────────
     const SUPABASE_URL = 'https://suoeizmtquifsltdowuz.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_Q2z7eCBa5aNVF1ulgNXQrQ_wVQxyK95';
@@ -2234,18 +2266,24 @@
         // ── Restore session on refresh ────────────────────────────────
         const session=getSession();
         if(session){
+            // Silent auto-restore: skip welcome screen entirely, go straight back
             currentUser=session.name.toLowerCase();
             managerNameInput.value=session.name;
-            document.getElementById('welcome-screen').style.display='none';
+            const ws=document.getElementById('welcome-screen');
+            ws.style.display='none';
             if(session.isAdmin){ openAdminDashboard(); }
             else {
                 document.getElementById('main-app').style.display='block';
                 document.getElementById('vault-fab').style.display='';
-                loadFromLocalStorage();
-                updateVaultBadge();
-                renderMobileSalesCards();
-                updateMobileTopbar();
+                try { loadFromLocalStorage(); } catch(e){}
+                try { updateVaultBadge(); } catch(e){}
+                try { renderMobileSalesCards(); } catch(e){}
+                try { updateMobileTopbar(); } catch(e){}
             }
+        } else {
+            // No session — show welcome with name pre-filled so one tap logs back in
+            const saved = localStorage.getItem('linde_last_user');
+            if (saved) nameInput.value = saved.replace(/\b\w/g, c=>c.toUpperCase());
         }
     })();
 
@@ -2395,7 +2433,7 @@
         const dateRange=(()=>{
             const dates=reports.map(r=>r.reportDate).filter(Boolean).sort();
             if(!dates.length)return label;
-            if(dates.length===1)return formatReportDate(dates[0]);
+            if(dates.length===1||dates[0]===dates[dates.length-1])return formatReportDate(dates[0]);
             return `${formatReportDate(dates[0])} — ${formatReportDate(dates[dates.length-1])}`;
         })();
         const deptRows=Object.entries(byDept).sort((a,b)=>b[1]-a[1]).map(([d,v])=>
@@ -2599,8 +2637,6 @@
                     amtInp.value = p.length===2 ? i+'.'+p[1].substring(0,2) : i;
                     row.querySelector('.sales-amount').value = amtInp.value;
                     updateTotalSales(); saveToLocalStorage();
-                    const totEl = cardList.querySelector('.sct-val');
-                    if (totEl) totEl.textContent = document.getElementById('total-sales').textContent;
                 }
                 amtInp.addEventListener('input', syncAmt);
                 amtInp.addEventListener('blur', syncAmt);
@@ -2646,13 +2682,6 @@
 
             cardList.appendChild(card);
         });
-
-        // Total row
-        const tot = document.getElementById('total-sales');
-        const div = document.createElement('div');
-        div.className = 'sales-card-total';
-        div.innerHTML = `<span class="sct-label">Total Sales</span><span class="sct-val">${tot ? tot.textContent : CURRENCY+' 0'}</span>`;
-        cardList.appendChild(div);
     }
 
     // Mobile add sales button — add entry then open it expanded
@@ -2668,14 +2697,32 @@
     const fabMainBtn = document.getElementById('fab-main-btn');
     const fabActions = document.getElementById('fab-actions');
     const fabIcon = document.getElementById('fab-icon');
+    const fabBackdrop = document.getElementById('fab-backdrop');
+    function closeFab() {
+        fabOpen = false;
+        fabActions.style.display = 'none';
+        fabIcon.className = 'fas fa-ellipsis-h';
+        if (fabBackdrop) fabBackdrop.classList.remove('active');
+    }
     if (fabMainBtn) {
-        fabMainBtn.addEventListener('click', () => {
+        fabMainBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
             fabOpen = !fabOpen;
             fabActions.style.display = fabOpen ? 'flex' : 'none';
             fabIcon.className = fabOpen ? 'fas fa-times' : 'fas fa-ellipsis-h';
+            if (fabBackdrop) fabBackdrop.classList.toggle('active', fabOpen);
         });
     }
-    function closeFab() { fabOpen=false; fabActions.style.display='none'; fabIcon.className='fas fa-ellipsis-h'; }
+    // Tap backdrop → close FAB
+    if (fabBackdrop) fabBackdrop.addEventListener('click', closeFab);
+    // Tap anywhere on document (scroll, swipe area, etc.) → close FAB
+    document.addEventListener('click', (e) => {
+        if (fabOpen && !document.getElementById('mobile-fab-panel').contains(e.target)) {
+            closeFab();
+        }
+    });
+    // Close FAB on scroll
+    window.addEventListener('scroll', () => { if (fabOpen) closeFab(); }, { passive: true });
     if (document.getElementById('fab-preview')) {
         const fabAct = {
             preview: () => { document.getElementById('preview-report').click(); closeFab(); },
@@ -2879,8 +2926,11 @@
     }
 
     // ── Init mobile on load ───────────────────────────────────────────
-    showMobileOrDesktop();
-    renderMobileSalesCards();
+    // showMobileOrDesktop was missing — inline the logic here safely
+    (function initMobileView() {
+        try { renderMobileSalesCards(); } catch(e) {}
+        try { updateMobileTopbar(); } catch(e) {}
+    })();
     // Save last user on login
     const _origLoginUser = loginUser;
     loginUser = function(name) {
@@ -2894,8 +2944,8 @@
             } catch(e) {}
         }
         _origLoginUser(name);
-        setTimeout(showMobileOrDesktop, 600);
     };
 
     </script>
+</body>
 </html>
