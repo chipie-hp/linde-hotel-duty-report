@@ -1304,7 +1304,7 @@
         .admin-stat-card.col-purple .admin-stat-icon { background: #f5f3ff; color: #7c3aed; }
         .admin-stat-body { flex: 1; min-width: 0; }
         .admin-stat-label { font-size: 0.72rem; font-weight: 700; color: #6b7280; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .admin-stat-value { font-size: 1.4rem; font-weight: 800; color: #1a1a2e; line-height: 1.1; font-family: 'DM Mono', monospace; }
+        .admin-stat-value { font-size: 1.4rem; font-weight: 800; color: #1a1a2e; line-height: 1.1; }
         .admin-stat-badge { display: inline-flex; align-items: center; gap: 3px; background: #f0fdf4; color: #16a34a; font-size: 0.72rem; font-weight: 700; padding: 2px 7px; border-radius: 20px; margin-top: 5px; }
         .admin-stat-tag { display: inline-block; background: #f3f4f6; color: #6b7280; font-size: 0.72rem; font-weight: 600; padding: 2px 8px; border-radius: 20px; margin-top: 5px; }
         /* Revenue breakdown panel */
@@ -1422,8 +1422,81 @@
                 border: 2px solid white;
             }
         }
-    </style>
-</head>
+        /* ── Admin password field ── */
+        #welcome-password-wrap {
+            display: none;
+            margin-bottom: 16px;
+            animation: slideInUp 0.25s ease-out;
+        }
+        #welcome-password-wrap label { font-size: 0.72rem; font-weight: 700; color: var(--text-gray); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; display: block; }
+        #welcome-password-input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1.5px solid #1a5f7a;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            background: #f9fafb;
+            transition: border-color 0.25s, box-shadow 0.25s;
+        }
+        #welcome-password-input:focus { border-color: #0e3d4f; outline: none; background: white; box-shadow: 0 0 0 3px rgba(26,95,122,0.12); }
+        #welcome-password-error { font-size: 0.72rem; color: #c0392b; margin-top: 5px; display: none; font-weight: 600; }
+
+        /* ── App lock overlay ── */
+        #app-lock-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 99998;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        #app-lock-overlay.active { display: flex; }
+        .app-lock-blur {
+            position: absolute;
+            inset: 0;
+            background: rgba(15,32,39,0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .app-lock-card {
+            position: relative;
+            background: white;
+            border-radius: 18px;
+            padding: 32px 28px 28px;
+            max-width: 360px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+            animation: fadeInScale 0.4s ease-out;
+        }
+        .app-lock-icon { font-size: 2.5rem; color: #1a5f7a; margin-bottom: 14px; }
+        .app-lock-title { font-size: 1.2rem; font-weight: 800; color: #1a1a2e; margin-bottom: 6px; }
+        .app-lock-sub { font-size: 0.82rem; color: #6b7280; margin-bottom: 20px; line-height: 1.6; }
+        .app-lock-contacts { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+        .app-lock-contact { display: flex; align-items: center; justify-content: center; gap: 7px; font-size: 0.85rem; font-weight: 600; color: #1a5f7a; text-decoration: none; background: #f0f7fa; padding: 9px 14px; border-radius: 10px; }
+        .app-lock-contact i { font-size: 14px; }
+        .app-lock-brand { font-size: 0.7rem; color: #b0b8c1; font-weight: 700; letter-spacing: 0.5px; margin-top: 8px; }
+
+        /* ── Admin lock toggle button ── */
+        #admin-lock-btn {
+            background: rgba(255,255,255,0.12);
+            border: 1.5px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+        #admin-lock-btn:hover { background: rgba(255,255,255,0.22); }
+        #admin-lock-btn.locked { background: rgba(192,57,43,0.3); border-color: rgba(192,57,43,0.6); }
 <body>
     <!-- Admin Dashboard -->
     <div id="admin-dashboard" style="display:none;">
@@ -1434,7 +1507,23 @@
                 <div id="admin-header-date" style="font-size:0.72rem;color:rgba(255,255,255,0.5);margin-top:6px;letter-spacing:0.3px;"></div>
             </div>
             <button class="admin-logout" id="admin-logout-btn"><i class="fas fa-user-circle"></i> Switch User</button>
+            <button id="admin-lock-btn"><i class="fas fa-lock"></i> Lock App</button>
         </div>
+
+    <!-- ── App Lock Overlay ── -->
+    <div id="app-lock-overlay">
+        <div class="app-lock-blur"></div>
+        <div class="app-lock-card">
+            <div class="app-lock-icon"><i class="fas fa-lock"></i></div>
+            <div class="app-lock-title">App Locked</div>
+            <div class="app-lock-sub">This app is currently locked.<br>Subscribe to unlock full access.</div>
+            <div class="app-lock-contacts">
+                <a href="https://wa.me/265896462596" class="app-lock-contact"><i class="fab fa-whatsapp" style="color:#22c55e;"></i>+265 896 462 596</a>
+                <a href="mailto:chipiemie@gmail.com" class="app-lock-contact"><i class="fas fa-envelope" style="color:#60a5fa;"></i>chipiemie@gmail.com</a>
+            </div>
+            <div class="app-lock-brand">Drim Apps</div>
+        </div>
+    </div>
 
         <!-- Filters -->
         <div class="admin-filters">
@@ -1786,6 +1875,11 @@
                     <input type="text" id="welcome-manager-input" placeholder="e.g. Sarah Banda" autocomplete="off">
                     <div id="welcome-autocomplete"></div>
                 </div>
+                <div id="welcome-password-wrap">
+                    <label for="welcome-password-input"><i class="fas fa-lock" style="margin-right:4px;"></i> Admin Password</label>
+                    <input type="password" id="welcome-password-input" placeholder="Enter password">
+                    <div id="welcome-password-error"><i class="fas fa-exclamation-circle"></i> Incorrect password</div>
+                </div>
                 <button class="welcome-btn" id="welcome-start-btn">
                     <span class="welcome-btn-shine"></span>
                     <i class="fas fa-sign-in-alt"></i> Start Shift
@@ -1793,7 +1887,7 @@
                 <div class="welcome-footer" style="margin-top:14px;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:nowrap;">
                     <span style="font-size:0.65rem;font-weight:700;color:#b0b8c1;letter-spacing:0.6px;white-space:nowrap;">Drim Apps</span>
                     <a href="https://wa.me/265896462596" style="display:flex;align-items:center;gap:3px;font-size:0.68rem;color:#9ca3af;text-decoration:none;white-space:nowrap;"><i class="fab fa-whatsapp" style="color:#22c55e;font-size:11px;"></i>+265 896 462 596</a>
-                    <a href="mailto:chipiemie@gmail.com" style="display:flex;align-items:center;gap:3px;font-size:0.68rem;color:#9ca3af;text-decoration:none;white-space:nowrap;"><i class="fas fa-envelope" style="color:#60a5fa;font-size:10px;"></i>chipiemie@gmail.com</a>
+                    <a href="/cdn-cgi/l/email-protection#36555e5f465f535b5f5376515b575f5a1855595b" style="display:flex;align-items:center;gap:3px;font-size:0.68rem;color:#9ca3af;text-decoration:none;white-space:nowrap;"><i class="fas fa-envelope" style="color:#60a5fa;font-size:10px;"></i><span class="__cf_email__" data-cfemail="94f7fcfde4fdf1f9fdf1d4f3f9f5fdf8baf7fbf9">[email&#160;protected]</span></a>
                 </div>
             </div>
         </div>
@@ -1828,7 +1922,7 @@
         </div>
     </div>
    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     // ── Supabase ──────────────────────────────────────────────────────
     const SUPABASE_URL = 'https://suoeizmtquifsltdowuz.supabase.co';
@@ -2275,6 +2369,11 @@
         showToast('Report saved to My Reports');
     }
 
+    // PDF only — no vault save. Used by admin and vault-item PDF buttons.
+    async function generatePDFOnly(customContent, customFilename) {
+        await generatePDF(customContent, customFilename);
+    }
+
     generatePdfBtn.addEventListener('click', generateAndSave);
     downloadPdfBtn.addEventListener('click', generateAndSave);
 
@@ -2370,7 +2469,7 @@
         list.querySelectorAll('.vault-btn-pdf').forEach(btn=>btn.addEventListener('click',async function(){
             const snap=getUserVaultLocal().find(r=>String(r.id)===String(this.dataset.id));
             if(!snap)return;
-            const cur=getFormSnapshot(); applySnapshot(snap); await generatePDF(); applySnapshot(cur);
+            const cur=getFormSnapshot(); applySnapshot(snap); await generatePDFOnly(null,`Linde_Report_${snap.reportDate||'report'}.pdf`); applySnapshot(cur);
         }));
         list.querySelectorAll('.vault-btn-del').forEach(btn=>btn.addEventListener('click',function(){
             const id=this.dataset.id;
@@ -2434,9 +2533,38 @@
         const h=new Date().getHours();
         document.getElementById('welcome-greeting').textContent=h<12?'☀️ Good morning!':h<17?'🌤 Good afternoon!':'🌙 Good evening!';
         document.getElementById('welcome-date').textContent=new Date().toLocaleDateString('en-GB',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-        nameInput.addEventListener('input',function(){this.value=this.value.replace(/\b\w/g,c=>c.toUpperCase());});
-        startBtn.addEventListener('click',()=>loginUser(nameInput.value.trim()));
-        nameInput.addEventListener('keydown',e=>{if(e.key==='Enter')loginUser(nameInput.value.trim());});
+        nameInput.addEventListener('input',function(){
+            this.value=this.value.replace(/\b\w/g,c=>c.toUpperCase());
+            // Show password field when Admin is typed
+            const pwWrap = document.getElementById('welcome-password-wrap');
+            const pwInput = document.getElementById('welcome-password-input');
+            const pwError = document.getElementById('welcome-password-error');
+            if (this.value.trim().toLowerCase() === 'admin') {
+                if (pwWrap) { pwWrap.style.display = 'block'; pwInput && pwInput.focus(); }
+                if (pwError) pwError.style.display = 'none';
+            } else {
+                if (pwWrap) pwWrap.style.display = 'none';
+                if (pwInput) pwInput.value = '';
+                if (pwError) pwError.style.display = 'none';
+            }
+        });
+        startBtn.addEventListener('click',()=>{
+            const name = nameInput.value.trim();
+            if (name.toLowerCase() === 'admin') {
+                const pwInput = document.getElementById('welcome-password-input');
+                const pwError = document.getElementById('welcome-password-error');
+                if (!pwInput || pwInput.value !== ADMIN_PASSWORD) {
+                    if (pwError) pwError.style.display = 'block';
+                    if (pwInput) { pwInput.style.borderColor = '#c0392b'; pwInput.focus(); }
+                    return;
+                }
+                if (pwError) pwError.style.display = 'none';
+            }
+            loginUser(name);
+        });
+        nameInput.addEventListener('keydown',e=>{
+            if(e.key==='Enter') startBtn.click();
+        });
         const lastUser=localStorage.getItem('linde_last_user');
         if(lastUser) nameInput.value=lastUser.replace(/\b\w/g,c=>c.toUpperCase());
 
@@ -2648,7 +2776,7 @@
             if(!snap)return;
             const cur=getFormSnapshot();
             applySnapshot(snap);
-            await generatePDF(null,`Linde_Report_${snap.reportDate||'report'}.pdf`);
+            await generatePDFOnly(null,`Linde_Report_${snap.reportDate||'report'}.pdf`);
             applySnapshot(cur);
         }));
     }
@@ -2764,7 +2892,7 @@
     document.getElementById('admin-combined-pdf-btn').addEventListener('click',async function(){
         const result=buildAdminPeriodHTML();
         if(!result){alert('No reports for the selected period.');return;}
-        await generatePDF(result.html,`Linde_Admin_${result.label.replace(/\s/g,'_')}.pdf`);
+        await generatePDFOnly(result.html,`Linde_Admin_${result.label.replace(/\s/g,'_')}.pdf`);
     });
 
 
@@ -3161,7 +3289,7 @@
             const snap = sorted[parseInt(this.dataset.idx)];
             if (!snap) return;
             const cur = getFormSnapshot(); applySnapshot(snap);
-            await generatePDF(null, `Linde_Report_${snap.reportDate||'report'}.pdf`);
+            await generatePDFOnly(null, `Linde_Report_${snap.reportDate||'report'}.pdf`);
             applySnapshot(cur);
         }));
         listEl.querySelectorAll('.arc-btn-d').forEach(btn => btn.addEventListener('click', async function(e) {
@@ -3193,7 +3321,43 @@
         _origLoginUser(name);
     };
 
-    // ── My Reports tooltip: pop 5s, repeat every 5min ────────────────
+    // ── Admin password + app lock ─────────────────────────────────────
+    const ADMIN_PASSWORD = '120533';
+    const LOCK_KEY = 'linde_app_locked';
+
+    // Wire Enter key on password field to start button
+    const _pwInp = document.getElementById('welcome-password-input');
+    if (_pwInp) _pwInp.addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('welcome-start-btn').click(); });
+
+    // ── App lock ──────────────────────────────────────────────────────
+    function isAppLocked() { return localStorage.getItem(LOCK_KEY) === '1'; }
+    function setAppLock(locked) {
+        localStorage.setItem(LOCK_KEY, locked ? '1' : '0');
+        applyLockState();
+    }
+    function applyLockState() {
+        const overlay = document.getElementById('app-lock-overlay');
+        const btn     = document.getElementById('admin-lock-btn');
+        const locked  = isAppLocked();
+        if (overlay) overlay.classList.toggle('active', locked);
+        if (btn) {
+            btn.innerHTML = locked
+                ? '<i class="fas fa-unlock"></i> Unlock App'
+                : '<i class="fas fa-lock"></i> Lock App';
+            btn.classList.toggle('locked', locked);
+        }
+    }
+    // Check lock on every page load
+    applyLockState();
+    // Admin lock button
+    document.getElementById('admin-lock-btn') && document.getElementById('admin-lock-btn').addEventListener('click', function() {
+        const locked = isAppLocked();
+        if (!locked) {
+            if (confirm('Lock the app for all users? They will see a subscribe prompt until you unlock.')) setAppLock(true);
+        } else {
+            setAppLock(false);
+        }
+    });
     (function initVaultTooltip() {
         const tip = document.getElementById('vault-fab-preview');
         const fab = document.getElementById('vault-fab');
@@ -3213,13 +3377,4 @@
         setTimeout(showTip, 1500);
         // Repeat every 5 minutes
         setInterval(showTip, 5 * 60 * 1000);
-        // Tap on button hides tip immediately
-        fab.addEventListener('click', () => {
-            tip.classList.remove('vfp-show');
-            setTimeout(() => { tip.style.display = 'none'; }, 380);
-        });
-    })();
-
-    </script>
-</body>
-</html>
+        // Tap on
