@@ -636,28 +636,27 @@
         .dept-mobile-item select option[value="Issues"] { color: #dc2626; font-weight: 800; }
 
         /* ── Mobile FAB ── */
-        #fab-backdrop { display: none; position: fixed; inset: 0; z-index: 598; background: transparent; }
-        #fab-backdrop.active { display: block; }
-        #mobile-fab-panel { display: none; position: fixed; bottom: 0; right: 0; padding: 0 14px 10px 0; z-index: 600; flex-direction: column; align-items: flex-end; gap: 6px; }
+        #mobile-fab-panel { display: none; position: sticky; bottom: 0; right: 0; padding: 0 14px 16px 0; z-index: 600; flex-direction: column; align-items: flex-end; gap: 6px; margin-top: 12px; }
         .fab-action-row { display: flex; align-items: center; gap: 7px; cursor: pointer; }
         .fab-action-lbl { background: #0f2027; color: rgba(255,255,255,0.9); font-size: 11px; font-weight: 600; padding: 5px 12px; border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.2); white-space: nowrap; border: none; cursor: pointer; }
         .fab-action-btn { width: 34px; height: 34px; border-radius: 50%; border: none; display: flex; align-items: center; justify-content: center; font-size: 14px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
         #fab-main-btn { width: 42px; height: 42px; border-radius: 50%; background: linear-gradient(135deg, #1a5f7a, #0e3d4f); color: white; border: none; font-size: 16px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 14px rgba(26,95,122,0.45); position: relative; overflow: hidden; margin-left: auto; }
         #fab-main-btn .fab-shine { position: absolute; top: 0; left: -50%; width: 35%; height: 100%; background: rgba(255,255,255,0.2); transform: skewX(-20deg); }
+        .fab-auto-saved { font-size: 8.5px; color: #94a3b8; text-align: right; padding: 2px 4px 0; display: flex; align-items: center; justify-content: flex-end; gap: 3px; }
 
         /* ── Admin collapsed report cards ── */
         .admin-report-card { border-bottom: 0.5px solid #f0f0f0; background: white; cursor: pointer; transition: background 0.15s; }
         .admin-report-card:last-child { border-bottom: none; }
-        .arc-head { padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+        .arc-head { padding: 10px 14px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
         .arc-left { min-width: 0; flex: 1; }
-        .arc-name { font-size: 13px; font-weight: 700; color: #1a1a2e; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .arc-date { font-size: 11px; color: #9ca3af; margin-top: 2px; }
+        .arc-name { font-size: 12px; font-weight: 700; color: #1a1a2e; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .arc-date { font-size: 9px; color: #9ca3af; margin-top: 1px; }
         .arc-right { text-align: right; flex-shrink: 0; }
-        .arc-rev { font-size: 13px; font-weight: 700; color: #1a5f7a; white-space: nowrap; }
-        .arc-meta { font-size: 10px; color: #b0b8c4; margin-top: 3px; white-space: nowrap; }
+        .arc-rev { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 700; color: #1a5f7a; white-space: nowrap; }
+        .arc-meta { font-size: 8.5px; color: #b0b8c4; margin-top: 2px; white-space: nowrap; }
         .arc-issue { color: #dc2626; }
-        .arc-actions { display: flex; gap: 8px; padding: 0 16px 12px; background: #fafafa; border-top: 0.5px solid #f0f0f0; }
-        .arc-btn { flex: 1; padding: 8px 0; border-radius: 8px; font-size: 11px; font-weight: 700; border: none; display: flex; align-items: center; justify-content: center; gap: 5px; cursor: pointer; letter-spacing: 0.2px; }
+        .arc-actions { display: flex; gap: 6px; padding: 0 14px 10px; background: #fafafa; border-top: 0.5px solid #f5f5f5; }
+        .arc-btn { flex: 1; padding: 6px 0; border-radius: 7px; font-size: 10px; font-weight: 700; border: none; display: flex; align-items: center; justify-content: center; gap: 4px; cursor: pointer; }
         .arc-btn-p { background: #e0f2fe; color: #0369a1; }
         .arc-btn-f { background: #dcfce7; color: #15803d; }
         .arc-btn-d { background: #fef2f2; color: #dc2626; }
@@ -708,19 +707,18 @@
             .dept-mobile-grid { display: grid; }
             .button-panel { display: none !important; }
             #mobile-fab-panel { display: flex; }
+            #vault-fab { bottom: 68px; right: 14px; padding: 9px 14px; font-size: 0.85rem; }
             textarea { font-size: 13px !important; padding: 8px 10px; min-height: 70px; }
             .modal-content { max-height: 95vh; border-radius: 8px; }
             .modal-close { top: 10px; right: 10px; width: 36px; height: 36px; font-size: 20px; }
             .modal-body { padding: 14px; }
-            .modal-actions { padding: 10px 14px; display: flex; flex-direction: column; gap: 8px; position: sticky; bottom: 0; background: white; border-top: 1px solid #e5e7eb; z-index: 10; box-shadow: 0 -2px 8px rgba(0,0,0,0.07); }
+            .modal-actions { padding: 10px 14px; display: flex; flex-direction: column; gap: 8px; }
             .modal-actions .btn { margin: 0; min-width: auto; }
             #print-preview-btn { display: none !important; }
-            #fab-lbl-print, #fab-print { display: none !important; }
+            .fab-print-row { display: none; }
             #download-pdf { font-size: 11px !important; padding: 7px 10px !important; }
-            .total-sales { padding: 0; background: none; border-top: none; margin-top: 8px; }
-            .total-sales > div:first-child { display: none; }
-            .total-amount { font-size: 11px; display: flex; justify-content: space-between; align-items: center; background: #f0f7fa; border-radius: 7px; padding: 6px 10px; margin: 0; border: none; text-align: left; width: 100%; }
-            .total-amount::before { content: 'Total Sales'; font-size: 9px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
+            .total-sales { padding: 8px 10px; background: #f8f9fa; border-radius: 7px; margin-top: 8px; }
+            .total-amount { font-size: 1rem; display: block; text-align: center; margin-top: 4px; padding: 0; border: none; }
             label { font-size: 0.75rem; }
             /* Increase general mobile font sizes */
             .card-compact-title { font-size: 10.5px; margin-bottom: 9px; }
@@ -731,13 +729,11 @@
             .sct-val { font-size: 11px; }
             .dmi-name { font-size: 11px; }
             .dept-mobile-item select { font-size: 10px; max-width: 68px; }
-            .arc-name { font-size: 12px; }
+            .arc-name { font-size: 13px; }
             .arc-date { font-size: 10px; }
             .arc-rev { font-size: 12px; }
             .arc-meta { font-size: 9.5px; }
-            .arc-btn { font-size: 10px; padding: 7px 0; }
-            .arc-btn-d { flex: 0 0 30px; font-size: 0; }
-            .arc-btn-d i { font-size: 11px; }
+            .arc-btn { font-size: 11px; padding: 7px 0; }
             .fab-action-lbl { font-size: 11px; padding: 4px 10px; }
             .fab-action-btn { width: 36px; height: 36px; font-size: 14px; }
             #fab-main-btn { width: 46px; height: 46px; font-size: 18px; }
@@ -745,33 +741,15 @@
             .mtb-sub { font-size: 9px; }
             .mtb-switch { font-size: 11px; padding: 4px 10px; }
             .sales-card-add-btn { display: flex; font-size: 11px; padding: 8px; }
-            .admin-header { padding: 20px 18px 18px; flex-direction: column; align-items: flex-start; gap: 12px; margin-bottom: 14px; border-radius: 0; margin-left: -12px; margin-right: -12px; }
-            .admin-header-left h2 { font-size: 1.5rem; font-weight: 800; letter-spacing: 0.2px; }
-            .admin-header-left p { font-size: 0.82rem; margin-top: 3px; opacity: 0.85; }
-            .admin-logout { position: absolute; top: 18px; right: 12px; padding: 8px 14px; font-size: 0.78rem; border-radius: 10px; }
-            #admin-dashboard { position: relative; padding: 0; background: #f0f4f8; }
-            .admin-filters { border-radius: 14px; padding: 16px 14px; gap: 10px; margin: 14px 12px; }
-            .admin-filter-group { min-width: 100%; flex: none; }
-            .admin-filter-group select, .admin-filter-group input { padding: 11px 14px; font-size: 0.9rem; border-radius: 12px; }
+            .admin-header { padding: 12px 14px; flex-direction: row; flex-wrap: wrap; gap: 8px; }
+            .admin-header-left h2 { font-size: 1rem; }
+            .admin-logout { padding: 5px 12px; font-size: 0.75rem; }
+            .admin-stats-grid { grid-template-columns: repeat(2,1fr); gap: 8px; }
+            .admin-two-col { grid-template-columns: 1fr; gap: 12px; }
+            .admin-filters { padding: 12px 14px; gap: 10px; }
+            .admin-filter-group { min-width: 100%; }
             #admin-custom-dates { width: 100%; }
-            .admin-btn-group { flex-direction: row; margin-left: 0; width: 100%; gap: 10px; }
-            .admin-combined-btn { flex: 1; justify-content: center; padding: 11px 10px; font-size: 0.88rem; border-radius: 12px; }
-            .admin-stats-grid { grid-template-columns: 1fr 1fr; gap: 10px; margin: 0 12px 14px; }
-            .admin-stat-card { padding: 14px 12px; gap: 10px; border-radius: 14px; border-left-width: 4px; align-items: flex-start; }
-            .admin-stat-icon { width: 42px; height: 42px; font-size: 18px; }
-            .admin-stat-label { font-size: 0.68rem; margin-bottom: 4px; letter-spacing: 0.4px; }
-            .admin-stat-value { font-size: 1.15rem; }
-            .admin-stat-card.wide { margin: 0 12px; grid-column: 1 / -1; }
-            .admin-two-col { grid-template-columns: 1fr; gap: 0; margin: 0; }
-            .admin-panel { border-radius: 14px; padding: 16px 14px; margin: 0 12px 14px; }
-            .admin-panel-title { font-size: 0.95rem; }
-            .admin-breakdown-wrap { flex-direction: row; gap: 12px; align-items: flex-start; }
-            .admin-breakdown-list { flex: 1; min-width: 0; }
-            .admin-donut-wrap { width: 140px; flex-shrink: 0; }
-            .admin-breakdown-row { grid-template-columns: 80px 1fr auto; gap: 6px; padding: 7px 0; font-size: 0.82rem; }
-            .admin-breakdown-bar-wrap { height: 7px; }
-            .admin-breakdown-name { font-size: 0.82rem; }
-            .admin-breakdown-val { font-size: 0.82rem; }
+            .admin-combined-btn { width: 100%; margin-left: 0; justify-content: center; }
             #admin-reports-list { max-height: none; }
         }
 
@@ -999,87 +977,81 @@
         #vault-modal {
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.55);
+            background: rgba(0,0,0,0.65);
             z-index: 2000;
             display: none;
-            align-items: flex-end;
+            align-items: center;
             justify-content: center;
-            padding: 0;
+            padding: 20px;
         }
         #vault-modal.open { display: flex; }
         .vault-modal-content {
-            background: #f5f5f0;
-            border-radius: 20px 20px 0 0;
+            background: white;
+            border-radius: 16px;
             width: 100%;
-            max-width: 600px;
-            max-height: 90vh;
+            max-width: 560px;
+            max-height: 85vh;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 -8px 40px rgba(0,0,0,0.18);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
             overflow: hidden;
-            animation: slideInUp 0.3s ease-out;
+            animation: fadeInScale 0.3s ease-out;
         }
         .vault-header {
-            padding: 20px 24px 16px;
-            border-bottom: 1px solid rgba(0,0,0,0.08);
+            padding: 22px 28px 18px;
+            border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: #f5f5f0;
+            background: linear-gradient(135deg, #fffbf2, #fff8ec);
         }
         .vault-header h2 {
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             font-weight: 700;
-            color: #1a1a2e;
+            color: var(--accent);
             display: flex;
             align-items: center;
             gap: 10px;
         }
-        .vault-header h2 i { color: #e67e22; font-size: 1.1rem; }
+        .vault-header h2 i { color: #e67e22; }
         .vault-close {
-            background: #e8e8e3;
+            background: none;
             border: none;
-            font-size: 1.1rem;
+            font-size: 1.4rem;
             cursor: pointer;
-            color: #666;
+            color: var(--text-gray);
             line-height: 1;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            padding: 4px 8px;
+            border-radius: 6px;
             transition: background 0.2s;
         }
-        .vault-close:hover { background: #d8d8d3; }
+        .vault-close:hover { background: #f0f0f0; }
         .vault-actions {
-            padding: 14px 20px;
-            border-bottom: 1px solid rgba(0,0,0,0.08);
-            background: #f5f5f0;
+            padding: 16px 28px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            gap: 10px;
         }
         .vault-save-btn {
-            background: #27ae60;
+            background: linear-gradient(135deg, var(--success), #229954);
             color: white;
             border: none;
             border-radius: 50px;
-            padding: 11px 22px;
-            font-size: 0.9rem;
+            padding: 10px 20px;
+            font-size: 0.85rem;
             font-weight: 700;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 7px;
             transition: all 0.2s;
             box-shadow: 0 3px 10px rgba(39,174,96,0.3);
-            width: 100%;
-            justify-content: center;
         }
-        .vault-save-btn:hover { background: #229954; }
+        .vault-save-btn:hover { transform: translateY(-1px); }
         .vault-list {
             flex: 1;
             overflow-y: auto;
-            padding: 14px 16px;
-            background: #f5f5f0;
+            padding: 16px 28px;
         }
         .vault-empty {
             text-align: center;
@@ -1094,436 +1066,211 @@
             opacity: 0.3;
         }
         .vault-item {
-            background: white;
-            border-radius: 14px;
-            padding: 18px 18px 14px;
-            margin-bottom: 12px;
-            box-shadow: 0 1px 6px rgba(0,0,0,0.07);
-            border: none;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: box-shadow 0.2s, border-color 0.2s;
             cursor: default;
-            transition: box-shadow 0.2s;
         }
-        .vault-item:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
-        .vault-item-info { margin-bottom: 12px; }
+        .vault-item:hover {
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            border-color: #f39c12;
+        }
+        .vault-item-info { flex: 1; }
         .vault-item-title {
             font-weight: 700;
-            font-size: 1.05rem;
-            color: #1a1a2e;
-            margin-bottom: 3px;
-        }
-        .vault-item-date {
-            font-size: 0.85rem;
-            color: #555;
-            margin-bottom: 10px;
-        }
-        .vault-item-divider {
-            height: 1px;
-            background: rgba(0,0,0,0.07);
-            margin-bottom: 10px;
+            font-size: 0.9rem;
+            color: var(--accent);
         }
         .vault-item-meta {
-            font-size: 0.82rem;
-            color: #777;
-            line-height: 1.6;
+            font-size: 0.75rem;
+            color: var(--text-gray);
+            margin-top: 3px;
         }
         .vault-item-btns {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr;
-            gap: 8px;
-            margin-top: 14px;
+            display: flex;
+            gap: 6px;
         }
         .vault-btn {
-            padding: 10px 6px;
+            padding: 6px 12px;
             border: none;
-            border-radius: 10px;
-            font-size: 0.78rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
         }
-        .vault-btn i { font-size: 0.85rem; }
-        .vault-btn-preview {
-            background: #eef2ff;
-            color: #3b5bdb;
-        }
-        .vault-btn-preview:hover { background: #dce4ff; }
         .vault-btn-load {
             background: #e8f4f8;
-            color: #1a5f7a;
+            color: var(--primary);
         }
         .vault-btn-load:hover { background: #d0eaf3; }
         .vault-btn-pdf {
             background: #e8f5e9;
-            color: #27ae60;
+            color: var(--success);
         }
         .vault-btn-pdf:hover { background: #c8e6c9; }
+        .vault-btn-preview {
+            background: #eef2ff;
+            color: #4361ee;
+        }
+        .vault-btn-preview:hover { background: #dce4ff; }
         .vault-btn-del {
             background: #fdecea;
-            color: #c0392b;
+            color: var(--danger);
         }
         .vault-btn-del:hover { background: #f9c8c5; }
-        /* ══ ADMIN DASHBOARD — reference match ══════════════════════ */
+        /* ── Admin Dashboard ── */
         #admin-dashboard {
             max-width: 900px;
             margin: 0 auto;
-            padding: 16px;
-            background: #f0f4f8;
-            min-height: 100vh;
+            padding: 20px;
             animation: fadeInScale 0.4s ease-out;
         }
         .admin-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 18px;
-            padding: 20px 22px;
-            background: linear-gradient(135deg, #1a5f7a 0%, #0e3d4f 60%, #0a2d3a 100%);
-            border-radius: 16px;
+            margin-bottom: 28px;
+            padding: 22px 28px;
+            background: linear-gradient(135deg, #0f2027, #2c5364);
+            border-radius: 14px;
             color: white;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
         }
         .admin-header-left h2 {
-            font-size: 1.35rem;
+            font-size: 1.3rem;
             font-weight: 800;
-            letter-spacing: 0.3px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            letter-spacing: 1px;
         }
         .admin-header-left p {
-            font-size: 0.78rem;
-            opacity: 0.75;
-            margin-top: 4px;
-            font-weight: 400;
+            font-size: 0.8rem;
+            opacity: 0.65;
+            margin-top: 3px;
         }
         .admin-logout {
             background: rgba(255,255,255,0.15);
-            border: 1.5px solid rgba(255,255,255,0.35);
+            border: 1px solid rgba(255,255,255,0.3);
             color: white;
-            padding: 8px 16px;
-            border-radius: 10px;
+            padding: 8px 18px;
+            border-radius: 50px;
             font-size: 0.8rem;
             font-weight: 600;
             cursor: pointer;
             transition: background 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            white-space: nowrap;
         }
         .admin-logout:hover { background: rgba(255,255,255,0.25); }
-        /* Filter bar */
         .admin-filters {
             background: white;
-            border-radius: 14px;
-            padding: 16px 18px;
-            margin-bottom: 18px;
-            box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+            border-radius: 12px;
+            padding: 18px 22px;
+            margin-bottom: 22px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.07);
             display: flex;
             flex-wrap: wrap;
-            gap: 12px;
+            gap: 14px;
             align-items: flex-end;
         }
-        .admin-filter-group { display: flex; flex-direction: column; gap: 5px; min-width: 150px; flex: 1; }
-        .admin-filter-group label { font-size: 0.72rem; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; }
-        .admin-filter-group select, .admin-filter-group input {
-            padding: 10px 12px;
-            border: 1.5px solid #e5e7eb;
-            border-radius: 10px;
-            font-size: 0.85rem;
-            color: #1a1a2e;
-            background: white;
-            appearance: none;
-            -webkit-appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            padding-right: 32px;
-        }
-        #admin-custom-dates { display: none; gap: 12px; flex-wrap: wrap; }
-        .admin-btn-group { display: flex; flex-direction: column; gap: 8px; margin-left: auto; }
+        .admin-filter-group { display: flex; flex-direction: column; gap: 5px; min-width: 150px; }
+        .admin-filter-group label { font-size: 0.7rem; font-weight: 700; color: var(--text-gray); text-transform: uppercase; letter-spacing: 0.4px; }
+        .admin-filter-group select, .admin-filter-group input { padding: 8px 12px; border: 1.5px solid var(--border); border-radius: 7px; font-size: 0.85rem; }
+        #admin-custom-dates { display: none; gap: 14px; flex-wrap: wrap; }
         .admin-combined-btn {
             padding: 10px 20px;
-            border-radius: 10px;
-            font-size: 0.82rem;
+            background: linear-gradient(135deg, #1a5f7a, #2c5364);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 0.85rem;
             font-weight: 700;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 8px;
-            transition: all 0.2s;
-            white-space: nowrap;
-            border: none;
-        }
-        .admin-combined-btn.filled {
-            background: #1a5f7a;
-            color: white;
             box-shadow: 0 3px 10px rgba(26,95,122,0.3);
+            transition: all 0.2s;
+            margin-left: auto;
         }
-        .admin-combined-btn.outlined {
-            background: white;
-            color: #1a5f7a;
-            border: 1.5px solid #1a5f7a;
-        }
-        .admin-combined-btn:hover { opacity: 0.88; }
-        /* Stat cards */
+        .admin-combined-btn:hover { transform: translateY(-1px); box-shadow: 0 5px 14px rgba(26,95,122,0.4); }
         .admin-stats-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(3, 1fr);
             gap: 12px;
-            margin-bottom: 18px;
+            margin-bottom: 22px;
         }
         .admin-stat-card {
-            background: white;
-            border-radius: 14px;
-            padding: 16px 16px;
-            border-left: 4px solid #1a5f7a;
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            box-shadow: 0 1px 6px rgba(0,0,0,0.05);
-        }
-        .admin-stat-card.col-green  { border-left-color: #16a34a; }
-        .admin-stat-card.col-blue   { border-left-color: #1a5f7a; }
-        .admin-stat-card.col-amber  { border-left-color: #f39c12; }
-        .admin-stat-card.col-teal   { border-left-color: #0d9488; }
-        .admin-stat-card.col-purple { border-left-color: #7c3aed; }
-        .admin-stat-card.wide { grid-column: 1 / -1; }
-        .admin-stat-icon {
-            width: 44px; height: 44px; border-radius: 50%;
-            background: #f0f7fa;
-            display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0; color: #1a5f7a; font-size: 18px;
-        }
-        .admin-stat-card.col-green  .admin-stat-icon { background: #f0fdf4; color: #16a34a; }
-        .admin-stat-card.col-amber  .admin-stat-icon { background: #fffbeb; color: #f39c12; }
-        .admin-stat-card.col-teal   .admin-stat-icon { background: #f0fdfa; color: #0d9488; }
-        .admin-stat-card.col-purple .admin-stat-icon { background: #f5f3ff; color: #7c3aed; }
-        .admin-stat-body { flex: 1; min-width: 0; }
-        .admin-stat-label { font-size: 0.72rem; font-weight: 700; color: #6b7280; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .admin-stat-value { font-size: 1.4rem; font-weight: 800; color: #1a1a2e; line-height: 1.1; }
-        .admin-stat-badge { display: inline-flex; align-items: center; gap: 3px; background: #f0fdf4; color: #16a34a; font-size: 0.72rem; font-weight: 700; padding: 2px 7px; border-radius: 20px; margin-top: 5px; }
-        .admin-stat-tag { display: inline-block; background: #f3f4f6; color: #6b7280; font-size: 0.72rem; font-weight: 600; padding: 2px 8px; border-radius: 20px; margin-top: 5px; }
-        /* Revenue breakdown panel */
-        .admin-panel {
-            background: white;
-            border-radius: 14px;
-            padding: 18px 18px;
-            box-shadow: 0 1px 6px rgba(0,0,0,0.05);
-            margin-bottom: 14px;
-        }
-        .admin-panel-header {
+            background: #f4f6f8;
+            border-radius: 8px;
+            padding: 12px 14px;
+            border-left: 3px solid #1a5f7a;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            margin-bottom: 16px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid #f3f4f6;
+            gap: 14px;
+        }
+        .admin-stat-icon {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: white; border: 0.5px solid #dde3e8;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; color: #1a5f7a; font-size: 14px;
+        }
+        .admin-stat-label { font-size: 11px; font-weight: 500; color: #6b7280; letter-spacing: 0.3px; margin-bottom: 3px; }
+        .admin-stat-value { font-size: 14px; font-weight: 500; font-family: 'DM Mono', monospace; color: #1a1a2e; line-height: 1; }
+        .admin-stat-card.highlight { border-left-color: #16a34a; }
+        .admin-stat-card.highlight .admin-stat-icon { color: #16a34a; }
+        .admin-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 22px; }
+        .admin-panel {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.07);
         }
         .admin-panel-title {
-            font-size: 0.95rem;
-            font-weight: 800;
-            color: #1a1a2e;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
             gap: 8px;
-            letter-spacing: 0.2px;
         }
-        .admin-panel-title i { color: #1a5f7a; }
-        .admin-panel-period { font-size: 0.78rem; color: #6b7280; border: 1px solid #e5e7eb; border-radius: 8px; padding: 4px 10px; display: flex; align-items: center; gap: 5px; }
-        /* Dept breakdown rows */
-        .admin-breakdown-wrap { display: flex; gap: 16px; align-items: flex-start; }
-        .admin-breakdown-list { flex: 1; }
+        .admin-panel-title i { color: var(--primary); }
         .admin-breakdown-row {
             display: grid;
-            grid-template-columns: 110px 1fr auto;
+            grid-template-columns: 1fr auto 120px;
             align-items: center;
             gap: 10px;
             padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.82rem;
         }
-        .admin-breakdown-name { font-size: 0.88rem; color: #374151; font-weight: 600; }
-        .admin-breakdown-bar-wrap { position: relative; height: 7px; background: #f3f4f6; border-radius: 4px; overflow: hidden; }
-        .admin-breakdown-bar { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
-        .admin-breakdown-pct { font-size: 0.75rem; color: #6b7280; white-space: nowrap; min-width: 32px; text-align: right; }
-        .admin-breakdown-val { font-size: 0.9rem; font-weight: 700; color: #1a5f7a; white-space: nowrap; margin-bottom: 2px; }
-        /* Donut chart */
-        .admin-donut-wrap { width: 130px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 8px; }
-        .admin-donut-legend { display: flex; flex-wrap: wrap; gap: 6px 10px; justify-content: center; margin-top: 8px; }
-        .admin-legend-item { display: flex; align-items: center; gap: 4px; font-size: 0.72rem; color: #6b7280; }
-        .admin-legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-        /* User breakdown */
-        .admin-two-col { display: grid; grid-template-columns: 1fr; gap: 14px; margin-bottom: 14px; }
-        /* Reports list */
+        .admin-breakdown-row:last-child { border-bottom: none; }
+        .admin-breakdown-val { font-weight: 700; color: var(--primary); white-space: nowrap; }
+        .admin-bar-wrap { background: #f0f4f8; border-radius: 4px; height: 6px; overflow: hidden; }
+        .admin-bar { height: 100%; background: linear-gradient(90deg, var(--primary), #3498db); border-radius: 4px; transition: width 0.5s ease; }
+        .admin-bar-user { background: linear-gradient(90deg, var(--success), #2ecc71); }
         #admin-reports-list { max-height: 420px; overflow-y: auto; }
-        /* ── My Reports tooltip popup ── */
-        #vault-fab-preview {
-            position: fixed;
-            bottom: 64px;
-            left: 14px;
-            right: auto;
-            background: linear-gradient(135deg, #1a5f7a, #0e3d4f);
-            color: white;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.3px;
-            padding: 6px 12px 6px 10px;
-            border-radius: 10px;
-            white-space: nowrap;
-            z-index: 599;
-            pointer-events: none;
-            opacity: 0;
-            transform: translateY(6px);
-            transition: opacity 0.4s ease, transform 0.4s ease;
-            display: none;
-            box-shadow: 0 4px 16px rgba(14,61,79,0.35);
-            border-left: 3px solid #f39c12;
-        }
-        #vault-fab-preview.vfp-show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        #vault-fab-preview::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 18px;
-            width: 8px;
-            height: 8px;
-            background: #0e3d4f;
-            transform: rotate(45deg);
-            border-radius: 1px;
-        }
         @media (max-width: 768px) {
-            #vault-fab .vfab-text { display: none; }
-            #vault-fab i { font-size: 13px; }
-            #vault-fab {
-                bottom: 10px;
-                left: 14px;
-                right: auto;
-                width: 46px;
-                height: 46px;
-                padding: 0;
-                border-radius: 50%;
-                gap: 0;
-                justify-content: center;
-                box-shadow: 0 4px 14px rgba(243,156,18,0.45);
-            }
-            #vault-fab .vault-badge {
-                position: absolute;
-                top: -3px;
-                right: -3px;
-                width: 15px;
-                height: 15px;
-                font-size: 7.5px;
-                flex-shrink: 0;
-                border: 2px solid white;
-            }
+            .admin-stats-grid { grid-template-columns: 1fr 1fr; }
+            .admin-two-col { grid-template-columns: 1fr; }
         }
-        /* ── Admin password field ── */
-        #welcome-password-wrap {
-            display: none;
-            margin-bottom: 16px;
-            animation: slideInUp 0.25s ease-out;
-        }
-        #welcome-password-wrap label { font-size: 0.72rem; font-weight: 700; color: var(--text-gray); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; display: block; }
-        #welcome-password-input {
-            width: 100%;
-            padding: 12px 14px;
-            border: 1.5px solid #1a5f7a;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            color: var(--text-dark);
-            background: #f9fafb;
-            transition: border-color 0.25s, box-shadow 0.25s;
-        }
-        #welcome-password-input:focus { border-color: #0e3d4f; outline: none; background: white; box-shadow: 0 0 0 3px rgba(26,95,122,0.12); }
-        #welcome-password-error { font-size: 0.72rem; color: #c0392b; margin-top: 5px; display: none; font-weight: 600; }
-
-        /* ── App lock overlay ── */
-        #app-lock-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 99998;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        #app-lock-overlay.active { display: flex; }
-        .app-lock-blur {
-            position: absolute;
-            inset: 0;
-            background: rgba(15,32,39,0.7);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-        }
-        .app-lock-card {
-            position: relative;
-            background: white;
-            border-radius: 18px;
-            padding: 32px 28px 28px;
-            max-width: 360px;
-            width: 100%;
-            text-align: center;
-            box-shadow: 0 30px 80px rgba(0,0,0,0.4);
-            animation: fadeInScale 0.4s ease-out;
-        }
-        .app-lock-icon { font-size: 2.5rem; color: #1a5f7a; margin-bottom: 14px; }
-        .app-lock-title { font-size: 1.2rem; font-weight: 800; color: #1a1a2e; margin-bottom: 6px; }
-        .app-lock-sub { font-size: 0.82rem; color: #6b7280; margin-bottom: 20px; line-height: 1.6; }
-        .app-lock-contacts { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
-        .app-lock-contact { display: flex; align-items: center; justify-content: center; gap: 7px; font-size: 0.85rem; font-weight: 600; color: #1a5f7a; text-decoration: none; background: #f0f7fa; padding: 9px 14px; border-radius: 10px; }
-        .app-lock-contact i { font-size: 14px; }
-        .app-lock-brand { font-size: 0.7rem; color: #b0b8c1; font-weight: 700; letter-spacing: 0.5px; margin-top: 8px; }
-
-        /* ── Admin lock toggle button ── */
-        #admin-lock-btn {
-            background: rgba(255,255,255,0.12);
-            border: 1.5px solid rgba(255,255,255,0.3);
-            color: white;
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            transition: background 0.2s;
-            white-space: nowrap;
-        }
-        #admin-lock-btn:hover { background: rgba(255,255,255,0.22); }
-        #admin-lock-btn.locked { background: rgba(192,57,43,0.3); border-color: rgba(192,57,43,0.6); }
+    </style>
+</head>
 <body>
     <!-- Admin Dashboard -->
     <div id="admin-dashboard" style="display:none;">
         <div class="admin-header">
             <div class="admin-header-left">
-                <h2><i class="fas fa-shield-alt"></i> Admin Dashboard</h2>
-                <p>Full Visibility across all Duty Manager Reports</p>
-                <div id="admin-header-date" style="font-size:0.72rem;color:rgba(255,255,255,0.5);margin-top:6px;letter-spacing:0.3px;"></div>
+                <h2><i class="fas fa-shield-alt"></i> &nbsp;Admin Dashboard</h2>
+                <p>Full visibility across all duty manager reports</p>
             </div>
-            <button class="admin-logout" id="admin-logout-btn"><i class="fas fa-user-circle"></i> Switch User</button>
-            <button id="admin-lock-btn"><i class="fas fa-lock"></i> Lock App</button>
+            <button class="admin-logout" id="admin-logout-btn"><i class="fas fa-sign-out-alt"></i> Switch User</button>
         </div>
-
-    <!-- ── App Lock Overlay ── -->
-    <div id="app-lock-overlay">
-        <div class="app-lock-blur"></div>
-        <div class="app-lock-card">
-            <div class="app-lock-icon"><i class="fas fa-lock"></i></div>
-            <div class="app-lock-title">App Locked</div>
-            <div class="app-lock-sub">This app is currently locked.<br>Subscribe to unlock full access.</div>
-            <div class="app-lock-contacts">
-                <a href="https://wa.me/265896462596" class="app-lock-contact"><i class="fab fa-whatsapp" style="color:#22c55e;"></i>+265 896 462 596</a>
-                <a href="mailto:chipiemie@gmail.com" class="app-lock-contact"><i class="fas fa-envelope" style="color:#60a5fa;"></i>chipiemie@gmail.com</a>
-            </div>
-            <div class="app-lock-brand">Drim Apps</div>
-        </div>
-    </div>
 
         <!-- Filters -->
         <div class="admin-filters">
@@ -1551,93 +1298,57 @@
                 <label>Manager</label>
                 <select id="admin-user-filter"><option value="">All Users</option></select>
             </div>
-            <div class="admin-btn-group">
-                <button class="admin-combined-btn filled" id="admin-combined-preview-btn">
-                    <i class="fas fa-eye"></i> Preview
-                </button>
-                <button class="admin-combined-btn outlined" id="admin-combined-pdf-btn">
-                    <i class="fas fa-download"></i> Export
-                </button>
-            </div>
+            <button class="admin-combined-btn" id="admin-combined-preview-btn" style="margin-right:8px;">
+                <i class="fas fa-eye"></i> Preview Period
+            </button>
+            <button class="admin-combined-btn" id="admin-combined-pdf-btn">
+                <i class="fas fa-file-pdf"></i> Export PDF
+            </button>
         </div>
 
-        <!-- Stats Cards — 2-col grid matching reference layout -->
+        <!-- Stats Cards -->
         <div class="admin-stats-grid">
-            <div class="admin-stat-card col-green wide">
+            <div class="admin-stat-card highlight">
                 <div class="admin-stat-icon"><i class="fas fa-coins"></i></div>
-                <div class="admin-stat-body">
-                    <div class="admin-stat-label">Total Revenue</div>
-                    <div class="admin-stat-value" id="admin-stat-sales">MWK 0</div>
-                    <div class="admin-stat-badge" id="admin-stat-badge" style="display:none;"><i class="fas fa-arrow-up" style="font-size:9px;"></i> <span id="admin-stat-badge-val"></span></div>
-                </div>
+                <div><div class="admin-stat-label">Total Revenue</div><div class="admin-stat-value" id="admin-stat-sales">MWK 0</div></div>
             </div>
-            <div class="admin-stat-card col-blue">
+            <div class="admin-stat-card">
                 <div class="admin-stat-icon"><i class="fas fa-door-open"></i></div>
-                <div class="admin-stat-body">
-                    <div class="admin-stat-label">Rooms Sold</div>
-                    <div class="admin-stat-value" id="admin-stat-rooms">0</div>
-                </div>
+                <div><div class="admin-stat-label">Rooms Sold</div><div class="admin-stat-value" id="admin-stat-rooms">0</div></div>
             </div>
-            <div class="admin-stat-card col-blue">
-                <div class="admin-stat-icon"><i class="fas fa-file-alt"></i></div>
-                <div class="admin-stat-body">
-                    <div class="admin-stat-label">Reports Filed</div>
-                    <div class="admin-stat-value" id="admin-stat-reports">0</div>
-                </div>
-            </div>
-            <div class="admin-stat-card col-blue">
+            <div class="admin-stat-card">
                 <div class="admin-stat-icon"><i class="fas fa-users"></i></div>
-                <div class="admin-stat-body">
-                    <div class="admin-stat-label">Total Guests</div>
-                    <div class="admin-stat-value" id="admin-stat-guests">0</div>
-                </div>
+                <div><div class="admin-stat-label">Total Guests</div><div class="admin-stat-value" id="admin-stat-guests">0</div></div>
             </div>
-            <div class="admin-stat-card col-blue">
-                <div class="admin-stat-icon"><i class="fas fa-chart-line"></i></div>
-                <div class="admin-stat-body">
-                    <div class="admin-stat-label">Avg. Revenue / Report</div>
-                    <div class="admin-stat-value" id="admin-stat-avg">MWK 0</div>
-                </div>
+            <div class="admin-stat-card">
+                <div class="admin-stat-icon"><i class="fas fa-file-alt"></i></div>
+                <div><div class="admin-stat-label">Reports Filed</div><div class="admin-stat-value" id="admin-stat-reports">0</div></div>
             </div>
-            <div class="admin-stat-card col-amber">
+            <div class="admin-stat-card">
                 <div class="admin-stat-icon"><i class="fas fa-gift"></i></div>
-                <div class="admin-stat-body">
-                    <div class="admin-stat-label">Complimentary</div>
-                    <div class="admin-stat-value" id="admin-stat-comp">0</div>
-                </div>
+                <div><div class="admin-stat-label">Complimentary</div><div class="admin-stat-value" id="admin-stat-comp">0</div></div>
+            </div>
+            <div class="admin-stat-card">
+                <div class="admin-stat-icon"><i class="fas fa-chart-line"></i></div>
+                <div><div class="admin-stat-label">Avg Revenue / Report</div><div class="admin-stat-value" id="admin-stat-avg">MWK 0</div></div>
             </div>
         </div>
 
-        <!-- Revenue by Department -->
-        <div class="admin-panel">
-            <div class="admin-panel-header">
-                <div class="admin-panel-title"><i class="fas fa-table"></i> Revenue by Department</div>
-                <div class="admin-panel-period"><i class="fas fa-calendar-alt" style="font-size:10px;"></i> This Period <i class="fas fa-chevron-down" style="font-size:9px;"></i></div>
-            </div>
-            <div class="admin-breakdown-wrap">
-                <div class="admin-breakdown-list" id="admin-dept-breakdown"></div>
-                <div class="admin-donut-wrap">
-                    <canvas id="admin-donut-chart" width="130" height="130"></canvas>
-                    <div class="admin-donut-legend" id="admin-donut-legend"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Revenue by Manager -->
+        <!-- Breakdown panels -->
         <div class="admin-two-col">
             <div class="admin-panel">
-                <div class="admin-panel-header">
-                    <div class="admin-panel-title"><i class="fas fa-user-tie"></i> Revenue by Manager</div>
-                </div>
+                <div class="admin-panel-title"><i class="fas fa-store"></i> Revenue by Department</div>
+                <div id="admin-dept-breakdown"></div>
+            </div>
+            <div class="admin-panel">
+                <div class="admin-panel-title"><i class="fas fa-user-tie"></i> Revenue by Manager</div>
                 <div id="admin-user-breakdown"></div>
             </div>
         </div>
 
         <!-- Individual Reports -->
         <div class="admin-panel">
-            <div class="admin-panel-header">
-                <div class="admin-panel-title"><i class="fas fa-list"></i> Individual Reports</div>
-            </div>
+            <div class="admin-panel-title"><i class="fas fa-list"></i> Individual Reports</div>
             <div id="admin-reports-list"></div>
         </div>
     </div>
@@ -1651,7 +1362,7 @@
             <div class="mtb-logo-wrap"><img id="logo-display-mobile" src="" alt="Linde"></div>
             <div>
                 <div class="mtb-name">Linde Hotel</div>
-                <div class="mtb-sub" id="mtb-sub-text">Duty Manager Portal</div>
+                <div class="mtb-sub" id="mtb-sub-text"></div>
             </div>
         </div>
         <button class="mtb-switch" id="mtb-switch-btn"><i class="fas fa-sign-out-alt" style="font-size:8px;"></i> Switch</button>
@@ -1820,15 +1531,15 @@
     </div>
 
     <!-- Mobile FAB -->
-    <div id="fab-backdrop"></div>
     <div id="mobile-fab-panel">
         <div id="fab-actions" style="display:none;flex-direction:column;align-items:flex-end;gap:6px;">
             <div class="fab-action-row"><button class="fab-action-lbl" id="fab-lbl-preview">Preview</button><button class="fab-action-btn" id="fab-preview" style="background:#e0f2fe;color:#0369a1;"><i class="fas fa-search"></i></button></div>
             <div class="fab-action-row"><button class="fab-action-lbl" id="fab-lbl-pdf">PDF</button><button class="fab-action-btn" id="fab-pdf" style="background:#dcfce7;color:#15803d;"><i class="fas fa-file-pdf"></i></button></div>
-            <div class="fab-action-row"><button class="fab-action-lbl" id="fab-lbl-print">Print</button><button class="fab-action-btn" id="fab-print" style="background:#f0f9ff;color:#1a5f7a;"><i class="fas fa-print"></i></button></div>
+            <div class="fab-action-row fab-print-row"><button class="fab-action-lbl" id="fab-lbl-print">Print</button><button class="fab-action-btn" id="fab-print" style="background:#f0f9ff;color:#1a5f7a;"><i class="fas fa-print"></i></button></div>
             <div class="fab-action-row"><button class="fab-action-lbl" id="fab-lbl-newshift">New shift</button><button class="fab-action-btn" id="fab-newshift" style="background:#fef2f2;color:#dc2626;"><i class="fas fa-redo"></i></button></div>
         </div>
-        <button id="fab-main-btn"><span class="fab-shine"></span><i class="fas fa-ellipsis-h" id="fab-icon"></i><span id="fab-saved-indicator" style="position:absolute;top:4px;right:4px;width:7px;height:7px;background:#16a34a;border-radius:50%;border:1.5px solid white;opacity:0;transition:opacity 0.3s;pointer-events:none;"></span></button>
+        <button id="fab-main-btn"><span class="fab-shine"></span><i class="fas fa-ellipsis-h" id="fab-icon"></i></button>
+        <div class="fab-auto-saved" id="fab-saved-indicator"><i class="fas fa-check-circle" style="color:#16a34a;font-size:8px;"></i> Auto-saved</div>
     </div>
 
     <!-- Save Indicator -->
@@ -1868,17 +1579,12 @@
                 <div class="welcome-subtitle">Duty Manager Portal</div>
             </div>
             <div class="welcome-bottom">
-                <div class="welcome-greeting" id="welcome-greeting">Good morning!</div>
+                <div class="welcome-greeting" id="welcome-greeting"></div>
                 <div class="welcome-date-display" id="welcome-date"></div>
                 <div class="welcome-name-wrap" style="position:relative;margin-bottom:20px;">
                     <label for="welcome-manager-input">Your Name</label>
                     <input type="text" id="welcome-manager-input" placeholder="e.g. Sarah Banda" autocomplete="off">
                     <div id="welcome-autocomplete"></div>
-                </div>
-                <div id="welcome-password-wrap">
-                    <label for="welcome-password-input"><i class="fas fa-lock" style="margin-right:4px;"></i> Admin Password</label>
-                    <input type="password" id="welcome-password-input" placeholder="Enter password">
-                    <div id="welcome-password-error"><i class="fas fa-exclamation-circle"></i> Incorrect password</div>
                 </div>
                 <button class="welcome-btn" id="welcome-start-btn">
                     <span class="welcome-btn-shine"></span>
@@ -1887,7 +1593,7 @@
                 <div class="welcome-footer" style="margin-top:14px;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:nowrap;">
                     <span style="font-size:0.65rem;font-weight:700;color:#b0b8c1;letter-spacing:0.6px;white-space:nowrap;">Drim Apps</span>
                     <a href="https://wa.me/265896462596" style="display:flex;align-items:center;gap:3px;font-size:0.68rem;color:#9ca3af;text-decoration:none;white-space:nowrap;"><i class="fab fa-whatsapp" style="color:#22c55e;font-size:11px;"></i>+265 896 462 596</a>
-                    <a href="/cdn-cgi/l/email-protection#36555e5f465f535b5f5376515b575f5a1855595b" style="display:flex;align-items:center;gap:3px;font-size:0.68rem;color:#9ca3af;text-decoration:none;white-space:nowrap;"><i class="fas fa-envelope" style="color:#60a5fa;font-size:10px;"></i><span class="__cf_email__" data-cfemail="94f7fcfde4fdf1f9fdf1d4f3f9f5fdf8baf7fbf9">[email&#160;protected]</span></a>
+                    <a href="/cdn-cgi/l/email-protection#c8aba0a1b8a1ada5a1ad88afa5a9a1a4e6aba7a5" style="display:flex;align-items:center;gap:3px;font-size:0.68rem;color:#9ca3af;text-decoration:none;white-space:nowrap;"><i class="fas fa-envelope" style="color:#60a5fa;font-size:10px;"></i><span class="__cf_email__" data-cfemail="ea8982839a838f87838faa8d878b8386c4898587">[email&#160;protected]</span></a>
                 </div>
             </div>
         </div>
@@ -1896,10 +1602,9 @@
 
     <!-- ── My Reports FAB ── -->
     <button id="vault-fab" style="display:none;">
-        <i class="fas fa-folder-open"></i><span class="vfab-text"> My Reports</span>
+        <i class="fas fa-folder-open"></i> My Reports
         <span class="vault-badge" id="vault-count">0</span>
     </button>
-    <div id="vault-fab-preview">My Reports</div>
 
     <!-- ── My Reports Modal ── -->
     <div id="vault-modal">
@@ -1910,7 +1615,7 @@
             </div>
             <div class="vault-actions">
                 <button class="vault-save-btn" id="vault-save-current-btn">
-                    <i class="fas fa-save"></i> Save Report
+                    <i class="fas fa-save"></i> Save Current Report
                 </button>
             </div>
             <div class="vault-list" id="vault-list">
@@ -1922,7 +1627,6 @@
         </div>
     </div>
    
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     // ── Supabase ──────────────────────────────────────────────────────
     const SUPABASE_URL = 'https://suoeizmtquifsltdowuz.supabase.co';
@@ -2369,11 +2073,6 @@
         showToast('Report saved to My Reports');
     }
 
-    // PDF only — no vault save. Used by admin and vault-item PDF buttons.
-    async function generatePDFOnly(customContent, customFilename) {
-        await generatePDF(customContent, customFilename);
-    }
-
     generatePdfBtn.addEventListener('click', generateAndSave);
     downloadPdfBtn.addEventListener('click', generateAndSave);
 
@@ -2434,22 +2133,15 @@
             return;
         }
         list.innerHTML = vault.slice().reverse().map(snap=>{
-            const name  = snap.managerName || 'Report';
-            const date  = formatReportDate(snap.reportDate) || '—';
-            const saved = `Saved: ${formatVaultDate(snap.savedAt)}`;
-            const rooms = `Rooms: ${snap.roomsSold||0}  |  Guests: ${snap.guestInHouse||0}`;
+            const label = snap.managerName?`${snap.managerName} — ${formatReportDate(snap.reportDate)}`:(formatReportDate(snap.reportDate)||'Untitled');
+            const meta  = `Saved ${formatVaultDate(snap.savedAt)} · Rooms: ${snap.roomsSold||0} · Guests: ${snap.guestInHouse||0}`;
             return `<div class="vault-item">
-                <div class="vault-item-info">
-                    <div class="vault-item-title">${name}</div>
-                    <div class="vault-item-date">${date}</div>
-                    <div class="vault-item-divider"></div>
-                    <div class="vault-item-meta">${saved}<br>${rooms}</div>
-                </div>
+                <div class="vault-item-info"><div class="vault-item-title">${label}</div><div class="vault-item-meta">${meta}</div></div>
                 <div class="vault-item-btns">
                     <button class="vault-btn vault-btn-preview" data-id="${snap.id}"><i class="fas fa-eye"></i> Preview</button>
                     <button class="vault-btn vault-btn-load"    data-id="${snap.id}"><i class="fas fa-upload"></i> Load</button>
-                    <button class="vault-btn vault-btn-pdf"     data-id="${snap.id}"><i class="fas fa-file-pdf"></i> Download PDF</button>
-                    <button class="vault-btn vault-btn-del"     data-id="${snap.id}"><i class="fas fa-trash"></i> Delete</button>
+                    <button class="vault-btn vault-btn-pdf"     data-id="${snap.id}"><i class="fas fa-file-pdf"></i> PDF</button>
+                    <button class="vault-btn vault-btn-del"     data-id="${snap.id}"><i class="fas fa-trash"></i></button>
                 </div>
             </div>`;
         }).join('');
@@ -2469,7 +2161,7 @@
         list.querySelectorAll('.vault-btn-pdf').forEach(btn=>btn.addEventListener('click',async function(){
             const snap=getUserVaultLocal().find(r=>String(r.id)===String(this.dataset.id));
             if(!snap)return;
-            const cur=getFormSnapshot(); applySnapshot(snap); await generatePDFOnly(null,`Linde_Report_${snap.reportDate||'report'}.pdf`); applySnapshot(cur);
+            const cur=getFormSnapshot(); applySnapshot(snap); await generatePDF(); applySnapshot(cur);
         }));
         list.querySelectorAll('.vault-btn-del').forEach(btn=>btn.addEventListener('click',function(){
             const id=this.dataset.id;
@@ -2506,8 +2198,6 @@
         currentUser=name.trim().toLowerCase();
         const isAdmin=currentUser===ADMIN_NAME;
         managerNameInput.value=name.trim();
-        // Set badge count immediately — currentUser is now known
-        updateVaultBadge();
         const ws=document.getElementById('welcome-screen');
         ws.classList.add('fade-out');
         saveSession(name.trim(), isAdmin);
@@ -2517,8 +2207,10 @@
             else {
                 document.getElementById('main-app').style.display='block';
                 document.getElementById('vault-fab').style.display='';
-                updateVaultBadge();
                 loadFromLocalStorage();
+                updateVaultBadge();
+                renderMobileSalesCards();
+                updateMobileTopbar();
                 renderMobileSalesCards();
                 updateMobileTopbar();
             }
@@ -2533,62 +2225,26 @@
         const h=new Date().getHours();
         document.getElementById('welcome-greeting').textContent=h<12?'☀️ Good morning!':h<17?'🌤 Good afternoon!':'🌙 Good evening!';
         document.getElementById('welcome-date').textContent=new Date().toLocaleDateString('en-GB',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-        nameInput.addEventListener('input',function(){
-            this.value=this.value.replace(/\b\w/g,c=>c.toUpperCase());
-            // Show password field when Admin is typed
-            const pwWrap = document.getElementById('welcome-password-wrap');
-            const pwInput = document.getElementById('welcome-password-input');
-            const pwError = document.getElementById('welcome-password-error');
-            if (this.value.trim().toLowerCase() === 'admin') {
-                if (pwWrap) { pwWrap.style.display = 'block'; pwInput && pwInput.focus(); }
-                if (pwError) pwError.style.display = 'none';
-            } else {
-                if (pwWrap) pwWrap.style.display = 'none';
-                if (pwInput) pwInput.value = '';
-                if (pwError) pwError.style.display = 'none';
-            }
-        });
-        startBtn.addEventListener('click',()=>{
-            const name = nameInput.value.trim();
-            if (name.toLowerCase() === 'admin') {
-                const pwInput = document.getElementById('welcome-password-input');
-                const pwError = document.getElementById('welcome-password-error');
-                if (!pwInput || pwInput.value !== ADMIN_PASSWORD) {
-                    if (pwError) pwError.style.display = 'block';
-                    if (pwInput) { pwInput.style.borderColor = '#c0392b'; pwInput.focus(); }
-                    return;
-                }
-                if (pwError) pwError.style.display = 'none';
-            }
-            loginUser(name);
-        });
-        nameInput.addEventListener('keydown',e=>{
-            if(e.key==='Enter') startBtn.click();
-        });
+        startBtn.addEventListener('click',()=>loginUser(nameInput.value.trim()));
+        nameInput.addEventListener('keydown',e=>{if(e.key==='Enter')loginUser(nameInput.value.trim());});
         const lastUser=localStorage.getItem('linde_last_user');
         if(lastUser) nameInput.value=lastUser.replace(/\b\w/g,c=>c.toUpperCase());
 
         // ── Restore session on refresh ────────────────────────────────
         const session=getSession();
         if(session){
-            // Silent auto-restore: skip welcome screen entirely, go straight back
             currentUser=session.name.toLowerCase();
             managerNameInput.value=session.name;
-            const ws=document.getElementById('welcome-screen');
-            ws.style.display='none';
+            document.getElementById('welcome-screen').style.display='none';
             if(session.isAdmin){ openAdminDashboard(); }
             else {
                 document.getElementById('main-app').style.display='block';
                 document.getElementById('vault-fab').style.display='';
-                try { loadFromLocalStorage(); } catch(e){}
-                try { updateVaultBadge(); } catch(e){}
-                try { renderMobileSalesCards(); } catch(e){}
-                try { updateMobileTopbar(); } catch(e){}
+                loadFromLocalStorage();
+                updateVaultBadge();
+                renderMobileSalesCards();
+                updateMobileTopbar();
             }
-        } else {
-            // No session — show welcome with name pre-filled so one tap logs back in
-            const saved = localStorage.getItem('linde_last_user');
-            if (saved) nameInput.value = saved.replace(/\b\w/g, c=>c.toUpperCase());
         }
     })();
 
@@ -2597,8 +2253,6 @@
         document.getElementById('admin-dashboard').style.display='block';
         document.getElementById('main-app').style.display='none';
         document.getElementById('vault-fab').style.display='none';
-        const dateEl=document.getElementById('admin-header-date');
-        if(dateEl) dateEl.textContent=new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
         renderAdminDashboard();
     }
 
@@ -2631,8 +2285,6 @@
     }
 
     let _cachedAllReports=[];
-    let _adminDonutChart=null;
-    const DEPT_COLORS=['#1a5f7a','#0d9488','#f39c12','#7c3aed','#e67e22','#3b82f6','#10b981'];
     function refreshAdminStats(allReports){
         if(allReports) _cachedAllReports=allReports;
         const reports=getFilteredReports(_cachedAllReports);
@@ -2661,82 +2313,16 @@
         document.getElementById('admin-stat-comp').textContent=totalComp;
         document.getElementById('admin-stat-avg').textContent=reports.length?`MWK ${fmt(totalSales/reports.length)}`:'MWK 0';
 
-        // ── Dept breakdown rows with colored bars ──
-        const deptEntries=Object.entries(byDept).sort((a,b)=>b[1]-a[1]);
-        const deptEl=document.getElementById('admin-dept-breakdown');
-        if(deptEntries.length){
-            deptEl.innerHTML=deptEntries.map(([d,v],i)=>{
-                const pct=totalSales?Math.round(v/totalSales*100):0;
-                const color=DEPT_COLORS[i%DEPT_COLORS.length];
-                return `<div style="padding:7px 0;border-bottom:1px solid #f9fafb;">
-                    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px;">
-                        <span class="admin-breakdown-name">${d}</span>
-                        <span class="admin-breakdown-val">MWK ${fmt(v)}</span>
-                    </div>
-                    <div style="display:flex;align-items:center;gap:8px;">
-                        <div class="admin-breakdown-bar-wrap" style="flex:1;"><div class="admin-breakdown-bar" style="width:${pct}%;background:${color};"></div></div>
-                        <span class="admin-breakdown-pct">${pct}%</span>
-                    </div>
-                </div>`;
-            }).join('');
-            // ── Donut chart ──
-            const canvas=document.getElementById('admin-donut-chart');
-            if(canvas){
-                if(_adminDonutChart){_adminDonutChart.destroy();_adminDonutChart=null;}
-                const centerPlugin={id:'centerText',beforeDraw(chart){
-                    const {ctx,chartArea:{top,bottom,left,right}}=chart;
-                    const cx=(left+right)/2,cy=(top+bottom)/2;
-                    ctx.save();
-                    ctx.textAlign='center';
-                    ctx.fillStyle='#6b7280';
-                    ctx.font='500 10px Segoe UI,Arial,sans-serif';
-                    ctx.fillText('Total',cx,cy-10);
-                    ctx.fillText('Revenue',cx,cy+2);
-                    ctx.fillStyle='#1a1a2e';
-                    ctx.font='700 10px DM Mono,monospace';
-                    ctx.fillText('MWK '+fmt(totalSales),cx,cy+16);
-                    ctx.restore();
-                }};
-                _adminDonutChart=new Chart(canvas,{
-                    type:'doughnut',
-                    data:{
-                        labels:deptEntries.map(([d])=>d),
-                        datasets:[{data:deptEntries.map(([,v])=>v),backgroundColor:deptEntries.map((_,i)=>DEPT_COLORS[i%DEPT_COLORS.length]),borderWidth:2,borderColor:'white'}]
-                    },
-                    options:{
-                        cutout:'68%',
-                        plugins:{
-                            legend:{display:false},
-                            tooltip:{callbacks:{label:ctx=>`MWK ${fmt(ctx.raw)}`}},
-                        },
-                        animation:{duration:600}
-                    },
-                    plugins:[centerPlugin]
-                });
-            }
-            // ── Legend ──
-            const legendEl=document.getElementById('admin-donut-legend');
-            if(legendEl){
-                legendEl.innerHTML=deptEntries.map(([d],i)=>`<div class="admin-legend-item"><div class="admin-legend-dot" style="background:${DEPT_COLORS[i%DEPT_COLORS.length]};"></div>${d}</div>`).join('');
-            }
-        } else {
-            deptEl.innerHTML='<div class="vault-empty" style="padding:20px"><i class="fas fa-inbox"></i> No data</div>';
-        }
+        document.getElementById('admin-dept-breakdown').innerHTML=Object.entries(byDept).sort((a,b)=>b[1]-a[1]).map(([d,v])=>`
+            <div class="admin-breakdown-row"><span>${d}</span><span class="admin-breakdown-val">MWK ${fmt(v)}</span>
+            <div class="admin-bar-wrap"><div class="admin-bar" style="width:${totalSales?Math.round(v/totalSales*100):0}%"></div></div></div>`
+        ).join('')||'<div class="vault-empty" style="padding:20px"><i class="fas fa-inbox"></i> No data</div>';
 
-        // ── User breakdown rows ──
-        document.getElementById('admin-user-breakdown').innerHTML=Object.entries(byUser).sort((a,b)=>b[1]-a[1]).map(([u,v],i)=>{
-            const pct=totalSales?Math.round(v/totalSales*100):0;
-            return `<div style="padding:7px 0;border-bottom:1px solid #f9fafb;">
-                <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px;">
-                    <span class="admin-breakdown-name"><i class="fas fa-user-circle" style="color:#1a5f7a;margin-right:5px;font-size:11px;"></i>${u}</span>
-                    <span class="admin-breakdown-val">MWK ${fmt(v)}</span>
-                </div>
-                <div style="display:flex;align-items:center;gap:8px;">
-                    <div class="admin-breakdown-bar-wrap" style="flex:1;"><div class="admin-breakdown-bar" style="width:${pct}%;background:#0d9488;"></div></div>
-                    <span class="admin-breakdown-pct">${pct}%</span>
-                </div>
-            </div>`;
-        }).join('')||'<div class="vault-empty" style="padding:20px"><i class="fas fa-inbox"></i> No data</div>';
+        document.getElementById('admin-user-breakdown').innerHTML=Object.entries(byUser).sort((a,b)=>b[1]-a[1]).map(([u,v])=>`
+            <div class="admin-breakdown-row"><span><i class="fas fa-user-circle" style="color:var(--primary);margin-right:6px"></i>${u}</span>
+            <span class="admin-breakdown-val">MWK ${fmt(v)}</span>
+            <div class="admin-bar-wrap"><div class="admin-bar admin-bar-user" style="width:${totalSales?Math.round(v/totalSales*100):0}%"></div></div></div>`
+        ).join('')||'<div class="vault-empty" style="padding:20px"><i class="fas fa-inbox"></i> No data</div>';
 
         // Store filtered reports with stable IDs for preview/pdf buttons
         const listEl=document.getElementById('admin-reports-list');
@@ -2776,7 +2362,7 @@
             if(!snap)return;
             const cur=getFormSnapshot();
             applySnapshot(snap);
-            await generatePDFOnly(null,`Linde_Report_${snap.reportDate||'report'}.pdf`);
+            await generatePDF(null,`Linde_Report_${snap.reportDate||'report'}.pdf`);
             applySnapshot(cur);
         }));
     }
@@ -2808,7 +2394,7 @@
         const dateRange=(()=>{
             const dates=reports.map(r=>r.reportDate).filter(Boolean).sort();
             if(!dates.length)return label;
-            if(dates.length===1||dates[0]===dates[dates.length-1])return formatReportDate(dates[0]);
+            if(dates.length===1)return formatReportDate(dates[0]);
             return `${formatReportDate(dates[0])} — ${formatReportDate(dates[dates.length-1])}`;
         })();
         const deptRows=Object.entries(byDept).sort((a,b)=>b[1]-a[1]).map(([d,v])=>
@@ -2892,7 +2478,7 @@
     document.getElementById('admin-combined-pdf-btn').addEventListener('click',async function(){
         const result=buildAdminPeriodHTML();
         if(!result){alert('No reports for the selected period.');return;}
-        await generatePDFOnly(result.html,`Linde_Admin_${result.label.replace(/\s/g,'_')}.pdf`);
+        await generatePDF(result.html,`Linde_Admin_${result.label.replace(/\s/g,'_')}.pdf`);
     });
 
 
@@ -2911,13 +2497,13 @@
     // ── Mobile topbar sub text update ────────────────────────────────
     function updateMobileTopbar() {
         const mtbSub = document.getElementById('mtb-sub-text');
-        if (mtbSub && currentUser) {
-            const dateVal = document.getElementById('report-date').value;
-            mtbSub.textContent = (currentUser.replace(/\b\w/g, c => c.toUpperCase())) + (dateVal ? ' · ' + formatReportDate(dateVal) : '');
-        }
+        if (!mtbSub) return;
+        const nameVal = document.getElementById('manager-name').value || (currentUser ? currentUser.replace(/\b\w/g, c => c.toUpperCase()) : '');
+        const dateVal = document.getElementById('report-date').value;
+        if (nameVal) mtbSub.textContent = nameVal + (dateVal ? ' · ' + formatReportDate(dateVal) : '');
     }
-    // Update topbar whenever date changes
     document.getElementById('report-date').addEventListener('change', updateMobileTopbar);
+    document.getElementById('manager-name').addEventListener('input', updateMobileTopbar);
     updateMobileTopbar();
 
     // Sync mobile dept selects ↔ desktop
@@ -3012,6 +2598,8 @@
                     amtInp.value = p.length===2 ? i+'.'+p[1].substring(0,2) : i;
                     row.querySelector('.sales-amount').value = amtInp.value;
                     updateTotalSales(); saveToLocalStorage();
+                    const totEl = cardList.querySelector('.sct-val');
+                    if (totEl) totEl.textContent = document.getElementById('total-sales').textContent;
                 }
                 amtInp.addEventListener('input', syncAmt);
                 amtInp.addEventListener('blur', syncAmt);
@@ -3057,6 +2645,13 @@
 
             cardList.appendChild(card);
         });
+
+        // Total row
+        const tot = document.getElementById('total-sales');
+        const div = document.createElement('div');
+        div.className = 'sales-card-total';
+        div.innerHTML = `<span class="sct-label">Total Sales</span><span class="sct-val">${tot ? tot.textContent : CURRENCY+' 0'}</span>`;
+        cardList.appendChild(div);
     }
 
     // Mobile add sales button — add entry then open it expanded
@@ -3072,32 +2667,17 @@
     const fabMainBtn = document.getElementById('fab-main-btn');
     const fabActions = document.getElementById('fab-actions');
     const fabIcon = document.getElementById('fab-icon');
-    const fabBackdrop = document.getElementById('fab-backdrop');
-    function closeFab() {
-        fabOpen = false;
-        fabActions.style.display = 'none';
-        fabIcon.className = 'fas fa-ellipsis-h';
-        if (fabBackdrop) fabBackdrop.classList.remove('active');
-    }
     if (fabMainBtn) {
-        fabMainBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
+        fabMainBtn.addEventListener('click', () => {
             fabOpen = !fabOpen;
             fabActions.style.display = fabOpen ? 'flex' : 'none';
             fabIcon.className = fabOpen ? 'fas fa-times' : 'fas fa-ellipsis-h';
-            if (fabBackdrop) fabBackdrop.classList.toggle('active', fabOpen);
         });
     }
-    // Tap backdrop → close FAB
-    if (fabBackdrop) fabBackdrop.addEventListener('click', closeFab);
-    // Tap anywhere on document (scroll, swipe area, etc.) → close FAB
+    function closeFab() { fabOpen=false; fabActions.style.display='none'; fabIcon.className='fas fa-ellipsis-h'; }
     document.addEventListener('click', (e) => {
-        if (fabOpen && !document.getElementById('mobile-fab-panel').contains(e.target)) {
-            closeFab();
-        }
+        if (fabOpen && !document.getElementById('mobile-fab-panel').contains(e.target)) closeFab();
     });
-    // Close FAB on scroll
-    window.addEventListener('scroll', () => { if (fabOpen) closeFab(); }, { passive: true });
     if (document.getElementById('fab-preview')) {
         const fabAct = {
             preview: () => { document.getElementById('preview-report').click(); closeFab(); },
@@ -3158,6 +2738,10 @@
         }
 
         nameInput.addEventListener('input', function() {
+            // Auto-capitalize each word
+            const pos = this.selectionStart;
+            this.value = this.value.replace(/\b\w/g, c => c.toUpperCase());
+            try { this.setSelectionRange(pos, pos); } catch(e) {}
             const val = this.value.trim();
             if (!val) { acDiv.style.display='none'; return; }
             const allNames = getAllKnownNames();
@@ -3289,7 +2873,7 @@
             const snap = sorted[parseInt(this.dataset.idx)];
             if (!snap) return;
             const cur = getFormSnapshot(); applySnapshot(snap);
-            await generatePDFOnly(null, `Linde_Report_${snap.reportDate||'report'}.pdf`);
+            await generatePDF(null, `Linde_Report_${snap.reportDate||'report'}.pdf`);
             applySnapshot(cur);
         }));
         listEl.querySelectorAll('.arc-btn-d').forEach(btn => btn.addEventListener('click', async function(e) {
@@ -3301,11 +2885,8 @@
     }
 
     // ── Init mobile on load ───────────────────────────────────────────
-    // showMobileOrDesktop was missing — inline the logic here safely
-    (function initMobileView() {
-        try { renderMobileSalesCards(); } catch(e) {}
-        try { updateMobileTopbar(); } catch(e) {}
-    })();
+    showMobileOrDesktop();
+    renderMobileSalesCards();
     // Save last user on login
     const _origLoginUser = loginUser;
     loginUser = function(name) {
@@ -3315,66 +2896,4 @@
             try {
                 const known = JSON.parse(localStorage.getItem('linde_known_names') || '[]');
                 const proper = name.trim().replace(/\w/g, c => c.toUpperCase());
-                if (!known.includes(proper)) { known.push(proper); localStorage.setItem('linde_known_names', JSON.stringify(known)); }
-            } catch(e) {}
-        }
-        _origLoginUser(name);
-    };
-
-    // ── Admin password + app lock ─────────────────────────────────────
-    const ADMIN_PASSWORD = '120533';
-    const LOCK_KEY = 'linde_app_locked';
-
-    // Wire Enter key on password field to start button
-    const _pwInp = document.getElementById('welcome-password-input');
-    if (_pwInp) _pwInp.addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('welcome-start-btn').click(); });
-
-    // ── App lock ──────────────────────────────────────────────────────
-    function isAppLocked() { return localStorage.getItem(LOCK_KEY) === '1'; }
-    function setAppLock(locked) {
-        localStorage.setItem(LOCK_KEY, locked ? '1' : '0');
-        applyLockState();
-    }
-    function applyLockState() {
-        const overlay = document.getElementById('app-lock-overlay');
-        const btn     = document.getElementById('admin-lock-btn');
-        const locked  = isAppLocked();
-        if (overlay) overlay.classList.toggle('active', locked);
-        if (btn) {
-            btn.innerHTML = locked
-                ? '<i class="fas fa-unlock"></i> Unlock App'
-                : '<i class="fas fa-lock"></i> Lock App';
-            btn.classList.toggle('locked', locked);
-        }
-    }
-    // Check lock on every page load
-    applyLockState();
-    // Admin lock button
-    document.getElementById('admin-lock-btn') && document.getElementById('admin-lock-btn').addEventListener('click', function() {
-        const locked = isAppLocked();
-        if (!locked) {
-            if (confirm('Lock the app for all users? They will see a subscribe prompt until you unlock.')) setAppLock(true);
-        } else {
-            setAppLock(false);
-        }
-    });
-    (function initVaultTooltip() {
-        const tip = document.getElementById('vault-fab-preview');
-        const fab = document.getElementById('vault-fab');
-        if (!tip || !fab) return;
-        function showTip() {
-            if (fab.style.display === 'none') return;
-            tip.style.display = 'block';
-            requestAnimationFrame(() => {
-                requestAnimationFrame(() => tip.classList.add('vfp-show'));
-            });
-            setTimeout(() => {
-                tip.classList.remove('vfp-show');
-                setTimeout(() => { tip.style.display = 'none'; }, 380);
-            }, 5000);
-        }
-        // First pop after 1.5s so page has settled
-        setTimeout(showTip, 1500);
-        // Repeat every 5 minutes
-        setInterval(showTip, 5 * 60 * 1000);
-        // Tap on
+                if (!known.include
